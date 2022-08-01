@@ -13,6 +13,7 @@ const app = createApp(App)
 
 
 
+// axios.defaults.baseURL = 'http://Hyyyh.top:3001'
 axios.defaults.baseURL = 'http://localhost:3001'
 app.config.globalProperties.$axios = axios
 

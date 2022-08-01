@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-table :data="data.blogData" style="width: 95%" stripe border>
+    <el-table :data="data.blogData" style="width: 100%" stripe border>
       <el-table-column
         :prop="item.prop"
         :label="item.label"
@@ -10,6 +10,24 @@
         :key="index"
         show-overflow-tooltip
       />
+      <el-table-column align="center" label="操作" width="200" show-overflow-tooltip>
+        <template #default="{ row }">
+          <el-button type="primary">编辑</el-button>
+
+          <el-popover v-model:visible="row.isdelete" placement="top" :width="160">
+            <p>确定要删除此博客吗？?</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="small" text @click="row.isdelete = false">取消</el-button>
+              <el-button size="small" type="primary" @click="removeBlog(row)"
+                >确定</el-button
+              >
+            </div>
+            <template #reference>
+              <el-button type="danger" @click="row.isdelete = true">删除</el-button>
+            </template>
+          </el-popover>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       background
@@ -24,8 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { getAdminBlogData } from "../../../axios/adminApi";
+import { getAdminBlogData, deleteBlog } from "../../../axios/adminApi";
 import { onMounted, reactive } from "vue";
+import { ElMessage } from "element-plus";
+import { rest } from "lodash";
 const data = reactive({
   tableData: [
     {
@@ -44,12 +64,12 @@ const data = reactive({
     {
       prop: "createusername",
       label: "发布者昵称",
-      width: "150",
+      width: "130",
     },
     {
       prop: "createuserip",
       label: "发布者ip",
-      width: "200",
+      width: "150",
     },
     {
       prop: "createtime",
@@ -61,22 +81,37 @@ const data = reactive({
       width: "110",
     },
     {
+      prop: "label",
+      label: "标签",
+      width: "80",
+    },
+    {
+      prop: "sort",
+      label: "分类",
+      width: "80",
+    },
+    {
       prop: "isTitle",
       label: "是否最新博客",
       width: "140",
     },
     {
-      prop: "lastvisittime",
-      label: "最后访问时间",
+      prop: "visitnumber",
+      label: "访问数量",
     },
     {
-      prop: "",
-      label: "编辑",
+      prop: "commentnum",
+      label: "评论数",
+    },
+    {
+      prop: "lastvisittime",
+      label: "最后访问时间",
     },
   ],
   blogData: <any>[],
   blogTotal: 0, //数据总数
   pageSize: 5, //每页数量
+  deletevisible: false,
 });
 onMounted(async () => {
   getData(1, 5);
@@ -94,6 +129,27 @@ const getData = async (pageNum: number, num: number) => {
   const res = await (await getAdminBlogData(pageNum, num)).data;
   data.blogTotal = res.Total;
   data.blogData = res.data;
+  data.blogData.map((item: any, index: number) => {
+    item.isdelete = false;
+  });
+};
+const removeBlog = async (row: any) => {
+  row.isdelete = false;
+  const id = row.id;
+  const res = await deleteBlog(id);
+  if (res.status == 200) {
+    data.blogData = res.data.data;
+    if (data.blogData) {
+      data.blogData.map((item: any) => {
+        item.isdelete = false;
+      });
+    }
+
+    // console.log(res.data);
+
+    return ElMessage.success(res.data.msg);
+  }
+  return ElMessage.error(res.data.msg);
 };
 </script>
 

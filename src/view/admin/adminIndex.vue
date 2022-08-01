@@ -46,6 +46,19 @@
                     >{{ item.name }}</el-menu-item
                   >
                 </el-sub-menu>
+                <el-sub-menu index="3">
+                  <template #title>
+                    <el-icon><Coordinate /></el-icon>
+                    <span>记录管理</span>
+                  </template>
+                  <el-menu-item
+                    v-for="(item, index) in data.recordData"
+                    :index="item.index"
+                    @click="router.push(item.path)"
+                    :key="index"
+                    >{{ item.name }}</el-menu-item
+                  >
+                </el-sub-menu>
               </el-menu>
             </el-col>
           </el-row>
@@ -72,11 +85,14 @@ const data = reactive({
     { name: "文章管理", index: "1-2", path: "/admin/blogManager" },
     { name: "标签管理", index: "1-3", path: "/admin/labelManager" },
     { name: "分类管理", index: "1-4", path: "/admin/sortManager" },
+    { name: "评论管理", index: "1-5", path: "/admin/commentManager" },
+    { name: "点赞管理", index: "1-6", path: "/admin/laudManager" },
   ],
   userData: [
     { name: "用户信息管理", index: "2-1", path: "/admin/userinfoManager" },
     { name: "用户权限管理", index: "2-2", path: "/admin/userPowerManager" },
   ],
+  recordData: [{ name: "记录管理", index: "3-1", path: "/admin/recordmanager" }],
 });
 const signout = async () => {
   const id = localStorage.getItem("id")!;

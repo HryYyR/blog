@@ -1,8 +1,31 @@
 <template>
   <div class="blogRight">
     <div class="blogRight_about">
-      <div class="blogRight_about_item"></div>
-      <div class="blogRight_about_Img"><img src="../assets/1.jpg    " alt="" /></div>
+      <div class="blogRight_about_item">
+        <p class="address">Hyyyh</p>
+        <p class="address">
+          <img src="../assets/address.png" alt="" /><span>四川-泸州</span>
+        </p>
+        <p class="address">
+          <img src="../assets/email.png" alt="" /><span>2452719312@QQ.com</span>
+        </p>
+      </div>
+      <div class="contact">
+        <hr />
+        <span>社交帐号</span>
+        <hr />
+      </div>
+      <div class="meta">
+        <el-tooltip
+          effect="dark"
+          :content="item.info"
+          v-for="(item, index) in data.mateData"
+          :key="index"
+          placement="top"
+        >
+          <img :src="item.img" :alt="item.info" />
+        </el-tooltip>
+      </div>
     </div>
     <div class="blogRight_label">
       <blogoption option="标签" optionSrc="./src/assets/lable.png" DefaultMargin="1rem" />
@@ -32,6 +55,11 @@ import { getAdminLabelData, getAdminSortData } from "../axios/adminApi";
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],
+  mateData: [
+    { info: "2452719312", img: "./src/assets/QQ.png" },
+    { info: "17721972680", img: "./src/assets/wechat.png" },
+    { info: "https://github.com/HryYyR", img: "./src/assets/github.png" },
+  ],
 });
 onMounted(async () => {
   const label = await getAdminLabelData();
@@ -44,24 +72,64 @@ onMounted(async () => {
 <style scoped lang="less">
 .blogRight {
   margin: 0 3rem;
+  padding: 0 0 1rem 0;
   min-height: 20rem;
   width: 22%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  & > div {
+    transition: 0.3s;
+  }
+  & > div:hover {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  }
 
   .blogRight_about {
     width: 98%;
-    height: 10rem;
+    height: auto;
     background: rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    .contact {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      hr {
+        width: 80px;
+        height: 3px;
+        background-color: skyblue;
+        border: none;
+      }
+      span {
+        padding: 0 0.1rem;
+      }
+    }
+    .meta {
+      padding: 0.5rem 0;
+      img {
+        padding: 0 1rem;
+      }
+    }
 
     .blogRight_about_item {
-      position: relative;
       width: 100%;
-      height: 5rem;
       background-color: skyblue;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 0;
+      .address {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8rem;
+        padding: 0.6rem 0;
+        img {
+          height: 0.8rem;
+        }
+      }
     }
     .blogRight_about_Img {
       position: relative;

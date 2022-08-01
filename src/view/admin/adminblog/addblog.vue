@@ -105,6 +105,7 @@ import { ElMessage } from "element-plus";
 import "@wangeditor/editor/dist/css/style.css"; // 引入富文本css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { getAdminLabelData, getAdminSortData, addblog } from "../../../axios/adminApi";
+import { File } from "../../../axios/apis";
 import {
   reactive,
   watch,
@@ -188,6 +189,7 @@ const getBase64 = (file: any) => {
 const editorRef = shallowRef();
 data.editorConfig.MENU_CONF["uploadImage"] = {
   server: "http://localhost:3001/File",
+  metaWithUrl: true,
 };
 const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
@@ -195,9 +197,9 @@ const handleCreated = (editor: any) => {
 const onChange = (edit: any) => {
   data.blogContainer = edit.getHtml();
   // console.log(data.blogContainer);
-
   const showDom = <HTMLElement>document.querySelector(".show");
   showDom.innerHTML = edit.getHtml();
+  // console.log(showDom.innerHTML);
 };
 </script>
 
@@ -234,13 +236,15 @@ const onChange = (edit: any) => {
   }
   .editRoom {
     display: flex;
+    overflow: hidden;
     .write {
       width: 50%;
       height: 100%;
     }
     .show {
       flex: 1;
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: scroll;
     }
   }
 }

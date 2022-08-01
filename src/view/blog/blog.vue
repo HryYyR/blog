@@ -19,6 +19,7 @@
         :about="data.newBlogData[0].img"
         :visitnum="data.newBlogData[0].visitnumber"
         :commentnum="data.newBlogData[0].commentnum"
+        :laudnum="data.newBlogData[0].laudnum"
         :img="data.newBlogData[0].img ? data.newBlogData[0].img : './src/assets/logo.png'"
       />
       <!-- 所有博客标题 -->
@@ -41,6 +42,7 @@
         :id="'id' + index"
         :visitnum="item.visitnumber"
         :commentnum="item.commentnum"
+        :laudnum="item.laudnum"
       />
 
       <div class="moreBlock">
@@ -51,11 +53,13 @@
 
     <blogRight />
   </div>
+  <blogbottomVue></blogbottomVue>
 </template>
 
 <script setup lang="ts">
 import titleVue from "../../components/title.vue";
 import indexVue from "./index.vue";
+import blogbottomVue from "../../components/blogbottom.vue";
 import blogoption from "../../components/blogoption.vue";
 import blogItem from "../../components/blogItem.vue";
 import blogRight from "../../components/blogRight.vue";
@@ -177,7 +181,7 @@ const addMoreBlog = async () => {
   background: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
-  padding-top: 6rem;
+  padding: 6rem 0;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
@@ -196,7 +200,6 @@ const addMoreBlog = async () => {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     .moreBlock {
       width: auto;
       display: flex;

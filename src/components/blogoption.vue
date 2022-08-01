@@ -12,7 +12,7 @@ defineProps({
   option: String,
   DefaultMargin: {
     type: String,
-    default: "2rem 0",
+    default: "1rem 0",
   },
 });
 </script>

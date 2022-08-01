@@ -40,3 +40,13 @@ export function addblog(title:String,container:String,labellist:any,sortID:numbe
       }
     })
 }
+
+export function deleteBlog(id:number){
+   return axios({
+      method:'post',
+      url: '/admin/deleteblog',
+      data:{
+         id:id
+      }
+    })
+}

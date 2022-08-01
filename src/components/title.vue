@@ -28,8 +28,8 @@ const data = reactive({
 onMounted(() => {
   setTimeout(() => {
     data.wordInto = true;
-  }, 500);
-  data.target = document.querySelector(".blogContainer")!;
+  }, 600);
+  data.target = document.querySelector(".down")!;
 });
 
 const ToIndex = () => {
@@ -53,7 +53,8 @@ const props = defineProps({
 <style scoped lang="less">
 .titleContainer {
   width: 100%;
-  height: 100vh;
+  height: 99.9vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;

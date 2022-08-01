@@ -17,6 +17,7 @@
       <div class="content">
         <div class="content_container">
           <h1 class="title">{{ data.blogData.name }}</h1>
+          <h4 class="time">{{ data.blogData.createtime }}</h4>
           <div class="cover"><img :src="data.blogData.img" alt="" /></div>
           <div v-html="data.blogData.container" class="blogdetailContainerHtml"></div>
         </div>
@@ -234,9 +235,8 @@ const islogin = async () => {
     justify-content: center;
     margin-top: 5rem;
     .content {
-      width: 50%;
+      width: 55%;
       height: auto;
-      margin: 0 1rem;
       padding: 1rem;
       display: flex;
       flex-direction: column;
@@ -248,6 +248,10 @@ const islogin = async () => {
         .title {
           margin: 0 0 2rem 0;
           color: black;
+        }
+        .time {
+          color: rgba(0, 0, 0, 0.2);
+          margin-bottom: 2rem;
         }
         .cover {
           width: 80%;

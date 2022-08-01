@@ -18,7 +18,7 @@
           <span class="newBlog_read"> {{ commentnum }}</span></span
         >
         <span><img src="../assets/eye.png" alt="" />{{ visitnum }}</span>
-        <span><img src="../assets/good.png" alt="" />0</span>
+        <span><img src="../assets/good.png" alt="" />{{ laudnum }}</span>
       </div>
       <span class="newBlog_time">{{ time }}</span>
     </div>
@@ -74,6 +74,10 @@ defineProps({
     type: Number,
     default: 0,
   },
+  laudnum: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // 去详情页
@@ -112,6 +116,7 @@ const toDetail = (id: number) => {
 
     .newBlog_Title {
       font-weight: 600;
+      min-height: 2rem;
       font-size: 1.5rem;
       margin: 0.5rem 0;
       color: rgba(0, 0, 0, 0.7);
@@ -137,9 +142,9 @@ const toDetail = (id: number) => {
       color: rgba(0, 0, 0, 0.5);
       position: absolute;
       bottom: 0.3rem;
-      right: 2rem;
     }
     .newBlog_info {
+      font-family: "kaiti";
       flex: 1;
       width: 100%;
       height: auto;
@@ -148,7 +153,7 @@ const toDetail = (id: number) => {
       justify-content: flex-end;
       align-items: flex-end;
       & > span {
-        margin-left: 0.5rem;
+        margin: 0 0.25rem;
         cursor: pointer;
         user-select: none;
         opacity: 0.6;

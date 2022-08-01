@@ -91,6 +91,18 @@ export function getAssignComment(blogId:number){
     })
 }
 
+
+export function login(user:string,pass:string){
+   return axios({
+      method:'post',
+      url: '/login',
+      data:{
+         user:user,
+         pass:pass
+      }
+    })
+}
+
 export function loginout(userId:number){
    return axios({
       method:'post',
@@ -101,3 +113,31 @@ export function loginout(userId:number){
     })
 }
 
+export function getRecordData(){
+   return axios({
+      method:'post',
+      url: '/admin/getRecordData',
+    })
+}
+
+
+export function addRecord(container:string){
+   return axios({
+      method:'post',
+      url: '/admin/addRecord',
+      data:{
+         container:container
+      }
+    })
+}
+
+
+export function File(img:string){
+   return axios({
+      method:'post',
+      url: '/File',
+      data:{
+         img:img
+      }
+    })
+}

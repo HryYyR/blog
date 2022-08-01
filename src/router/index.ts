@@ -1,9 +1,9 @@
 // 1.导入
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { Base64 } from 'js-base64'
-import axios from 'axios'
 import { verifyToken } from '../axios/apis'
 import { ElMessage } from 'element-plus'
+
+import blog from '../view/blog/blog.vue'
 
 
 const routes = [
@@ -12,9 +12,13 @@ const routes = [
         path: '/index', name: 'index', component: () => import('../view/blog/index.vue'), children: [
             { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
             { path: '/music', name: 'music', component: () => import('../view/blog/music.vue') },
+            { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
+
         ]
     },
-    { path: '/blog', name: 'blog', component: () => import('../view/blog/blog.vue') },
+    { path: '/blog', name: 'blog', component: blog },
+    { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
+
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog//blogdetail.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login.vue') },
     {
@@ -23,8 +27,11 @@ const routes = [
             { path: '/admin/blogManager', name: 'blogManager', component: () => import('../view/admin/adminblog/blogmanager.vue') },
             { path: '/admin/labelManager', name: 'labelManager', component: () => import('../view/admin/adminblog/labelmanager.vue') },
             { path: '/admin/sortManager', name: 'sortManager', component: () => import('../view/admin/adminblog/sortmanager.vue') },
+            { path: '/admin/commentManager', name: 'commentManager', component: () => import('../view/admin/adminblog/commentmanager.vue') },
+            { path: '/admin/laudManager', name: 'laudManager', component: () => import('../view/admin/adminblog/laudmanager.vue') },
             { path: '/admin/userinfoManager', name: 'userinfoManager', component: () => import('../view/admin/adminuser/userinfomanager.vue') },
             { path: '/admin/userPowerManager', name: 'userPowerManager', component: () => import('../view/admin/adminuser/userpowermanager.vue') },
+            { path: '/admin/recordManager', name: 'recordManager', component: () => import('../view/admin/adminrecord/recordmanager.vue') },
 
         ]
     },

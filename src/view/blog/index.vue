@@ -2,7 +2,6 @@
   <div class="container">
     <blogheader :bgColor="data.navColor"></blogheader>
     <viewTitle :viewTitle="data.viewTitle" :isShow="data.isShowTitle"></viewTitle>
-    <!-- <div class="viewBody">body</div> -->
     <router-view></router-view>
   </div>
 </template>
@@ -10,6 +9,7 @@
 <script setup lang="ts">
 import viewTitle from "../../components/title.vue";
 import blogheader from "../../components/blogheader.vue";
+import blogbottomVue from "../../components/blogbottom.vue";
 import anime from "animejs";
 import { onMounted, onUnmounted, reactive, watchEffect } from "vue";
 import { useRouter } from "vue-router";
@@ -28,6 +28,7 @@ onMounted(async () => {
   if (!isToken.data.token) {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
+    localStorage.removeItem("id");
   }
 
   window.addEventListener("scroll", changeNavColor);
@@ -46,7 +47,9 @@ const changeNavColor = () => {
   }
 };
 watchEffect(() => {
-  data.viewTitle = route.currentRoute.value.path.slice(1);
+  console.log(route.currentRoute.value.name);
+
+  data.viewTitle = route.currentRoute.value.name!.toString();
 });
 </script>
 
@@ -56,7 +59,7 @@ watchEffect(() => {
 }
 .container {
   width: 100%;
-  height: 100vh;
+  height: 99.9vh;
   display: flex;
   justify-content: center;
   align-items: center;

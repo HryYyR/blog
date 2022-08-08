@@ -79,7 +79,7 @@ import { ElMessage } from "element-plus";
 onMounted(() => {});
 const data = reactive({
   isCollapse: false,
-  fileActionUrl: "http://hyyyh.top/File",
+  fileActionUrl: "http://hyyyh.top:3001/File",
   blogData: [
     { name: "发布文章", index: "1-1", path: "/admin/addblog" },
     { name: "文章管理", index: "1-2", path: "/admin/blogManager" },

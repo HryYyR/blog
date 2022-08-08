@@ -8,15 +8,15 @@
             <img
               :src="
                 data.isLaud
-                  ? 'http://hyyyh.top/icon/laud_0.png'
-                  : 'http://hyyyh.top/icon/laud.png'
+                  ? 'http://hyyyh.top:3001/icon/laud_0.png'
+                  : 'http://hyyyh.top:3001/icon/laud.png'
               "
             />
           </el-badge>
         </div>
         <div @click="toComment">
           <el-badge :value="data.blogData.commentnum" class="item">
-            <img src="http://hyyyh.top/icon/comment.png" alt="" />
+            <img src="http://hyyyh.top:3001/icon/comment.png" alt="" />
           </el-badge>
         </div>
       </div>

@@ -8,12 +8,12 @@
             <span>2020-2023级</span>
           </p>
           <p class="address">
-            <img src="http://localhost:3001/icon/address.png" alt="" /><span
+            <img src="http://hyyyh.top/icon/address.png" alt="" /><span
               >Sichuan-Luzhou</span
             >
           </p>
           <p class="address">
-            <img src="http://localhost:3001/icon/email.png" alt="" /><span
+            <img src="http://hyyyh.top/icon/email.png" alt="" /><span
               >2452719312@QQ.com</span
             >
           </p>
@@ -38,7 +38,7 @@
       <div class="blogRight_label">
         <blogoption
           option="标签"
-          optionSrc="http://localhost:3001/icon/lable.png"
+          optionSrc="http://hyyyh.top/icon/lable.png"
           DefaultMargin="1rem"
         />
         <div class="blogRight_label_container">
@@ -51,7 +51,7 @@
       <div class="blogRight_sort">
         <blogoption
           option="分类"
-          optionSrc="http://localhost:3001/icon/sort.png"
+          optionSrc="http://hyyyh.top/icon/sort.png"
           DefaultMargin="1rem"
         />
         <div class="blogRight_sort_container">
@@ -77,10 +77,10 @@ const data = reactive({
   mateData: [
     {
       info: "2452719312",
-      img: "http://localhost:3001/icon/QQ.png",
+      img: "http://hyyyh.top/icon/QQ.png",
     },
-    { info: "17721972680", img: "http://localhost:3001/icon/wechat.png" },
-    { info: "https://github.com/HryYyR", img: "http://localhost:3001/icon/github.png" },
+    { info: "17721972680", img: "http://hyyyh.top/icon/wechat.png" },
+    { info: "https://github.com/HryYyR", img: "http://hyyyh.top/icon/github.png" },
   ],
 });
 onMounted(async () => {

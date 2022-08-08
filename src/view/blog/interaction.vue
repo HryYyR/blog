@@ -26,7 +26,7 @@
             :index="item.id"
           >
             <div class="interaction_comment_img">
-              <img src="http://localhost:3001/icon/github.png" alt="" />
+              <img src="http://hyyyh.top/icon/github.png" alt="" />
             </div>
             <div class="interaction_comment_container">
               <div class="interaction_comment_top">
@@ -41,8 +41,8 @@
                   <img
                     :src="
                       item.islaud
-                        ? 'http://localhost:3001/icon/laud_0.png'
-                        : 'http://localhost:3001/icon/laud.png'
+                        ? 'http://hyyyh.top/icon/laud_0.png'
+                        : 'http://hyyyh.top/icon/laud.png'
                     "
                     alt=""
                   />{{ item.laudnum }}

@@ -188,7 +188,7 @@ const getBase64 = (file: any) => {
 // 富文本钩子
 const editorRef = shallowRef();
 data.editorConfig.MENU_CONF["uploadImage"] = {
-  server: "http://localhost:3001/File",
+  server: "http://hyyyh.top/File",
   metaWithUrl: true,
 };
 const handleCreated = (editor: any) => {

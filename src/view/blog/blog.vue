@@ -20,7 +20,11 @@
         :visitnum="data.newBlogData[0].visitnumber"
         :commentnum="data.newBlogData[0].commentnum"
         :laudnum="data.newBlogData[0].laudnum"
-        :img="data.newBlogData[0].img ? data.newBlogData[0].img : './src/assets/logo.png'"
+        :img="
+          data.newBlogData[0].img
+            ? data.newBlogData[0].img
+            : 'http://hyyyh.top/icon/logo.png'
+        "
         :sortname="data.newBlogData[0].sortname"
         :labelname="data.newBlogData[0].labelname"
       />
@@ -36,7 +40,7 @@
         :blogTitle="item.name"
         :time="item.createtime"
         :num="index"
-        :img="item.img ? item.img : './src/assets/logo.png'"
+        :img="item.img ? item.img : 'http://hyyyh.top/icon/logo.png'"
         :container="item.container"
         v-for="(item, index) in data.showBlogData"
         :isShow="item.isShow == 0 ? false : true"
@@ -77,11 +81,11 @@ import { useStore } from "vuex";
 const data = reactive({
   option: {
     newBlogTitle: {
-      src: "http://localhost:3001/icon/newblogtitle.svg",
+      src: "http://hyyyh.top/icon/newblogtitle.svg",
       option: "最新博客",
     },
     allBlogTitle: {
-      src: "http://localhost:3001/icon/allblogtitle.svg",
+      src: "http://hyyyh.top/icon/allblogtitle.svg",
       option: "所有博客",
     },
   },

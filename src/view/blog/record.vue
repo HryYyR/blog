@@ -32,7 +32,7 @@ import { getRecordData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
 import anime from "animejs";
 const data = reactive({
-  bgUrl: "http://localhost:3001/recordbg.jpg",
+  bgUrl: "http://hyyyh.top/recordbg.jpg",
   recordData: <any>[],
 });
 onMounted(async () => {

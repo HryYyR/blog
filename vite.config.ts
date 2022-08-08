@@ -6,6 +6,9 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 
 export default defineConfig({
+  define: {
+    'process.env': {}
+  },
   plugins: [
     Vue(),
     AutoImport({
@@ -34,3 +37,5 @@ export default defineConfig({
     }
   }
 })
+
+

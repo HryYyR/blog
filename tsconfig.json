@@ -16,13 +16,16 @@
     ],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node"
+     ],
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-  ],
+, "src/main.ts"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -38,7 +38,7 @@ const data = reactive({
 onMounted(() => {
   setTimeout(() => {
     data.isLoading = true;
-  }, 600);
+  }, 200);
 });
 
 const sendLogin = async () => {

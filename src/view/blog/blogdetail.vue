@@ -1,23 +1,29 @@
 <template>
   <div class="blogDetailContainer">
     <blogheaderVue :bgColor="true"></blogheaderVue>
-    <div class="body">
+    <div class="blogDetailbody" :style="{ opacity: data.isdisplay ? '1' : '0' }">
       <div class="edit">
         <div @click="tolaud()">
           <el-badge :value="data.LaudNum" class="item">
-            <img :src="data.isLaud ? '/src/assets/laud_0.png' : '/src/assets/laud.png'" />
+            <img
+              :src="
+                data.isLaud
+                  ? 'http://localhost:3001/icon/laud_0.png'
+                  : 'http://localhost:3001/icon/laud.png'
+              "
+            />
           </el-badge>
         </div>
         <div @click="toComment">
           <el-badge :value="data.blogData.commentnum" class="item">
-            <img src="../../assets/comment.png" alt="" />
+            <img src="http://localhost:3001/icon/comment.png" alt="" />
           </el-badge>
         </div>
       </div>
       <div class="content">
         <div class="content_container">
           <h1 class="title">{{ data.blogData.name }}</h1>
-          <h4 class="time">{{ data.blogData.createtime }}</h4>
+          <h4 class="time">创建时间：{{ data.blogData.createtime }}</h4>
           <div class="cover"><img :src="data.blogData.img" alt="" /></div>
           <div v-html="data.blogData.container" class="blogdetailContainerHtml"></div>
         </div>
@@ -36,6 +42,9 @@
           </div>
           <div class="allComment">
             <h2>全部评论</h2>
+            <p class="nomorecomment" v-if="data.commentData.length == 0 ? true : false">
+              暂无评论
+            </p>
             <div>
               <div
                 class="allComment_item"
@@ -86,6 +95,7 @@ import { onMounted, reactive } from "vue";
 import blogheaderVue from "../../components/blogheader.vue";
 import router from "../../router/index";
 import blogRightVue from "../../components/blogRight.vue";
+import anime from "animejs";
 import {
   getAssignBlogData,
   publishComment,
@@ -106,6 +116,7 @@ const data = reactive({
   toLoginDialogText: "",
   LaudNum: 0,
   userid: parseInt(localStorage.getItem("id")!),
+  isdisplay: false,
 });
 
 onMounted(async () => {
@@ -130,10 +141,16 @@ onMounted(async () => {
 
   const hasBeenLaudRes = await hasBeenLaud(data.blogData.id, data.userid);
   if (hasBeenLaudRes.data.is) {
-    return;
   } else {
     data.isLaud = !data.isLaud;
   }
+
+  data.isdisplay = true;
+  let myAnimation = anime({
+    targets: [".blogDetailbody"],
+    left: "0rem",
+    duration: 2000,
+  });
 });
 
 const tolaud = async () => {
@@ -225,11 +242,14 @@ const islogin = async () => {
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: flex-end;
-  color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.8);
   padding-bottom: 5rem;
   background-color: rgba(128, 128, 128, 0.1);
-  .body {
+  overflow: hidden;
+  .blogDetailbody {
+    position: relative;
+    left: -10rem;
     width: 90%;
     display: flex;
     justify-content: center;
@@ -267,7 +287,7 @@ const islogin = async () => {
       .comment {
         height: auto;
         background-color: white;
-        width: 96%;
+        width: 97%;
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
@@ -287,6 +307,14 @@ const islogin = async () => {
           }
         }
         .allComment {
+          min-height: 100px;
+          .nomorecomment {
+            display: flex;
+            justify-content: center;
+            font-weight: 900;
+            font-family: "heiti";
+            color: rgba(0, 0, 0, 0.5);
+          }
           .allComment_item {
             display: flex;
             margin: 2rem 0;
@@ -332,7 +360,7 @@ const islogin = async () => {
       flex-direction: column;
       align-items: flex-end;
       position: fixed;
-      left: 15rem;
+      left: 10rem;
       top: 17%;
       & > div {
         cursor: pointer;

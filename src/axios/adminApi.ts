@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3001'
 
-
+// 获取所有数据
 export function getAdminBlogData(pageNum:number,num:number){
    return axios({
       method:'post',
@@ -13,6 +13,7 @@ export function getAdminBlogData(pageNum:number,num:number){
     })
 }
 
+// 获取所有标签数据
 export function getAdminLabelData(){
    return axios({
       method:'post',
@@ -20,6 +21,7 @@ export function getAdminLabelData(){
     })
 }
 
+// 获取所有分类数据
 export function getAdminSortData(){
    return axios({
       method:'post',
@@ -27,6 +29,23 @@ export function getAdminSortData(){
     })
 }
 
+// 获取所有评论数据
+export function getAdminCommentData(){
+   return axios({
+      method:'post',
+      url: '/admin/getCommentData',
+    })
+}
+
+// 获取所有点赞数据
+export function getAdminLuadData(){
+   return axios({
+      method:'post',
+      url: '/admin/getLaudData',
+    })
+}
+
+// 添加博客
 export function addblog(title:String,container:String,labellist:any,sortID:number,Img:string){
    return axios({
       method:'post',
@@ -41,6 +60,7 @@ export function addblog(title:String,container:String,labellist:any,sortID:numbe
     })
 }
 
+// 删除博客
 export function deleteBlog(id:number){
    return axios({
       method:'post',

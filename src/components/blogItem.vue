@@ -2,33 +2,61 @@
   <div
     class="newBlog"
     id="newBlog"
-    :style="{ height: isTitle ? '20rem' : '14rem', left: num % 2 ? '-10rem' : '10rem' }"
+    :style="{ height: isTitle ? '20rem' : '16rem', left: num % 2 ? '-10rem' : '10rem' }"
     :class="isShow ? (num % 2 == 0 ? 'leftShowBlog' : 'RightShowBlog') : ''"
     @click="toDetail(blogId)"
   >
     <div class="newBlog_right" v-if="num % 2 == 0 ? false : true">
-      <img v-lazy="img" alt="" :key="blogId" />
+      <img v-lazy="img" :alt="blogTitle" :key="blogId" />
     </div>
     <div class="newBlog_left">
-      <p class="newBlog_Title">{{ blogTitle }}</p>
-      <p class="newBlog_body" v-html="container"></p>
-      <div class="newBlog_info">
-        <span
-          ><img src="../assets/chat.png" />
-          <span class="newBlog_read"> {{ commentnum }}</span></span
+      <div>
+        <p
+          class="newblog_labelsort"
+          :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }"
         >
-        <span><img src="../assets/eye.png" alt="" />{{ visitnum }}</span>
-        <span><img src="../assets/good.png" alt="" />{{ laudnum }}</span>
+          <span> {{ sortname }}</span>
+          <span v-for="(item, index) in labelname" :key="index" style="margin: 0 2px">{{
+            item
+          }}</span>
+        </p>
+        <p
+          class="newBlog_Title"
+          :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }"
+        >
+          {{ blogTitle }}
+        </p>
       </div>
-      <span class="newBlog_time">{{ time }}</span>
+      <p class="newBlog_body">{{ container }}</p>
+      <div class="newBlog_info">
+        <div class="newBlog_info_item">
+          <span
+            ><img src="../assets/chat.png" alt="评论数" />
+            <span class="newBlog_read"> {{ commentnum }}</span></span
+          >
+          <span
+            ><img src="../assets/eye.png" alt="访问次数" style="margin-right: 3px" />{{
+              visitnum
+            }}</span
+          >
+          <span
+            ><img src="../assets/good.png" alt="点赞数" style="margin-right: 3px" />{{
+              laudnum
+            }}</span
+          >
+        </div>
+
+        <span class="newBlog_time">{{ time }}</span>
+      </div>
     </div>
     <div class="newBlog_right" v-if="num % 2 == 0 ? true : false">
-      <img v-lazy="img" alt="" :key="blogId" />
+      <img v-lazy="img" :alt="blogTitle" :key="blogId" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { array } from "snabbdom";
 import { defineProps } from "vue";
 import router from "../router/index";
 
@@ -78,6 +106,14 @@ defineProps({
     type: Number,
     default: 0,
   },
+  sortname: {
+    type: String,
+    default: "",
+  },
+  labelname: {
+    type: Array,
+    default: [],
+  },
 });
 
 // 去详情页
@@ -88,6 +124,7 @@ const toDetail = (id: number) => {
 
 <style scoped lang="less">
 .newBlog {
+  cursor: pointer;
   width: auto;
   height: 20rem;
   display: flex;
@@ -108,57 +145,83 @@ const toDetail = (id: number) => {
   }
   .newBlog_left {
     flex: 1;
-    padding: 1.5rem 2rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
     width: 100%;
     min-width: 150px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    .newblog_labelsort {
+      font-size: 0.8rem;
+      color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-wrap: wrap;
+      & span {
+        font-family: "yahei";
+      }
+      & > :nth-child(1) {
+        color: rgba(0, 0, 0, 0.7);
+        margin-right: 3px;
+        font-weight: 900;
+      }
+    }
 
     .newBlog_Title {
       font-weight: 600;
-      min-height: 2rem;
+      min-height: 1.5rem;
       font-size: 1.5rem;
-      margin: 0.5rem 0;
-      color: rgba(0, 0, 0, 0.7);
+      margin: 0.2rem 0;
+      color: rgba(0, 0, 0, 0.9);
       transition: 0.3s;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 1;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      display: flex;
       &:hover {
         color: orange;
       }
     }
     .newBlog_body {
-      color: rgba(0, 0, 0, 0.5);
+      line-height: 1.5rem;
+      color: rgba(0, 0, 0, 0.7);
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-bottom: 10px;
       display: -webkit-box;
-      -webkit-line-clamp: 6;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
     .newBlog_time {
+      width: 3rem;
       color: rgba(0, 0, 0, 0.5);
-      position: absolute;
-      bottom: 0.3rem;
+      margin-left: 0.2rem;
+      position: relative;
     }
     .newBlog_info {
       font-family: "kaiti";
-      flex: 1;
       width: 100%;
       height: auto;
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-content: center;
       align-items: flex-end;
-      & > span {
-        margin: 0 0.25rem;
-        cursor: pointer;
+      position: relative;
+      bottom: 0.5rem;
+      .newBlog_info_item {
+        display: flex;
+        height: auto;
+        & span {
+          width: auto;
+          margin: 0 0.3rem;
+        }
+      }
+      & span {
         user-select: none;
         opacity: 0.6;
-        height: 2rem;
-        width: 1.8rem;
+        width: auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -171,8 +234,12 @@ const toDetail = (id: number) => {
   .newBlog_right {
     overflow: hidden;
     width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
       height: 100%;
+      width: 100%;
       filter: blur(10px);
       /*  max-width: 28rem; */
       transition: 0.5s;
@@ -194,5 +261,10 @@ const toDetail = (id: number) => {
   img {
     filter: blur(0px) !important;
   }
+}
+.sortlabel {
+  width: 100%;
+  height: 1rem;
+  background-color: red;
 }
 </style>

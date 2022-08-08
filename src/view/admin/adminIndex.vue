@@ -103,6 +103,7 @@ const signout = async () => {
   } else {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
+    localStorage.removeItem("id");
     router.push("/login");
     ElMessage.success(res.data.msg);
   }

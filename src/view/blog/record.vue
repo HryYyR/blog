@@ -1,6 +1,6 @@
 <template>
   <div>
-    <blogheaderVue :bgColor="true"></blogheaderVue>
+    <blogheaderVue></blogheaderVue>
     <div class="record">
       <div class="record_body">
         <div class="rope"></div>
@@ -11,10 +11,7 @@
             v-for="(item, index) in data.recordData"
             :key="index"
           >
-            <p
-              class="record_text"
-              :style="{ color: index % 3 == 0 ? 'skyblue' : 'green' }"
-            >
+            <p class="record_text" :style="{ color: index % 3 == 0 ? 'white' : 'black' }">
               {{ item.container }}
             </p>
             <p class="record_time">{{ item.createtime }}</p>
@@ -33,6 +30,7 @@ import blogheaderVue from "../../components/blogheader.vue";
 import blogRightVue from "../../components/blogRight.vue";
 import { getRecordData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
+import anime from "animejs";
 const data = reactive({
   bgUrl: "http://localhost:3001/recordbg.jpg",
   recordData: <any>[],
@@ -43,6 +41,12 @@ onMounted(async () => {
     return ElMessage.error(res.data.msg);
   }
   data.recordData = res.data.data;
+
+  let myAnimation = anime({
+    targets: [".record_body"],
+    translateX: "10rem",
+    duration: 2000,
+  });
 });
 </script>
 
@@ -51,16 +55,30 @@ onMounted(async () => {
   width: 100%;
   height: auto;
   min-height: 100vh;
-  background-color: rgba(140, 140, 140, 0.1);
-  background-size: 100% 100%;
+  background-image: linear-gradient(135deg, rgb(246, 240, 180), rgb(27, 41, 71));
+  background-size: 400%;
+  background-position: 0% 50%;
   display: flex;
   justify-content: center;
   position: relative;
-  padding-top: 7rem;
+  overflow: hidden;
+  animation: changecolor 20s infinite;
+  @keyframes changecolor {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 0%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   .record_body {
     display: flex;
     justify-content: center;
     width: 50%;
+    margin-top: -2rem;
   }
   .rope {
     width: 0;
@@ -78,6 +96,7 @@ onMounted(async () => {
       margin: 1rem;
       .record_text {
         font-weight: 900;
+        opacity: 0.9;
       }
       .record_time {
         color: rgba(0, 0, 0, 0.5);

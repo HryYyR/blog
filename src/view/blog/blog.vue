@@ -21,6 +21,8 @@
         :commentnum="data.newBlogData[0].commentnum"
         :laudnum="data.newBlogData[0].laudnum"
         :img="data.newBlogData[0].img ? data.newBlogData[0].img : './src/assets/logo.png'"
+        :sortname="data.newBlogData[0].sortname"
+        :labelname="data.newBlogData[0].labelname"
       />
       <!-- 所有博客标题 -->
       <blogoption
@@ -43,6 +45,8 @@
         :visitnum="item.visitnumber"
         :commentnum="item.commentnum"
         :laudnum="item.laudnum"
+        :sortname="item.sortname"
+        :labelname="item.labelname"
       />
 
       <div class="moreBlock">
@@ -68,15 +72,16 @@ import axios from "axios";
 import { getBlogData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
 import router from "../../router";
+import { useStore } from "vuex";
 
 const data = reactive({
   option: {
     newBlogTitle: {
-      src: "./src/assets/newblogtitle.svg",
+      src: "http://localhost:3001/icon/newblogtitle.svg",
       option: "最新博客",
     },
     allBlogTitle: {
-      src: "./src/assets/allblogtitle.svg",
+      src: "http://localhost:3001/icon/allblogtitle.svg",
       option: "所有博客",
     },
   },
@@ -91,7 +96,8 @@ const data = reactive({
   pageNum: 1, //分页
   Num: 5, //每页数量
   moreText: "更多",
-  bgImg: "url(./src/assets/containerimg/con3.jpg)",
+  // bgImg: "url(./src/assets/containerimg/con3.jpg)",
+  bgImg: "",
   scrollOption: {
     domHight: window.innerHeight,
     scrollTop: 0,
@@ -104,6 +110,9 @@ const data = reactive({
 });
 
 onMounted(async () => {
+  const store = useStore();
+  // console.log(store.state.title);
+
   scrollToTop();
   // window.addEventListener("scroll", throttle(scrollToTop, 100));
   window.addEventListener("scroll", scrollToTop);
@@ -112,6 +121,10 @@ onMounted(async () => {
   if (res.status != 200) {
     return ElMessage.error("信息获取失败！");
   }
+  res.data.map((item: any) => {
+    item.container = item.container.replace(/<.*?>/gi, "");
+    return item;
+  });
 
   data.newBlogData = res.data.splice(-1, 1);
   data.showBlogData = res.data;
@@ -178,14 +191,33 @@ const addMoreBlog = async () => {
 }
 .blogContainer {
   width: 100%;
-  background: rgb(255, 255, 255);
-  display: flex;
-  justify-content: center;
-  padding: 6rem 0;
+  /*
+  background: rgba(0, 0, 0, 0.1);  
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
+  */
+  background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(27, 41, 71));
+  background-size: 800%;
+  background-position: 0% 50%;
+
+  display: flex;
+  justify-content: center;
+  padding: 6rem 0;
   overflow: hidden;
+
+  animation: changecolor 30s infinite;
+  @keyframes changecolor {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 0%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
   & > div {
     margin: 0 1rem;
@@ -214,13 +246,10 @@ const addMoreBlog = async () => {
         height: 2.5rem;
         transition: 0.2s;
         border-radius: 25px;
-        font-weight: 900;
-        font-size: 1.1rem;
         font-family: heiti;
-        &:hover {
-          border: 2px solid orange;
-          color: orange;
-        }
+        color: gray;
+        border: none;
+        background-color: transparent;
       }
     }
   }

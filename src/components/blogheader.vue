@@ -17,16 +17,15 @@
 <script setup lang="ts">
 import router from "../router/index";
 import { onMounted, reactive, defineProps } from "vue";
-import { ElLoading } from "element-plus";
+import { ElLoading, ElMessage } from "element-plus";
 
 const data = reactive({
   loading: false,
   viewTitle: "", //当前页面标题
   navList: [
     { name: "blog", path: "/blog", title: "首页" },
-    { name: "music", path: "/music", title: "听歌" },
     { name: "sort", path: "/sort", title: "分类" },
-    { name: "search", path: "/", title: "搜索" },
+    { name: "interaction", path: "/interaction", title: "互动" },
     { name: "record", path: "/record", title: "记录" },
     { name: "message", path: "/", title: "关于" },
     { name: "login", path: "/login", title: "登录" },
@@ -41,7 +40,7 @@ defineProps({
 
 onMounted(() => {
   const name = localStorage.getItem("name")!;
-  if (name) data.navList[6].title = name;
+  if (name) data.navList[5].title = name;
 });
 
 // 路由跳转
@@ -49,7 +48,10 @@ const jump = async (title: string, index: number) => {
   data.loading = !data.loading;
   setTimeout(() => {
     data.loading = !data.loading;
-    if (localStorage.getItem("id") && index == 6) {
+    if (localStorage.getItem("id") && index == 5) {
+      if (localStorage.getItem("id") != "1") {
+        return ElMessage.error("暂未开放");
+      }
       return router.push({ path: "/admin" });
     }
     router.push(data.navList[index].path);

@@ -1,6 +1,6 @@
 <template>
   <div class="bottom">
-    <p>技术栈：Vue3+Node+Element-Plus</p>
+    <p>技术栈：Vue3+Element-Plus+Node+Mysql</p>
     <p>© 2022 HYYYH. ALL RIGHTS RESERVED.</p>
     <p>至今已苟延残喘{{ data.date }}</p>
   </div>

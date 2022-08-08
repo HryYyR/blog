@@ -1,64 +1,86 @@
 <template>
-  <div class="blogRight">
-    <div class="blogRight_about">
-      <div class="blogRight_about_item">
-        <p class="address">Hyyyh</p>
-        <p class="address">
-          <img src="../assets/address.png" alt="" /><span>四川-泸州</span>
-        </p>
-        <p class="address">
-          <img src="../assets/email.png" alt="" /><span>2452719312@QQ.com</span>
-        </p>
-      </div>
-      <div class="contact">
-        <hr />
-        <span>社交帐号</span>
-        <hr />
-      </div>
-      <div class="meta">
-        <el-tooltip
-          effect="dark"
-          :content="item.info"
-          v-for="(item, index) in data.mateData"
-          :key="index"
-          placement="top"
-        >
-          <img :src="item.img" :alt="item.info" />
-        </el-tooltip>
-      </div>
-    </div>
-    <div class="blogRight_label">
-      <blogoption option="标签" optionSrc="./src/assets/lable.png" DefaultMargin="1rem" />
-      <div class="blogRight_label_container">
-        <div class="lable_item" v-for="(item, index) in data.labelData" :key="index">
-          <div class="lable_name">{{ item.name }}</div>
-          <div class="lable_num">{{ item.num }}</div>
+  <div class="blogRight" :style="{ opacity: data.isShow ? '1' : 0 }">
+    <el-affix :offset="100">
+      <div class="blogRight_about">
+        <div class="blogRight_about_item">
+          <p class="address blogRight_name">Hyyyh</p>
+          <p class="address">
+            <span>2020-2023级</span>
+          </p>
+          <p class="address">
+            <img src="http://localhost:3001/icon/address.png" alt="" /><span
+              >Sichuan-Luzhou</span
+            >
+          </p>
+          <p class="address">
+            <img src="http://localhost:3001/icon/email.png" alt="" /><span
+              >2452719312@QQ.com</span
+            >
+          </p>
+        </div>
+        <div class="contact">
+          <hr />
+          <span>社交帐号</span>
+          <hr />
+        </div>
+        <div class="meta">
+          <el-tooltip
+            effect="dark"
+            :content="item.info"
+            v-for="(item, index) in data.mateData"
+            :key="index"
+            placement="top"
+          >
+            <img :src="item.img" :alt="item.info" ref="metaImgUrl" />
+          </el-tooltip>
         </div>
       </div>
-    </div>
-    <div class="blogRight_sort">
-      <blogoption option="分类" optionSrc="./src/assets/sort.png" DefaultMargin="1rem" />
-      <div class="blogRight_sort_container">
-        <div class="sort_item" v-for="(item, index) in data.sortData" :key="index">
-          <div class="sort_name">{{ item.name }}</div>
-          <div class="sort_num">{{ item.num }}</div>
+      <div class="blogRight_label">
+        <blogoption
+          option="标签"
+          optionSrc="http://localhost:3001/icon/lable.png"
+          DefaultMargin="1rem"
+        />
+        <div class="blogRight_label_container">
+          <div class="lable_item" v-for="(item, index) in data.labelData" :key="index">
+            <div class="lable_name">{{ item.name }}</div>
+            <div class="lable_num">{{ item.num }}</div>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="blogRight_sort">
+        <blogoption
+          option="分类"
+          optionSrc="http://localhost:3001/icon/sort.png"
+          DefaultMargin="1rem"
+        />
+        <div class="blogRight_sort_container">
+          <div class="sort_item" v-for="(item, index) in data.sortData" :key="index">
+            <div class="sort_name">{{ item.name }}</div>
+            <div class="sort_num">{{ item.num }}</div>
+          </div>
+        </div>
+      </div>
+    </el-affix>
   </div>
 </template>
 
 <script setup lang="ts">
 import blogoption from "./blogoption.vue";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import { getAdminLabelData, getAdminSortData } from "../axios/adminApi";
+import anime from "animejs";
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],
+  isShow: false,
   mateData: [
-    { info: "2452719312", img: "./src/assets/QQ.png" },
-    { info: "17721972680", img: "./src/assets/wechat.png" },
-    { info: "https://github.com/HryYyR", img: "./src/assets/github.png" },
+    {
+      info: "2452719312",
+      img: "http://localhost:3001/icon/QQ.png",
+    },
+    { info: "17721972680", img: "http://localhost:3001/icon/wechat.png" },
+    { info: "https://github.com/HryYyR", img: "http://localhost:3001/icon/github.png" },
   ],
 });
 onMounted(async () => {
@@ -66,6 +88,7 @@ onMounted(async () => {
   data.labelData = label.data;
   const sort = await getAdminSortData();
   data.sortData = sort.data;
+  data.isShow = true;
 });
 </script>
 
@@ -75,15 +98,11 @@ onMounted(async () => {
   padding: 0 0 1rem 0;
   min-height: 20rem;
   width: 22%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  & > div {
-    transition: 0.3s;
-  }
-  & > div:hover {
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  }
+  transition: 1s;
+  opacity: 0;
+  z-index: 2;
 
   .blogRight_about {
     width: 98%;
@@ -93,14 +112,20 @@ onMounted(async () => {
     flex-direction: column;
     align-items: center;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+      transform: translate3d(-10px, 10px, 0);
+    }
     .contact {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 0.5rem;
       hr {
         width: 80px;
         height: 3px;
-        background-color: skyblue;
+        background-color: rgba(135, 206, 235, 0.5);
         border: none;
       }
       span {
@@ -116,11 +141,12 @@ onMounted(async () => {
 
     .blogRight_about_item {
       width: 100%;
-      background-color: skyblue;
+      background-color: rgba(255, 255, 255, 0.7);
       display: flex;
       flex-direction: column;
       padding: 1rem 0;
       .address {
+        font-family: "kaiti";
         display: flex;
         justify-content: center;
         align-items: center;
@@ -129,6 +155,10 @@ onMounted(async () => {
         img {
           height: 0.8rem;
         }
+      }
+      .blogRight_name {
+        font-size: 1.3rem;
+        font-weight: 900;
       }
     }
     .blogRight_about_Img {
@@ -156,7 +186,11 @@ onMounted(async () => {
     justify-content: center;
     flex-direction: column;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+      transform: translate3d(-10px, 10px, 0);
+    }
     .blogRight_label_container {
       flex: 1;
       margin: 0.5rem 1rem;
@@ -216,6 +250,11 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+      transform: translate3d(-10px, 10px, 0);
+    }
     .blogRight_sort_container {
       width: 90%;
       height: auto;

@@ -1,7 +1,7 @@
 <template>
-  <div class="titleContainer" :style="{ backgroundImage: data.bgColor }" v-if="isShow">
+  <div class="titleContainer" v-if="isShow">
     <h1 class="titleWord" :class="data.wordInto ? 'wordInto' : ''">
-      {{ props.viewTitle == "" ? "加载中。。。" : props.viewTitle }}
+      <!-- {{ props.viewTitle == "" ? "加载中。。。" : props.viewTitle }} -->
     </h1>
     <button
       @click="ToIndex()"
@@ -14,15 +14,31 @@
       <img src="../assets/down.png" alt="" />
     </div>
   </div>
+  <div class="bg">
+    <div class="stars">
+      <div
+        v-for="(item, index) in data.bg.startnum"
+        :key="index"
+        class="star"
+        ref="star"
+      ></div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineProps, reactive } from "vue";
+import { array } from "snabbdom";
+import { onMounted, defineProps, reactive, ref } from "vue";
+const star = ref(null);
 
 const data = reactive({
-  bgColor: "url(../src/assets/titleimg/1.jpg)",
+  // bgColor: "url(../src/assets/titleimg/1.jpg)",
   wordInto: false,
   target: <Element>{},
+  bg: {
+    startnum: 100,
+    distance: 800,
+  },
 });
 
 onMounted(() => {
@@ -30,6 +46,19 @@ onMounted(() => {
     data.wordInto = true;
   }, 600);
   data.target = document.querySelector(".down")!;
+  // console.log(star.value);
+
+  let starNodes = <any>star.value;
+  starNodes.forEach((item: any) => {
+    let speed = 0.2 + Math.random() * 1;
+    let thisDistance = data.bg.distance + Math.random() * 300;
+    item.style.transformOrigin = `0 0 ${thisDistance}px`;
+    item.style.transform = `
+        translate3d(0,0,-${thisDistance}px)
+        rotateY(${Math.random() * 360}deg)
+        rotateX(${Math.random() * -50}deg)
+        scale(${speed},${speed})`;
+  });
 });
 
 const ToIndex = () => {
@@ -62,7 +91,8 @@ const props = defineProps({
   position: relative;
   overflow: hidden;
   background-repeat: no-repeat;
-  background-size: 116% 100%;
+  background-size: 100% 100%;
+  background-image: linear-gradient(#1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
   background-attachment: fixed;
   transition: 0.3s;
   .titleWord {
@@ -80,6 +110,7 @@ const props = defineProps({
     top: 0;
   }
   .navBtn {
+    z-index: 99;
     cursor: pointer;
     transition: 0.5s;
     padding: 1rem;
@@ -118,13 +149,14 @@ const props = defineProps({
     }
   }
   .down {
+    z-index: 99;
     cursor: pointer;
     position: absolute;
     width: auto;
     bottom: 0;
     animation: mymove 1s infinite alternate;
     img {
-      width: 4rem;
+      width: 3rem;
     }
   }
   @keyframes mymove {
@@ -135,5 +167,39 @@ const props = defineProps({
       bottom: 1rem;
     }
   }
+}
+@keyframes rotate {
+  0% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+  }
+  100% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+  }
+}
+.stars {
+  transform: perspective(500px);
+  transform-style: preserve-3d;
+  position: absolute;
+  perspective-origin: 50% 100%;
+  left: 45%;
+  animation: rotate 90s infinite linear;
+  bottom: 0;
+}
+.star {
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: #f7f7b6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 0;
 }
 </style>

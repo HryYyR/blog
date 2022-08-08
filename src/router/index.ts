@@ -10,14 +10,14 @@ const routes = [
     { path: '/', redirect: '/blog' },
     {
         path: '/index', name: 'index', component: () => import('../view/blog/index.vue'), children: [
-            { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
-            { path: '/music', name: 'music', component: () => import('../view/blog/music.vue') },
             { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
 
         ]
     },
     { path: '/blog', name: 'blog', component: blog },
+    { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction.vue') },
     { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
+    { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
 
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog//blogdetail.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login.vue') },
@@ -50,6 +50,9 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             ElMessage.error('token无效，请重新登录')
+            localStorage.removeItem('token')
+            localStorage.removeItem('name')
+            localStorage.removeItem('id')
             return router.push({ path: '/login' })
         }
     } else {

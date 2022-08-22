@@ -115,6 +115,7 @@ const data = reactive({
 
 onMounted(async () => {
   const store = useStore();
+
   // console.log(store.state.title);
 
   scrollToTop();

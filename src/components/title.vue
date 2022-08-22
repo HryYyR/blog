@@ -42,6 +42,11 @@ const data = reactive({
 });
 
 onMounted(() => {
+  if (navigator.platform != "Win32") {
+    data.bg.startnum = 20;
+    console.log(2);
+  }
+
   setTimeout(() => {
     data.wordInto = true;
   }, 600);
@@ -188,7 +193,7 @@ const props = defineProps({
 .star {
   width: 2px;
   height: 2px;
-  border-radius: 2px;
+  border-radius: 20px;
   background: #f7f7b6;
   position: absolute;
   left: 0;

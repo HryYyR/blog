@@ -15,7 +15,7 @@
           <div class="interaction__btnbody">
             <span>(建议登陆后评论哦！)</span
             ><el-button type="primary" class="submitbtn" @click="submitcomment"
-              >提交评论</el-button
+              >提交留言</el-button
             >
           </div>
         </div>

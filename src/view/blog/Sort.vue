@@ -2,7 +2,7 @@
   <div class="container">
     <blogheaderVue :bgColor="true"></blogheaderVue>
     <div class="sort_container">
-      <div class="sort_nav">
+      <div class="sort_nav" v-show="data.isshownav">
         <div class="sort_nav_sorter">
           <span> 分类：</span>
           <div
@@ -26,7 +26,8 @@
           </div>
         </div>
       </div>
-      <div class="sort_body" v-show="data.isshow">
+      <div class="loading" v-if="!data.isloading"></div>
+      <div class="sort_body" v-show="data.isshowcontainer">
         <blogItemVue
           :blogId="item.id"
           :blogTitle="item.name"
@@ -44,7 +45,12 @@
           :sortname="item.sortname"
           :labelname="item.labelname"
         />
-        <div class="nomore" v-if="data.blogData.length == 0">没有匹配的选项哦！</div>
+        <div
+          class="nomore"
+          v-if="data.blogData.length == 0 && data.isshowcontainer == true"
+        >
+          没有匹配的选项哦！
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +69,9 @@ const data = reactive({
   checklabel: <any>[],
   checkSort: 0,
   blogData: <any>[],
-  isshow: false,
+  isshownav: false,
+  isshowcontainer: false,
+  isloading: false,
 });
 
 onMounted(async () => {
@@ -81,6 +89,7 @@ onMounted(async () => {
       item.check = false;
     });
   }
+  data.isshownav = true;
 
   const blogres = await getBlogData(1, 5);
   if (blogres.status != 200) {
@@ -91,7 +100,9 @@ onMounted(async () => {
     return item;
   });
   data.blogData = blogres.data;
-  data.isshow = true;
+
+  data.isshowcontainer = true;
+  data.isloading = true;
   // console.log(data.labelData, data.sortData);
 });
 
@@ -178,6 +189,10 @@ const handleblogdata = (data: any) => {
     .sort_body {
       width: 100%;
       height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       .nomore {
         width: 100%;
         height: 40vh;
@@ -191,5 +206,22 @@ const handleblogdata = (data: any) => {
   border: 2px dashed white !important;
   background-color: skyblue;
   color: white;
+}
+.loading {
+  margin-top: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-bottom: 2px solid skyblue;
+  border-right: 2px solid skyblue;
+  animation: loading 1s infinite linear;
+}
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

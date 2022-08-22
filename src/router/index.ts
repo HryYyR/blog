@@ -1,5 +1,5 @@
 // 1.导入
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory,createWebHistory } from 'vue-router'
 import { verifyToken } from '../axios/apis'
 import { ElMessage } from 'element-plus'
 
@@ -38,7 +38,7 @@ const routes = [
 
 ]
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes, // short for `routes: routes
 })
 

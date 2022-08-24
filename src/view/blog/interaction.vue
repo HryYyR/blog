@@ -86,7 +86,7 @@ onMounted(async () => {
     targets: [".interaction_body_container"],
     translateY: "-50vh",
     opacity: 1,
-    duration: 2000,
+    duration: 1000,
   });
   data.commentData = await (await getallinteraction()).data.data;
 

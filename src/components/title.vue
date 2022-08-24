@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { array } from "snabbdom";
-import { onMounted, defineProps, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 const star = ref(null);
 
 const data = reactive({
@@ -36,15 +36,15 @@ const data = reactive({
   wordInto: false,
   target: <Element>{},
   bg: {
-    startnum: 100,
+    startnum: 120,
     distance: 800,
   },
 });
 
 onMounted(() => {
   if (navigator.platform != "Win32") {
-    data.bg.startnum = 20;
-    console.log(2);
+    data.bg.startnum = 100;
+    console.log('pe');
   }
 
   setTimeout(() => {
@@ -175,7 +175,7 @@ const props = defineProps({
 }
 @keyframes rotate {
   0% {
-    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+    transform: perspective(400px) rotateZ(0deg) rotateX(-40deg) rotateY(0);
   }
   100% {
     transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);

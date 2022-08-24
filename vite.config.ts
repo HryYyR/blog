@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, resolveEnvPrefix } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -26,6 +26,11 @@ export default defineConfig({
     }),
 
   ],
+  resolve:{
+    alias:{
+      qc: 'QC'
+    }
+  },
   base: process.env.NODE_ENV === 'production' ? './' : '/',
   build: {
     rollupOptions: {

@@ -45,7 +45,7 @@ onMounted(async () => {
   let myAnimation = anime({
     targets: [".record_body"],
     translateX: "10rem",
-    duration: 2000,
+    duration: 1000,
   });
 });
 </script>

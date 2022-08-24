@@ -88,6 +88,7 @@ onMounted(async () => {
   data.labelData = label.data;
   const sort = await getAdminSortData();
   data.sortData = sort.data;
+
   data.isShow = true;
 });
 </script>
@@ -244,7 +245,7 @@ onMounted(async () => {
   .blogRight_sort {
     width: 98%;
     height: auto;
-    padding-bottom: 2rem;
+    padding-bottom: 0.5rem;
     background: rgba(255, 255, 255, 0.5);
     padding-top: 0.1rem;
     display: flex;

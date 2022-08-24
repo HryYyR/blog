@@ -63,6 +63,8 @@ import { reactive, onMounted } from "vue";
 import { getAdminLabelData, getAdminSortData } from "../../axios/adminApi";
 import { getBlogData, getAssignSortLabelData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
+import anime from "animejs";
+
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],
@@ -100,9 +102,17 @@ onMounted(async () => {
     return item;
   });
   data.blogData = blogres.data;
-
   data.isshowcontainer = true;
-  data.isloading = true;
+
+  setTimeout(() => {
+    data.isloading = true;
+    let myAnimation = anime({
+      targets: [".sort_body"],
+      opacity: "1",
+      duration: 3000,
+    });
+  }, 300);
+
   // console.log(data.labelData, data.sortData);
 });
 
@@ -161,6 +171,7 @@ const handleblogdata = (data: any) => {
     height: auto;
     min-height: 90vh;
     padding-top: 7rem;
+
     .sort_nav {
       width: 100%;
       height: auto;
@@ -193,6 +204,7 @@ const handleblogdata = (data: any) => {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      opacity: 0;
       .nomore {
         width: 100%;
         height: 40vh;

@@ -1,5 +1,5 @@
 // 1.导入
-import { createRouter, createWebHashHistory,createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { verifyToken } from '../axios/apis'
 import { ElMessage } from 'element-plus'
 
@@ -8,16 +8,12 @@ import blog from '../view/blog/blog.vue'
 
 const routes = [
     { path: '/', redirect: '/blog' },
-    {
-        path: '/index', name: 'index', component: () => import('../view/blog/index.vue'), children: [
-            { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
-
-        ]
-    },
+    { path: '/index', name: 'index', component: () => import('../view/blog/index.vue'), children: [] },
     { path: '/blog', name: 'blog', component: blog },
+    { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
     { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction.vue') },
     { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
-    { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
+    { path: '/about', name: 'about', component: () => import('../view/blog/about.vue') },
 
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog//blogdetail.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login.vue') },
@@ -38,7 +34,8 @@ const routes = [
 
 ]
 const router = createRouter({
-    history: createWebHistory(),
+    // history: createWebHistory(),  //history
+    history: createWebHashHistory(), // hash
     routes, // short for `routes: routes
 })
 

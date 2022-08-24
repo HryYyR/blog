@@ -18,17 +18,47 @@
       img {
         width: 100% !important;
         height: 100% !important;
-        min-height: 300px !important;
+        min-height: 100px !important;
       }
     }
     .newBlog_left {
       width: 88% !important;
       .newBlog_Title {
-        font-size: 1rem;
+        font-size: 1.1rem !important;
       }
       .newBlog_body {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
       }
+    }
+    .newblog_labelsort {
+      font-size: 0.4rem !important;
+    }
+  }
+
+  /*login */
+  .loginpage_top {
+    width: 100% !important;
+    .input_box {
+      width: 85% !important;
+    }
+    .name {
+      width: 100% !important;
+    }
+    .pass {
+      width: 100% !important;
+    }
+    .login_container {
+      width: 100% !important;
+      min-width: 0 !important;
+      transform: none !important;
+    }
+    .register_container {
+      width: 100% !important;
+      min-width: 0 !important;
+      transform: none !important;
+    }
+    input {
+      width: 100px !important;
     }
   }
 

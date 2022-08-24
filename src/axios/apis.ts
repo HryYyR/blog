@@ -121,6 +121,19 @@ export function login(user: string, pass: string) {
    })
 }
 
+// 登录
+export function rigister(user: string, pass: string,email:string) {
+   return axios({
+      method: 'post',
+      url: '/rigister',
+      data: {
+         user: user,
+         pass: pass,
+         email:email
+      }
+   })
+}
+
 // 退出登录
 export function loginout(userId: number) {
    return axios({

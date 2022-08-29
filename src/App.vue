@@ -141,6 +141,55 @@
     width: 100% !important;
     padding: 0 !important;
   }
+
+  /* about */
+  .about {
+    height: auto !important;
+    .toaboutdetail {
+      display: none !important;
+    }
+    .cover {
+      display: none !important;
+    }
+    .about_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5rem !important;
+    }
+    .aboutdialog {
+      font-size: 1rem !important;
+      margin: 1rem 0 !important;
+      padding: 35px !important;
+      opacity: 1 !important;
+      width: 80% !important;
+      min-height: 200px !important;
+      position: relative !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      flex-direction: column !important;
+      div {
+        color: white !important;
+      }
+      p {
+        color: white !important;
+        font-size: 1.7rem;
+        margin-bottom: 0.3rem;
+      }
+      li {
+        color: white !important;
+      }
+    }
+    .aboutbg {
+      position: fixed;
+      z-index: 0-1 !important;
+      top: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
 }
 
 ::-webkit-scrollbar {

@@ -9,19 +9,34 @@
         :style="{ left: item.left, top: item.top, opacity: data.isshowbtn ? '1' : '0' }"
         @click="toAboutDetailPage(item, index)"
       >
+        <p
+          :style="{ color: item.textcolor }"
+          class="toaboutdetailtext_left"
+          v-if="item.name == 'skill' || item.name == 'specialnote'"
+        >
+          {{ item.text }}
+        </p>
         <div
           class="toaboutdetail_item"
           :style="{ backgroundColor: item.backgroundcolor }"
         ></div>
-        <p :style="{ color: item.textcolor }">{{ item.text }}</p>
+        <p
+          :style="{ color: item.textcolor }"
+          class="toaboutdetailtext_right"
+          v-if="item.name == 'me' || item.name == 'blog'"
+        >
+          {{ item.text }}
+        </p>
       </div>
       <div
         class="aboutmedialog aboutdialog"
         :style="{
           opacity: data.aboutdetaildata[0].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[0].isopen ? '4rem' : '0',
+          marginLeft: data.aboutdetaildata[0].isopen ? '7vmin' : '0',
         }"
       >
+        <p v-if="!data.ispc">{{ data.aboutdetaildata[0].text }}</p>
+
         <ul style="list-style: auto">
           <li>Hi there, I'm HuangRui</li>
           <li>平常会写点代码，提升自己的技能,并不是生活的全部,为了生存罢了.</li>
@@ -30,7 +45,7 @@
           <li>什么游戏类型都有接触,平时也爱玩游戏,不过随时可以抛弃.</li>
           <li>想拥有一只猫和一条狗.</li>
         </ul>
-        <div class="">
+        <div class="" v-if="data.ispc">
           <p style="text-align: center; color: white">技能</p>
           <el-progress
             :percentage="item.percentage"
@@ -47,9 +62,10 @@
         class="aboutblogdialog aboutdialog"
         :style="{
           opacity: data.aboutdetaildata[1].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[1].isopen ? '67rem' : '77rem',
+          marginLeft: data.aboutdetaildata[1].isopen ? '56vw' : '60vw',
         }"
       >
+        <p v-if="!data.ispc">{{ data.aboutdetaildata[1].text }}</p>
         <ol>
           <li>本网站于2022年7月5日开始搭建.</li>
           <li>目的是为了毕业而做的毕业设计,但不是唯一目的.</li>
@@ -64,9 +80,11 @@
         class="aboutskilldialog aboutdialog"
         :style="{
           opacity: data.aboutdetaildata[2].isopen ? '1' : '0',
-          marginTop: data.aboutdetaildata[2].isopen ? '41rem' : '31rem',
+          marginTop: data.aboutdetaildata[2].isopen ? '70vh' : '60vh',
         }"
       >
+        <p v-if="!data.ispc">{{ data.aboutdetaildata[2].text }}</p>
+
         <ol>
           <li>client: Vue3 +Ts+ Element-plus.</li>
           <li>admin: Vue3 +Ts + Element-plus.</li>
@@ -79,9 +97,11 @@
         class="aboutspecialnotedialog aboutdialog"
         :style="{
           opacity: data.aboutdetaildata[3].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[3].isopen ? '95rem' : '75rem',
+          marginLeft: data.aboutdetaildata[3].isopen ? '72vw' : '65vw',
         }"
       >
+        <p v-if="!data.ispc">{{ data.aboutdetaildata[3].text }}</p>
+
         <ol>
           <li>本站所有内容仅代表个人观点，和任何组织或个人无关</li>
           <li>本站内容仅供学习交流，请勿用于任何形式商业行为</li>
@@ -111,9 +131,7 @@
         <span>。</span>
         <span>。</span>
       </div>
-      <div class="about_tip">
-        提示 : 目前只兼容15.6寸笔记本电脑,其余分辨率会出现不同的显示错误
-      </div>
+      <div class="about_tip">提示 : 部分分辨率会出现显示错误！</div>
     </div>
   </div>
 </template>
@@ -125,6 +143,9 @@ import blogheaderVue from "../../components/blogheader.vue";
 import axios from "axios";
 
 const data = reactive({
+  scrollwidth: window.innerWidth,
+  scrollheigth: window.innerHeight,
+  ispc: true,
   loadbgspeed: "", //进度条
   isshowcover: false, //隐藏cover
   isdisplaycover: false, //显示cover
@@ -178,10 +199,10 @@ const data = reactive({
 });
 
 onMounted(async () => {
+  data.ispc = data.scrollwidth < 700 ? false : true;
   const about_container = document.querySelector(".about_container");
-  const bodywidth = window.innerWidth;
   const bodyheight = window.innerHeight;
-  const aboutbg = new Image(bodywidth, bodyheight);
+  const aboutbg = new Image(data.scrollwidth, data.scrollheigth);
 
   const bg = await getaboutbg();
   const objectURL = URL.createObjectURL(bg.data);
@@ -236,7 +257,11 @@ const toAboutDetailPage = (item: any, index: number) => {
 
 function getaboutbg() {
   axios.defaults.baseURL = "http://hyyyh.top:3001";
-  return axios.get("/bg/aboutbg.png", {
+  // axios.defaults.baseURL = "http://localhost:3001";
+
+  const bgurl = data.scrollwidth < 700 ? "/bg/peaboutbg.jpeg" : "/bg/aboutbg.png";
+
+  return axios.get(bgurl, {
     responseType: "blob",
     onDownloadProgress: function (event) {
       // 下载进度监听
@@ -278,11 +303,10 @@ function getaboutbg() {
       overflow: hidden;
     }
     .aboutmedialog {
-      width: 250px;
-      height: 280px;
-      margin-top: 22rem;
+      width: 12.5%;
+      height: auto;
+      margin-top: 38vmin;
       font-size: 0.6rem;
-      left: 0px;
       transition: 0.5s;
       opacity: 1;
       background-color: rgba(155, 100, 175, 0.4);
@@ -295,12 +319,10 @@ function getaboutbg() {
       }
     }
     .aboutblogdialog {
-      width: 350px;
-      height: 200px;
-      margin-left: 67rem;
-      margin-top: 26rem;
+      width: 17%;
+      height: auto;
+      margin-top: 46vmin;
       font-size: 0.6rem;
-      left: 0px;
       transition: 0.5s;
       opacity: 1;
       background-color: rgba(251, 199, 177, 0.4);
@@ -310,10 +332,9 @@ function getaboutbg() {
       }
     }
     .aboutskilldialog {
-      width: 200px;
-      height: 250px;
-      margin-left: 46rem;
-      margin-top: 41rem;
+      width: 12.5%;
+      height: auto;
+      margin-left: 35vw;
       font-size: 0.6rem;
       transition: 0.5s;
       opacity: 1;
@@ -324,11 +345,10 @@ function getaboutbg() {
       }
     }
     .aboutspecialnotedialog {
-      width: 150px;
-      height: 200px;
+      width: 12.5%;
+      height: auto;
       font-size: 0.6rem;
-      margin-top: 26rem;
-      margin-left: 95rem;
+      margin-top: 45vh;
       transition: 0.5s;
       opacity: 1;
       background-color: rgba(206, 107, 162, 0.3);
@@ -384,7 +404,14 @@ function getaboutbg() {
       background-color: rgba(255, 255, 255, 0.4);
       animation: toaboutdetail1 2s infinite 1s linear;
     }
-    p {
+    .toaboutdetailtext_left {
+      position: absolute;
+      top: 3rem;
+      width: 5rem;
+      left: -3rem;
+      font-weight: 900;
+    }
+    .toaboutdetailtext_right {
       position: absolute;
       top: 3rem;
       width: 5rem;

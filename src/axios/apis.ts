@@ -25,7 +25,7 @@ export function getAssignBlogData(id: number) {
 export function getAssignSortLabelData(sortid: number, labelid: number) {
    return axios({
       method: 'post',
-      url: '/getAssignSortLabelData',
+      url: '/api/getAssignSortLabelData',
       data: {
          sortid: sortid,
          labelid: labelid
@@ -113,7 +113,7 @@ export function hasBeenLaud(blogid: number, userid: number) {
 export function login(user: string, pass: string) {
    return axios({
       method: 'post',
-      url: '/login',
+      url: '/api/login',
       data: {
          user: user,
          pass: pass
@@ -125,7 +125,7 @@ export function login(user: string, pass: string) {
 export function rigister(user: string, pass: string,email:string) {
    return axios({
       method: 'post',
-      url: '/rigister',
+      url: '/api/rigister',
       data: {
          user: user,
          pass: pass,
@@ -168,7 +168,7 @@ export function addRecord(container: string) {
 export function File(img: string) {
    return axios({
       method: 'post',
-      url: '/File',
+      url: '/api/File',
       data: {
          img: img
       }

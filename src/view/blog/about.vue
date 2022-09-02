@@ -153,7 +153,7 @@ const data = reactive({
   isshowbtn: false,
   percentagedata: [
     { percentage: 95, customColor: "green", progresstext: () => "HTML" },
-    { percentage: 85, customColor: "grren", progresstext: () => "CSS" },
+    { percentage: 85, customColor: "green", progresstext: () => "CSS" },
     { percentage: 80, customColor: "yeloow", progresstext: () => "JS" },
     { percentage: 70, customColor: "yeloow", progresstext: () => "VUE" },
     { percentage: 40, customColor: "red", progresstext: () => "NODE" },

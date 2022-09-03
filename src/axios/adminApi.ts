@@ -45,6 +45,22 @@ export function getAdminLuadData(){
     })
 }
 
+// 获取所有用户数据
+export function getAdminUserData(){
+   return axios({
+      method:'post',
+      url: '/admin/getUserData',
+    })
+}
+
+// 获取所有权限数据
+export function getAdminGradeData(){
+   return axios({
+      method:'post',
+      url: '/admin/getGradeData',
+    })
+}
+
 // 添加博客
 export function addblog(title:String,container:String,labellist:any,sortID:number,Img:string){
    return axios({

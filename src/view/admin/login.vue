@@ -87,8 +87,7 @@ import { reactive, ref, onMounted } from "vue";
 import router from "../../router";
 import anime from "animejs";
 import { login, rigister } from "../../axios/apis";
-import { random } from "lodash";
-import { log } from "console";
+import { useStore } from "vuex";
 
 const data = reactive({
   user: "",
@@ -108,7 +107,7 @@ const data = reactive({
     distance: 800,
   },
 });
-
+const store = useStore();
 onMounted(() => {
   data.yzm = JSON.stringify(Math.floor(Math.random() * 8999 + 1000));
   setTimeout(() => {
@@ -136,6 +135,7 @@ const sendLogin = async () => {
     localStorage.setItem("name", res.data.name);
     localStorage.setItem("id", res.data.id);
     localStorage.setItem("token", res.data.token);
+
     router.push("/blog");
   } else {
     ElMessage.error(res.data.msg);

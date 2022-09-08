@@ -56,7 +56,6 @@
       <div class="moreBlock">
         <button class="more" @click="addMoreBlog">{{ data.moreText }}</button>
       </div>
-      <el-backtop :right="100" :bottom="100" />
     </div>
 
     <blogRight />
@@ -77,6 +76,7 @@ import { getBlogData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
 import router from "../../router";
 import { useStore } from "vuex";
+import { log } from "console";
 
 const data = reactive({
   option: {
@@ -115,9 +115,7 @@ const data = reactive({
 
 onMounted(async () => {
   const store = useStore();
-
-  // console.log(store.state.title);
-
+  store.state.isPC = window.innerWidth < 700 ? false : true;
   scrollToTop();
   // window.addEventListener("scroll", throttle(scrollToTop, 100));
   window.addEventListener("scroll", scrollToTop);

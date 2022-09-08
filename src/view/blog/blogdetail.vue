@@ -149,7 +149,7 @@ onMounted(async () => {
   let myAnimation = anime({
     targets: [".blogDetailbody"],
     left: "0rem",
-    duration: 2000,
+    duration: 1000,
   });
 });
 
@@ -222,7 +222,6 @@ const islogin = async () => {
   if (
     localStorage.getItem("id") ||
     localStorage.getItem("token") ||
-    localStorage.getItem("id") ||
     localStorage.getItem("name")
   ) {
     const res = await verifyToken();

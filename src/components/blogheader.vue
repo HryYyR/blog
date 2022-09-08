@@ -7,7 +7,7 @@
     element-loading-text="全力加载中。。。"
   >
     <div class="nav_ul">
-      <div v-for="(item, index) in data.navList" @click="jump(item.title, index)">
+      <div v-for="(item, index) in data.navList" @click="jump(item.name, index)">
         {{ item.title }}
       </div>
     </div>
@@ -40,15 +40,20 @@ defineProps({
 
 onMounted(() => {
   const name = localStorage.getItem("name")!;
-  if (name) data.navList[5].title = name;
+  if (name)
+    data.navList.forEach((item) => {
+      if (item.name == "login") {
+        item.title = name;
+      }
+    });
 });
 
 // 路由跳转
-const jump = async (title: string, index: number) => {
+const jump = async (name: string, index: number) => {
   // data.loading = !data.loading;
   setTimeout(() => {
     // data.loading = !data.loading;
-    if (localStorage.getItem("id") && index == 5) {
+    if (localStorage.getItem("id") && name == "login") {
       if (localStorage.getItem("id") != "1") {
         return ElMessage.error("暂未开放");
       }

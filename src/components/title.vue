@@ -44,7 +44,7 @@ const data = reactive({
 onMounted(() => {
   if (navigator.platform != "Win32") {
     data.bg.startnum = 100;
-    console.log('pe');
+    console.log("pe");
   }
 
   setTimeout(() => {
@@ -115,7 +115,7 @@ const props = defineProps({
     top: 0;
   }
   .navBtn {
-    z-index: 99;
+    z-index: 80;
     cursor: pointer;
     transition: 0.5s;
     padding: 1rem;
@@ -154,7 +154,7 @@ const props = defineProps({
     }
   }
   .down {
-    z-index: 99;
+    z-index: 80;
     cursor: pointer;
     position: absolute;
     width: auto;

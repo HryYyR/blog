@@ -177,7 +177,7 @@ export function File(img: string) {
 
 
 // 添加留言
-export function addinteraction(userid: string, username: string, container: string, islogin: String) {
+export function addinteraction(userid: string, username: string, container: string, islogin: String,isreply:number,replayuserid:number) {
    return axios({
       method: 'post',
       url: '/api/addinteraction',
@@ -185,7 +185,9 @@ export function addinteraction(userid: string, username: string, container: stri
          userid: userid,
          username: username,
          container: container,
-         islogin: islogin
+         islogin: islogin,
+         isreply:isreply,
+         replayuserid:replayuserid
       }
    })
 }

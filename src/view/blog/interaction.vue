@@ -33,7 +33,10 @@
                 <span class="interaction_name">{{ item.username }}</span>
                 <span class="interaction_time">{{ item.createtime }}</span>
               </div>
-              <div class="interaction_comment_mid">
+              <div
+                class="interaction_comment_mid"
+                @click="openReplyInteractionDialog(item, index)"
+              >
                 {{ item.container }}
               </div>
               <div class="interaction_comment_bottom">
@@ -47,6 +50,30 @@
                     alt=""
                   />{{ item.laudnum }}
                 </div>
+                <div class="reply">
+                  <span @click="openReplyInteractionDialog(item, index)">回复</span>
+                </div>
+              </div>
+
+              <div
+                v-for="(childen, index) in item.childen"
+                :key="index"
+                class="replycontainer"
+              >
+                <span
+                  ><span style="color: skyblue">{{ item.username }}</span
+                  >:{{ childen.container }}</span
+                >
+              </div>
+              <div class="replydialog" v-if="item.isopenreply">
+                <el-input
+                  class="replytextarea"
+                  type="textarea"
+                  v-model="data.replycontent"
+                ></el-input>
+                <el-button class="replybtn" type="primary" @click="submitreply"
+                  >评论</el-button
+                >
               </div>
             </div>
           </div>
@@ -80,6 +107,8 @@ const data = reactive({
   userid: localStorage.getItem("id"),
   username: localStorage.getItem("name"),
   userhasbeenlaudData: [],
+  replycontent: "",
+  newopenreplydialogIndex: -1,
 });
 onMounted(async () => {
   let myAnimation = anime({
@@ -89,6 +118,11 @@ onMounted(async () => {
     duration: 1000,
   });
   data.commentData = await (await getallinteraction()).data.data;
+  // console.log(data.commentData);
+
+  data.commentData.map((item: any) => {
+    item.isopenreply = false;
+  });
 
   if (data.userid) {
     const res = await getassigninteractionlaud(parseInt(data.userid));
@@ -102,7 +136,6 @@ onMounted(async () => {
         item.islaud = false;
       }
     });
-    // console.log(data.userhasbeenlaudData);
   }
 });
 
@@ -115,7 +148,14 @@ const submitcomment = async () => {
     return ElMessage.error("您输入的字数不够哦！");
   }
 
-  const resolve = await addinteraction(data.userid, data.username, data.textarea, "1");
+  const resolve = await addinteraction(
+    data.userid,
+    data.username,
+    data.textarea,
+    "1",
+    0,
+    -1
+  );
   if (resolve.status == 200) {
     data.commentData = resolve.data.data;
     data.commentData.map((item: any) => {
@@ -153,6 +193,48 @@ const laudinteraction = async (interaction: any) => {
   }
 };
 
+// 打开留言对话框
+const openReplyInteractionDialog = (item: any, index: number) => {
+  if (index == data.newopenreplydialogIndex) {
+    data.newopenreplydialogIndex = -1;
+    item.isopenreply = false;
+    return;
+  }
+  if (data.newopenreplydialogIndex != -1) {
+    data.commentData[data.newopenreplydialogIndex].isopenreply = false;
+  }
+  item.isopenreply = true;
+  data.newopenreplydialogIndex = index;
+};
+
+// 提交回复
+const submitreply = async () => {
+  if (!data.userid || !data.username) {
+    return ElMessage.error("未登录");
+  }
+  if (data.replycontent == "") {
+    return ElMessage.error("内容不能为空！");
+  }
+  const resolve = await addinteraction(
+    data.userid,
+    data.username,
+    data.replycontent,
+    "1",
+    1,
+    data.commentData[data.newopenreplydialogIndex].id
+  );
+  if (resolve.status == 201) {
+    ElMessage.error("评论失败！！");
+    return;
+  }
+  data.commentData = await (await getallinteraction()).data.data;
+  data.commentData[data.newopenreplydialogIndex].isopenreply = false;
+  data.newopenreplydialogIndex = -1;
+  data.replycontent = "";
+
+  ElMessage.success("评论成功！");
+};
+
 const judge = (data: any) => {
   return data.map((item: any) => {
     if (data.userhasbeenlaudData.includes(<never>item.id)) {
@@ -180,14 +262,14 @@ const closedialog = () => {
       width: 50vw;
       background-color: rgba(77, 134, 226, 0.1);
       min-height: 100vh;
-      margin-top: 6rem;
+      margin: 6rem 0;
       position: relative;
       opacity: 0;
       top: 50vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 1rem 5rem 1rem;
       h1 {
         margin-top: 4rem;
       }
@@ -239,7 +321,7 @@ const closedialog = () => {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         height: auto;
         width: 100%;
         padding: 1rem 0;
@@ -249,7 +331,7 @@ const closedialog = () => {
           height: 50px;
           border-radius: 50%;
           position: relative;
-          top: -1rem;
+          top: 1rem;
           overflow: hidden;
           margin-left: 2rem;
 
@@ -283,8 +365,16 @@ const closedialog = () => {
             cursor: pointer;
             height: 30px;
             font-size: 0.7rem;
+            display: flex;
+            .reply {
+              display: flex;
+              justify-content: flex-end;
+              padding-right: 20px;
+              color: skyblue;
+            }
 
             & div {
+              flex: 1;
               display: flex;
               align-items: center;
               & img {
@@ -292,6 +382,17 @@ const closedialog = () => {
                 margin-right: 3px;
               }
             }
+          }
+          .replydialog {
+            display: flex;
+            align-items: flex-end;
+            .replybtn {
+              margin: 0.5rem 1rem 0 1rem;
+            }
+          }
+          .replycontainer {
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
           }
         }
       }

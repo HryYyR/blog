@@ -18,7 +18,7 @@
       img {
         width: 100% !important;
         height: 100% !important;
-        min-height: 100px !important;
+        min-height: 190px !important;
       }
     }
     .newBlog_left {

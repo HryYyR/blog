@@ -6,10 +6,11 @@ axios.defaults.baseURL = 'http://localhost:3001'
 
 // 获取ip和地理位置
 export async function getIpAndPath() {
-   let ip = await axios({
+   let ipresolve = await axios({
       method: 'get',
       url: `/api/getip`,
    })
+   let ip =ipresolve.data.ip
    let path:any = await axios({
       method: 'get',
       url: `https://api.map.baidu.com/location/ip?ak=OoZKywcl5rzq6T9f2P5wnZdVXdkYHwam&ip=${ip}&coor=bd09ll`,

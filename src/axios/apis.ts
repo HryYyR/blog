@@ -1,6 +1,23 @@
+import { useScriptTag } from '@vueuse/core'
 import axios from 'axios'
 import { Base64 } from 'js-base64'
 axios.defaults.baseURL = 'http://localhost:3001'
+
+
+// 获取ip和地理位置
+export async function getIpAndPath() {
+   let ip = await axios({
+      method: 'get',
+      url: `/api/getip`,
+   })
+   let path:any = await axios({
+      method: 'get',
+      url: `https://api.map.baidu.com/location/ip?ak=OoZKywcl5rzq6T9f2P5wnZdVXdkYHwam&ip=${ip}&coor=bd09ll`,
+   })
+
+   return { path: path.content.address, ip: ip }
+}
+
 
 // 获取所有博客
 export function getBlogData(pageNum: number, num: number) {
@@ -122,14 +139,14 @@ export function login(user: string, pass: string) {
 }
 
 // 登录
-export function rigister(user: string, pass: string,email:string) {
+export function rigister(user: string, pass: string, email: string) {
    return axios({
       method: 'post',
       url: '/api/rigister',
       data: {
          user: user,
          pass: pass,
-         email:email
+         email: email
       }
    })
 }
@@ -177,7 +194,7 @@ export function File(img: string) {
 
 
 // 添加留言
-export function addinteraction(userid: string, username: string, container: string, islogin: String,isreply:number,replayuserid:number) {
+export function addinteraction(userid: string, username: string, container: string, islogin: String, isreply: number, replayuserid: number,userip:string,userpath:String) {
    return axios({
       method: 'post',
       url: '/api/addinteraction',
@@ -186,8 +203,10 @@ export function addinteraction(userid: string, username: string, container: stri
          username: username,
          container: container,
          islogin: islogin,
-         isreply:isreply,
-         replayuserid:replayuserid
+         isreply: isreply,
+         replayuserid: replayuserid,
+         userip:userip,
+         userpath:userpath
       }
    })
 }
@@ -228,7 +247,7 @@ export function interactionhasBeenLaud(interactionid: number, userid: number) {
 
 
 // 获取指定用户 已点赞的评论 的id数组
-export function getassigninteractionlaud( userid: number) {
+export function getassigninteractionlaud(userid: number) {
    return axios({
       method: 'post',
       url: '/api/getassigninteractionlaud',

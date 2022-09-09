@@ -97,6 +97,7 @@ import {
   luadinteraction,
   interactionhasBeenLaud,
   getassigninteractionlaud,
+  getIpAndPath,
 } from "../../axios/apis";
 import tologindialogVue from "../../components/tologindialog.vue";
 import { log } from "console";
@@ -148,13 +149,17 @@ const submitcomment = async () => {
     return ElMessage.error("您输入的字数不够哦！");
   }
 
+  let { path, ip }: any = await getIpAndPath();
+
   const resolve = await addinteraction(
     data.userid,
     data.username,
     data.textarea,
     "1",
     0,
-    -1
+    -1,
+    ip,
+    path
   );
   if (resolve.status == 200) {
     data.commentData = resolve.data.data;
@@ -215,13 +220,18 @@ const submitreply = async () => {
   if (data.replycontent == "") {
     return ElMessage.error("内容不能为空！");
   }
+
+  let { path, ip }: any = await getIpAndPath();
+
   const resolve = await addinteraction(
     data.userid,
     data.username,
     data.replycontent,
     "1",
     1,
-    data.commentData[data.newopenreplydialogIndex].id
+    data.commentData[data.newopenreplydialogIndex].id,
+    ip,
+    path
   );
   if (resolve.status == 201) {
     ElMessage.error("评论失败！！");

@@ -11,12 +11,8 @@ export async function getIpAndPath() {
       url: `/api/getip`,
    })
    let ip =ipresolve.data.ip
-   let path:any = await axios({
-      method: 'get',
-      url: `https://api.map.baidu.com/location/ip?ak=OoZKywcl5rzq6T9f2P5wnZdVXdkYHwam&ip=${ip}&coor=bd09ll`,
-   })
 
-   return { path: path.content.address, ip: ip }
+   return {ip: ip }
 }
 
 
@@ -195,7 +191,7 @@ export function File(img: string) {
 
 
 // 添加留言
-export function addinteraction(userid: string, username: string, container: string, islogin: String, isreply: number, replayuserid: number,userip:string,userpath:String) {
+export function addinteraction(userid: string, username: string, container: string, islogin: String, isreply: number, replayuserid: number,userip:string) {
    return axios({
       method: 'post',
       url: '/api/addinteraction',
@@ -207,7 +203,6 @@ export function addinteraction(userid: string, username: string, container: stri
          isreply: isreply,
          replayuserid: replayuserid,
          userip:userip,
-         userpath:userpath
       }
    })
 }

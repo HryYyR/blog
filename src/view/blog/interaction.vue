@@ -32,6 +32,7 @@
               <div class="interaction_comment_top">
                 <span class="interaction_name">{{ item.username }}</span>
                 <span class="interaction_time">{{ item.createtime }}</span>
+                <span class="interaction_time">{{ item.userip }}</span>
               </div>
               <div
                 class="interaction_comment_mid"
@@ -149,7 +150,7 @@ const submitcomment = async () => {
     return ElMessage.error("您输入的字数不够哦！");
   }
 
-  let { path, ip }: any = await getIpAndPath();
+  let { ip }: any = await getIpAndPath();
 
   const resolve = await addinteraction(
     data.userid,
@@ -158,8 +159,7 @@ const submitcomment = async () => {
     "1",
     0,
     -1,
-    ip,
-    path
+    ip
   );
   if (resolve.status == 200) {
     data.commentData = resolve.data.data;
@@ -221,7 +221,7 @@ const submitreply = async () => {
     return ElMessage.error("内容不能为空！");
   }
 
-  let { path, ip }: any = await getIpAndPath();
+  let { ip }: any = await getIpAndPath();
 
   const resolve = await addinteraction(
     data.userid,
@@ -230,8 +230,7 @@ const submitreply = async () => {
     "1",
     1,
     data.commentData[data.newopenreplydialogIndex].id,
-    ip,
-    path
+    ip
   );
   if (resolve.status == 201) {
     ElMessage.error("评论失败！！");

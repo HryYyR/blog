@@ -11,7 +11,6 @@ export async function getIpAndPath() {
       url: `/api/getip`,
    })
    let ip =ipresolve.data.ip
-
    return {ip: ip }
 }
 

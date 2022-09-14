@@ -81,18 +81,6 @@ const jump = async (name: string, index: number) => {
   color: white;
   overflow: hidden;
 
-  &:after {
-    content: " ";
-    width: 100%;
-    height: 0px;
-    position: absolute;
-    /* 圆点型的border */
-    border-bottom: 10px dotted rgba(255, 255, 255, 0.1);
-    /* 偏移一个半径，让圆点的一半覆盖div */
-    right: -10px;
-    bottom: -4px;
-  }
-
   .navBlur {
     filter: blur(2px);
   }

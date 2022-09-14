@@ -53,7 +53,10 @@
               >
                 <div class="allComment_item_left">
                   <div>
-                    <img src="../../assets/1.jpg" alt="" />
+                    <img
+                      :src="item.avatar || 'http://hyyyh.top:3001/icon/github.png'"
+                      alt=""
+                    />
                   </div>
                 </div>
                 <div class="allComment_item_right">
@@ -325,6 +328,7 @@ const islogin = async () => {
               display: flex;
               justify-content: center;
               padding-top: 0.5rem;
+              padding-left: 1rem;
               & div {
                 width: 60px;
                 height: 60px;
@@ -343,10 +347,24 @@ const islogin = async () => {
               padding: 0.3rem 0 0 0.3rem;
               flex: 1;
               .allComment_item_name {
-                padding-bottom: 0.5rem;
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
+                align-items: center;
                 color: black;
+                padding-left: 1rem;
+                & span:nth-child(1) {
+                  color: skyblue;
+                  font-weight: 600;
+                }
+                & span:nth-child(2) {
+                  color: rgba(0, 0, 0, 0.4);
+                  font-size: 0.8rem;
+                  margin-left: 0.5rem;
+                }
+              }
+              .allComment_item_container {
+                padding: 1rem 2rem;
+                font-size: 0.9rem;
               }
             }
           }

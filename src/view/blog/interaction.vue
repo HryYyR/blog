@@ -26,13 +26,13 @@
             :index="item.id"
           >
             <div class="interaction_comment_img">
-              <img src="http://hyyyh.top:3001/icon/github.png" alt="" />
+              <img :src="item.avatar || 'http://hyyyh.top:3001/icon/github.png'" alt="" />
             </div>
             <div class="interaction_comment_container">
               <div class="interaction_comment_top">
                 <span class="interaction_name">{{ item.username }}</span>
                 <span class="interaction_time">{{ item.createtime }}</span>
-                <span class="interaction_time">{{ item.userip }}</span>
+                <span class="interaction_time">IP:{{ item.userip }}</span>
               </div>
               <div
                 class="interaction_comment_mid"
@@ -151,7 +151,6 @@ const submitcomment = async () => {
   }
 
   let { ip }: any = await getIpAndPath();
-
   const resolve = await addinteraction(
     data.userid,
     data.username,
@@ -161,6 +160,7 @@ const submitcomment = async () => {
     -1,
     ip
   );
+
   if (resolve.status == 200) {
     data.commentData = resolve.data.data;
     data.commentData.map((item: any) => {
@@ -171,6 +171,7 @@ const submitcomment = async () => {
       }
     });
     ElMessage.success("留言成功！");
+    data.textarea = "";
   } else {
     ElMessage.error("留言失败！");
   }
@@ -321,20 +322,21 @@ const closedialog = () => {
       align-items: center;
       height: auto;
       width: 100%;
-      background-color: white;
       top: 3rem;
-      padding-top: 1rem;
+      padding: 2rem;
 
       .interaction_comment_item {
-        margin: 0 0 3rem 0;
+        margin: 0 0 2rem 0;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-start;
         height: auto;
         width: 100%;
-        padding: 1rem 0;
-        border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
+        border-radius: 5px;
+        background-color: rgba(157, 157, 157, 0.1);
+        border: 1px dashed rgba(0, 0, 0, 0.2);
         .interaction_comment_img {
           width: 50px;
           height: 50px;
@@ -365,6 +367,7 @@ const closedialog = () => {
             .interaction_time {
               color: rgba(0, 0, 0, 0.4);
               font-size: 0.8rem;
+              margin: 0 1rem 0 0;
             }
           }
           .interaction_comment_mid {

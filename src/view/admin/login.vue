@@ -124,27 +124,48 @@ onMounted(() => {
 
 // 发送登录请求
 const sendLogin = async () => {
+  let userreg = /^[a-zA-Z0-9_-]{1,10}$/;
+  let passreg = /^[a-zA-Z0-9_-]{6,16}$/;
+
+  // user正则
+  if (!userreg.test(data.user)) {
+    ElMessage.error("昵称只能包含字母，数字，下划线，减号，且大于1位不超过10位");
+    return;
+  }
+  // pass正则
+  if (!passreg.test(data.pass)) {
+    ElMessage.error("密码只能包含字母，数字，下划线，减号，且大于6位不超过16位");
+    return;
+  }
+
   if (!data.user || !data.pass) {
     ElMessage.error("账号或密码不能为空");
     return;
   }
-  const res = await login(data.user, data.pass);
-  // console.log(res);
-  if (res.status == 200) {
-    ElMessage.success(res.data.msg);
-    localStorage.setItem("name", res.data.name);
-    localStorage.setItem("id", res.data.id);
-    localStorage.setItem("token", res.data.token);
+  try {
+    const res = await login(data.user, data.pass);
+    if (res.status == 200) {
+      ElMessage.success(res.data.msg);
+      localStorage.setItem("name", res.data.name);
+      localStorage.setItem("id", res.data.id);
+      localStorage.setItem("token", res.data.token);
 
-    router.push("/blog");
-  } else {
-    ElMessage.error(res.data.msg);
+      router.push("/blog");
+      return;
+    } else {
+      ElMessage.error(res.data.msg);
+    }
+  } catch (error) {
+    ElMessage.error("发生了未知的错误");
   }
+  // console.log(res);
 };
 
 // 发送注册请求
 const sendregister = async () => {
-  let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  let emailreg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  let userreg = /^[a-zA-Z0-9_-]{1,10}$/;
+  let passreg = /^[a-zA-Z0-9_-]{6,16}$/;
 
   if (
     data.rigister.name.trim() == "" ||
@@ -156,7 +177,18 @@ const sendregister = async () => {
     ElMessage.error("内容格式不正确");
     return;
   }
-  if (!reg.test(data.rigister.email)) {
+  // user正则
+  if (!userreg.test(data.rigister.name)) {
+    ElMessage.error("昵称只能包含字母，数字，下划线，减号，且大于1位不超过10位");
+    return;
+  }
+  // pass正则
+  if (!passreg.test(data.rigister.pass)) {
+    ElMessage.error("密码只能包含字母，数字，下划线，减号，且大于6位不超过16位");
+    return;
+  }
+  // 邮箱正则
+  if (!emailreg.test(data.rigister.email)) {
     ElMessage.error("邮箱格式不正确");
     return;
   }

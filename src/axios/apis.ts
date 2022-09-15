@@ -1,5 +1,6 @@
 import { useScriptTag } from '@vueuse/core'
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 import { Base64 } from 'js-base64'
 axios.defaults.baseURL = 'http://localhost:3001'
 
@@ -123,7 +124,7 @@ export function hasBeenLaud(blogid: number, userid: number) {
 
 
 // 登录
-export function login(user: string, pass: string) {
+export  function login(user: string, pass: string) {
    return axios({
       method: 'post',
       url: '/api/login',
@@ -134,8 +135,8 @@ export function login(user: string, pass: string) {
    })
 }
 
-// 登录
-export function rigister(user: string, pass: string, email: string) {
+// 注册
+export  function   rigister(user: string, pass: string, email: string) {
    return axios({
       method: 'post',
       url: '/api/rigister',

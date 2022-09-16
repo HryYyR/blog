@@ -137,10 +137,11 @@
 </template>
 
 <script setup lang="ts">
-import { log } from "console";
 import { onMounted, ref, reactive } from "vue";
 import blogheaderVue from "../../components/blogheader.vue";
 import axios from "axios";
+import { useStore } from "vuex";
+const store = useStore();
 
 const data = reactive({
   scrollwidth: window.innerWidth,
@@ -151,6 +152,7 @@ const data = reactive({
   isdisplaycover: false, //显示cover
   isshowtitle: true, //是否展示标题
   isshowbtn: false,
+  objectURL: "", //图片url
   percentagedata: [
     { percentage: 95, customColor: "green", progresstext: () => "HTML" },
     { percentage: 85, customColor: "green", progresstext: () => "CSS" },
@@ -199,15 +201,16 @@ const data = reactive({
 });
 
 onMounted(async () => {
-  data.ispc = data.scrollwidth < 700 ? false : true;
+  data.ispc = store.state.ispc;
   const about_container = document.querySelector(".about_container");
   const bodyheight = window.innerHeight;
-  const aboutbg = new Image(data.scrollwidth, data.scrollheigth);
 
-  const bg = await getaboutbg();
-  const objectURL = URL.createObjectURL(bg.data);
-  aboutbg.src = objectURL;
+  const aboutbg = new Image(data.scrollwidth, data.scrollheigth); //创建图片
+  const bg = await getaboutbg(); //获取图片信息
+  data.objectURL = URL.createObjectURL(bg.data); //创建url
+  aboutbg.src = data.objectURL; //图片添加url
   aboutbg.classList.add("aboutbg");
+
 
   about_container?.appendChild(aboutbg);
 });

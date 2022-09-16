@@ -266,14 +266,18 @@ const islogin = async () => {
       .content_container {
         padding: 1rem;
         background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
         .title {
-          margin: 0 0 2rem 0;
+          margin: 1rem 0 1rem 0;
           color: black;
         }
         .time {
           color: rgba(0, 0, 0, 0.2);
-          margin-bottom: 2rem;
+          margin-bottom: 0rem;
         }
         .cover {
           width: 80%;
@@ -289,7 +293,7 @@ const islogin = async () => {
       .comment {
         height: auto;
         background-color: white;
-        width: 97%;
+        width: 100%;
         margin-top: 2rem;
         display: flex;
         flex-direction: column;

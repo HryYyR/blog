@@ -4,7 +4,8 @@ export default createStore({
     state:{
         title:'index',
         isPC:true,
-        userdata:[]
+        userdata:[],
+        aboutbg:null
     },
     mutations: {
 

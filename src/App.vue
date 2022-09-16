@@ -1,7 +1,15 @@
 <template>
   <router-view></router-view>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from "vue";
+import vuex from "vuex";
+onMounted(() => {
+
+
+
+});
+</script>
 
 <style lang="less">
 * {

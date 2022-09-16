@@ -221,11 +221,12 @@ const handleblogdata = (data: any) => {
 }
 .loading {
   margin-top: 100px;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border-bottom: 2px solid skyblue;
-  border-right: 2px solid skyblue;
+  user-select: none;
+  border-bottom: 1px solid skyblue;
+  border-right: 1px solid skyblue;
   animation: loading 1s infinite linear;
 }
 @keyframes loading {

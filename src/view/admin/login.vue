@@ -42,16 +42,20 @@
           ><input type="text" placeholder="邮箱" v-model="data.rigister.email" />
         </div>
         <div class="name">
-          <span>密码:</span
-          ><input
-            type="text"
+          <span>密码:</span>
+          <input
+            type="password"
             placeholder="密码不能少于6位"
             v-model="data.rigister.pass"
           />
         </div>
         <div class="name">
           <span>确认密码:</span
-          ><input type="text" placeholder="确认密码" v-model="data.rigister.checkpass" />
+          ><input
+            type="password"
+            placeholder="确认密码"
+            v-model="data.rigister.checkpass"
+          />
         </div>
         <div class="name">
           <span>验证码:</span

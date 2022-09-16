@@ -116,19 +116,30 @@ const data = reactive({
 onMounted(async () => {
   const store = useStore();
   store.state.isPC = window.innerWidth < 700 ? false : true;
-  scrollToTop();
-  // window.addEventListener("scroll", throttle(scrollToTop, 100));
-  window.addEventListener("scroll", scrollToTop);
 
+  // 获取博客数据
   const res = await getBlogData(1, 5);
   if (res.status != 200) {
     return ElMessage.error("信息获取失败！");
   }
+
+  if (!store.state.isPC) {
+    res.data.map((item: any) => {
+      item.isShow = 1;
+      return item;
+    });
+  } else {
+    scrollToTop();
+    window.addEventListener("scroll", scrollToTop);
+  }
+
+  // 消除html标签
   res.data.map((item: any) => {
     item.container = item.container.replace(/<.*?>/gi, "");
     return item;
   });
 
+  // 渲染数据
   data.newBlogData = res.data.splice(-1, 1);
   data.showBlogData = res.data;
 });
@@ -194,12 +205,6 @@ const addMoreBlog = async () => {
 }
 .blogContainer {
   width: 100%;
-  /*
-  background: rgba(0, 0, 0, 0.1);  
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  */
   background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(27, 41, 71));
   background-size: 800%;
   background-position: 0% 50%;
@@ -232,7 +237,7 @@ const addMoreBlog = async () => {
     overflow: hidden;
     width: 45%;
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 1rem;
+    padding: 1rem 3rem;
     display: flex;
     flex-direction: column;
     .moreBlock {

@@ -9,6 +9,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/message.scss'
 
 
+
 const app = createApp(App)
 
 
@@ -19,7 +20,6 @@ axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
 app.config.globalProperties.$axios = axios
 
 
-
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
@@ -28,6 +28,5 @@ app.use(vuex)
 app.use(router)
 // app.use(anime)
 app.use(lazyImg)
-
 
 app.mount('#app')

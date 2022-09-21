@@ -62,7 +62,6 @@
   </div>
   <blogbottomVue></blogbottomVue>
 </template>
-
 <script setup lang="ts">
 import titleVue from "../../components/title.vue";
 import indexVue from "./index.vue";
@@ -237,7 +236,7 @@ const addMoreBlog = async () => {
     overflow: hidden;
     width: 45%;
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 1rem 3rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     .moreBlock {

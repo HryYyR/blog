@@ -39,10 +39,10 @@
 
         <ul style="list-style: auto">
           <li>Hi there, I'm HuangRui</li>
-          <li>平常会写点代码，提升自己的技能,并不是生活的全部,为了生存罢了.</li>
+          <li>平常会写点代码，提升自己,并不是生活的全部,为了生存罢了.</li>
           <li>不太会说话,得罪了请见谅.</li>
           <li>音乐还算我最爱的兴趣,它能给我很多力量.</li>
-          <li>什么游戏类型都有接触,平时也爱玩游戏,不过随时可以抛弃.</li>
+          <li>游戏什么的,都会一点，但不多.</li>
           <li>想拥有一只猫和一条狗.</li>
         </ul>
         <div class="" v-if="data.ispc">
@@ -86,9 +86,9 @@
         <p v-if="!data.ispc">{{ data.aboutdetaildata[2].text }}</p>
 
         <ol>
-          <li>client: Vue3 +Ts+ Element-plus.</li>
-          <li>admin: Vue3 +Ts + Element-plus.</li>
-          <li>server: koa +Mysql.</li>
+          <li>client: Vue3 + Ts + Element-plus.</li>
+          <li>admin: Vue3 + Ts + Element-plus.</li>
+          <li>server: koa + Mysql + Nginx.</li>
           <li>服务器由阿里云提供支持.</li>
           <li>本站前后端均为个人书写，个人水平有限，不入法眼还请轻喷.</li>
         </ol>
@@ -210,7 +210,6 @@ onMounted(async () => {
   data.objectURL = URL.createObjectURL(bg.data); //创建url
   aboutbg.src = data.objectURL; //图片添加url
   aboutbg.classList.add("aboutbg");
-
 
   about_container?.appendChild(aboutbg);
 });

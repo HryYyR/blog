@@ -245,7 +245,7 @@ onMounted(async () => {
   .blogRight_sort {
     width: 98%;
     height: auto;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1.4rem;
     background: rgba(255, 255, 255, 0.5);
     padding-top: 0.1rem;
     display: flex;

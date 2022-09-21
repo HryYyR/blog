@@ -158,7 +158,9 @@ const handleblogdata = (data: any) => {
 
 <style scoped lang="less">
 .container {
-  background-color: rgba(0, 0, 0, 0.1);
+  /*  background-color: rgba(0, 0, 0, 0.1);  */
+  background-image: linear-gradient(rgb(252, 246, 223), rgba(48, 50, 84, 1));
+
   background-size: 100% 100%;
   display: flex;
   justify-content: center;

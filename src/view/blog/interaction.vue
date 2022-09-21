@@ -62,7 +62,7 @@
                 class="replycontainer"
               >
                 <span
-                  ><span style="color: skyblue">{{ childen.username }}</span
+                  ><span style="color: rgb(135, 168, 235)">{{ childen.username }}</span
                   >:{{ childen.container }}</span
                 >
               </div>
@@ -84,11 +84,13 @@
     </div>
   </div>
   <tologindialogVue :isshow="data.isshowtologindialog" @back="closedialog" />
+  <div class="wave" :style="{ opacity: data.isshowwave }"></div>
 </template>
 
 <script setup lang="ts">
 import blogheaderVue from "../../components/blogheader.vue";
 import blogRightVue from "../../components/blogRight.vue";
+import Wave from "../../func/wave/wave.es.min";
 import { reactive, onMounted } from "vue";
 import anime from "animejs";
 import { ElMessage } from "element-plus";
@@ -106,6 +108,7 @@ const data = reactive({
   textarea: "",
   commentData: <any>[],
   isshowtologindialog: false,
+  isshowwave: 0,
   userid: localStorage.getItem("id"),
   username: localStorage.getItem("name"),
   userhasbeenlaudData: [],
@@ -119,6 +122,24 @@ onMounted(async () => {
     opacity: 1,
     duration: 1000,
   });
+
+  const wave = new Wave(".wave", {
+    number: 5,
+    smooth: 90,
+    velocity: 0.3,
+    height: 100,
+    colors: ["#3498db", "#9b59b6", "#2980b9", "#8e44ad", "#74b9ff"],
+    opacity: 0.2,
+    position: "bottom",
+    border: {
+      show: false,
+      width: 2,
+      color: [],
+    },
+  });
+  wave.animate();
+  data.isshowwave = 1;
+
   data.commentData = await (await getallinteraction()).data.data;
   // console.log(data.commentData);
 
@@ -270,9 +291,10 @@ const closedialog = () => {
     width: 100vw;
     .interaction_body_container {
       width: 50vw;
-      background-color: rgba(77, 134, 226, 0.1);
+      background-color: rgba(243, 243, 255, 0.7);
+      box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
       min-height: 100vh;
-      margin: 6rem 0;
+      margin: 7rem 0;
       position: relative;
       opacity: 0;
       top: 50vh;
@@ -296,7 +318,7 @@ const closedialog = () => {
           justify-content: space-between;
           & span {
             margin-left: 0.5rem;
-            color: rgba(0, 0, 0, 0.2);
+            color: rgba(0, 0, 0, 0.4);
           }
           .submitbtn {
             position: relative;
@@ -360,7 +382,7 @@ const closedialog = () => {
             cursor: pointer;
             height: 30px;
             .interaction_name {
-              color: skyblue;
+              color: rgb(135, 168, 235);
               font-weight: 900;
               margin-right: 0.5rem;
             }
@@ -382,7 +404,7 @@ const closedialog = () => {
               display: flex;
               justify-content: flex-end;
               padding-right: 20px;
-              color: skyblue;
+              color: rgb(135, 168, 235);
             }
 
             & div {
@@ -410,5 +432,14 @@ const closedialog = () => {
       }
     }
   }
+}
+.wave {
+  position: fixed;
+  width: 100%;
+  height: 300px;
+  bottom: 0;
+  z-index: -99;
+  bottom: -4px;
+  transition: 2s;
 }
 </style>

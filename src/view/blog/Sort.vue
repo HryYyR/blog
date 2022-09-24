@@ -2,7 +2,7 @@
   <div class="container">
     <blogheaderVue :bgColor="true"></blogheaderVue>
     <div class="sort_container">
-      <div class="sort_nav" v-show="data.isshownav">
+      <div class="sort_nav" :style="{ opacity: data.isshownav ? 1 : 0 }">
         <div class="sort_nav_sorter">
           <span> 分类：</span>
           <div
@@ -178,6 +178,7 @@ const handleblogdata = (data: any) => {
       width: 100%;
       height: auto;
       background-color: rgba(0, 0, 0, 0.1);
+      transition: 1s;
       & > div {
         display: flex;
         flex-wrap: wrap;
@@ -207,6 +208,7 @@ const handleblogdata = (data: any) => {
       justify-content: center;
       align-items: center;
       opacity: 0;
+      transition: 1s;
       .nomore {
         width: 100%;
         height: 40vh;

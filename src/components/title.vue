@@ -43,7 +43,7 @@ const data = reactive({
 
 onMounted(() => {
   if (navigator.platform != "Win32") {
-    data.bg.startnum = 100;
+    data.bg.startnum = 80;
     console.log("pe");
   }
 

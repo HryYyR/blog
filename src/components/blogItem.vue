@@ -7,7 +7,12 @@
     @click="toDetail(blogId)"
   >
     <div class="newBlog_right" v-if="num % 2 == 0 ? false : true">
-      <img v-lazy="img" :alt="blogTitle" :key="blogId" />
+      <img
+        v-lazy="img"
+        :alt="blogTitle"
+        :key="blogId"
+        :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }"
+      />
     </div>
     <div class="newBlog_left">
       <div>
@@ -50,7 +55,12 @@
       </div>
     </div>
     <div class="newBlog_right" v-if="num % 2 == 0 ? true : false">
-      <img v-lazy="img" :alt="blogTitle" :key="blogId" />
+      <img
+        v-lazy="img"
+        :alt="blogTitle"
+        :key="blogId"
+        :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }"
+      />
     </div>
   </div>
 </template>
@@ -59,7 +69,8 @@
 import { array } from "snabbdom";
 import { defineProps } from "vue";
 import router from "../router/index";
-
+import { useStore } from "vuex";
+const store = useStore();
 defineProps({
   blogId: {
     type: Number,

@@ -15,7 +15,9 @@ import { onMounted, onUnmounted, reactive, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import router from "../../router";
 import { verifyToken } from "../../axios/apis";
+import { useStore } from "vuex";
 const route = useRouter();
+const store = useStore();
 
 const data = reactive({
   isShowTitle: true,

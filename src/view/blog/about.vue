@@ -207,6 +207,10 @@ onMounted(async () => {
 
   const aboutbg = new Image(data.scrollwidth, data.scrollheigth); //创建图片
   const bg = await getaboutbg(); //获取图片信息
+  // console.log(bg.data);
+  // ------------------------
+
+  // -------------------
   data.objectURL = URL.createObjectURL(bg.data); //创建url
   aboutbg.src = data.objectURL; //图片添加url
   aboutbg.classList.add("aboutbg");

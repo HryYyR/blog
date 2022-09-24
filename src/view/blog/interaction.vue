@@ -381,6 +381,8 @@ const closedialog = () => {
           .interaction_comment_top {
             cursor: pointer;
             height: 30px;
+            display: flex;
+            flex-wrap: wrap;
             .interaction_name {
               color: rgb(135, 168, 235);
               font-weight: 900;

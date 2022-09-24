@@ -4,11 +4,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import vuex from "vuex";
-onMounted(() => {
-
-
-
-});
+onMounted(() => {});
 </script>
 
 <style lang="less">
@@ -141,13 +137,21 @@ onMounted(() => {
     }
     .before {
       left: -190px !important;
+      &::before {
+        left: 167px !important ;
+      }
     }
   }
 
   /* inteeraction  */
-  .interaction_body_container {
-    width: 100% !important;
-    padding: 0 !important;
+  .interaction_container {
+    .interaction_body_container {
+      width: 96% !important;
+      padding: 0 !important;
+    }
+    .interaction_comment {
+      width: 94% !important ;
+    }
   }
 
   /* about */

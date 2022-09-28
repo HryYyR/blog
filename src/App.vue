@@ -81,6 +81,14 @@ onMounted(() => {});
     margin: 0 !important;
   }
 
+  /* sort  */
+  .sort_container {
+    width: 96% !important;
+  }
+  .interaction_name {
+    width: 100% !important;
+  }
+
   /* title  */
   .titleWord {
     font-size: 5rem !important;

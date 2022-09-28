@@ -383,6 +383,7 @@ const closedialog = () => {
             height: 30px;
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             .interaction_name {
               color: rgb(135, 168, 235);
               font-weight: 900;
@@ -395,7 +396,7 @@ const closedialog = () => {
             }
           }
           .interaction_comment_mid {
-            padding: 0.5rem 0 0.5rem 1rem;
+            padding: 0.5rem 1rem;
           }
           .interaction_comment_bottom {
             cursor: pointer;

@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import router from "../router/index";
+import { verifyToken } from "../axios/apis";
 import { onMounted, reactive } from "vue";
 import { ElLoading, ElMessage } from "element-plus";
 
@@ -38,7 +39,14 @@ defineProps({
   },
 });
 
-onMounted(() => {
+onMounted(async () => {
+  const isToken = await verifyToken();
+  if (!isToken.data.token) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("id");
+  }
+
   const name = localStorage.getItem("name")!;
   if (name)
     data.navList.forEach((item) => {

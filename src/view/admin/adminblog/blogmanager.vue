@@ -128,6 +128,13 @@ const handleCurrentChange = async (val: number) => {
 const getData = async (pageNum: number, num: number) => {
   const res = await (await getAdminBlogData(pageNum, num)).data;
   data.blogTotal = res.Total;
+
+  // 消除html标签
+  res.data.map((item: any) => {
+    item.container = item.container.replace(/<.*?>/gi, "");
+    return item;
+  });
+
   data.blogData = res.data;
   data.blogData.map((item: any, index: number) => {
     item.isdelete = false;

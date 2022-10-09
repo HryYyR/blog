@@ -163,7 +163,7 @@ export function loginout(userId: number) {
 export function getRecordData() {
    return axios({
       method: 'post',
-      url: '/admin/getRecordData',
+      url: '/api/admin/getRecordData',
    })
 }
 
@@ -171,7 +171,7 @@ export function getRecordData() {
 export function addRecord(container: string) {
    return axios({
       method: 'post',
-      url: '/admin/addRecord',
+      url: '/api/admin/addRecord',
       data: {
          container: container
       }
@@ -179,7 +179,7 @@ export function addRecord(container: string) {
 }
 
 // 上传图片
-export function File(img: string) {
+export function File(img: any) {
    return axios({
       method: 'post',
       url: '/api/File',

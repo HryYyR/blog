@@ -3,8 +3,11 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from "vue";
-import vuex from "vuex";
-onMounted(() => {});
+import { useStore } from "vuex";
+const store = useStore();
+onMounted(() => {
+  store.commit("getTimeState");
+});
 </script>
 
 <style lang="less">

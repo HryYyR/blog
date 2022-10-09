@@ -1,6 +1,11 @@
 <template>
-  <indexVue></indexVue>
-  <div class="blogContainer" :style="{ backgroundImage: data.bgImg }">
+  <indexVue :themeColor="data.themeColor"> </indexVue>
+  <div
+    class="blogContainer"
+    :style="{
+      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+    }"
+  >
     <!-- <div class="blogLeft">le</div> -->
     <div class="blogCenter">
       <!-- 最新博客标题 -->
@@ -61,6 +66,25 @@
     <blogRight />
   </div>
   <blogbottomVue></blogbottomVue>
+
+  <!-- 切换主题颜色 -->
+  <changeBgColor @changeBgColor="ChangeBgColor"></changeBgColor>
+  <!-- 太阳 -->
+  <div
+    class="sun"
+    :style="{ right: `${data.sunOptions.X}%`, bottom: `${data.sunOptions.Y}%` }"
+  >
+    <img src="https://hyyyh.top:3001/icon/sun.png" />
+  </div>
+  <!-- cover -->
+  <div
+    class="cover"
+    :style="{
+      opacity: data.coverOption.opacity,
+      backgroundColor: data.coverOption.color,
+      zIndex: data.coverOption.zIndex,
+    }"
+  ></div>
 </template>
 <script setup lang="ts">
 import titleVue from "../../components/title.vue";
@@ -69,22 +93,24 @@ import blogbottomVue from "../../components/blogbottom.vue";
 import blogoption from "../../components/blogoption.vue";
 import blogItem from "../../components/blogItem.vue";
 import blogRight from "../../components/blogRight.vue";
-import { reactive, onMounted, onUnmounted } from "vue";
-import axios from "axios";
+import changeBgColor from "../../components/change-bgColor.vue";
+import { reactive, onMounted, onUnmounted, h } from "vue";
 import { getBlogData } from "../../axios/apis";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import router from "../../router";
 import { useStore } from "vuex";
-import { log } from "console";
+import throttle from "../../func/throttle/throttle";
+import { nextTick } from "process";
+const store = useStore();
 
 const data = reactive({
   option: {
     newBlogTitle: {
-      src: "http://hyyyh.top:3001/icon/newblogtitle.svg",
+      src: "https://hyyyh.top:3001/icon/newblogtitle.svg",
       option: "最新博客",
     },
     allBlogTitle: {
-      src: "http://hyyyh.top:3001/icon/allblogtitle.svg",
+      src: "https://hyyyh.top:3001/icon/allblogtitle.svg",
       option: "所有博客",
     },
   },
@@ -99,9 +125,8 @@ const data = reactive({
   pageNum: 1, //分页
   Num: 5, //每页数量
   moreText: "更多",
-  // bgImg: "url(./src/assets/containerimg/con3.jpg)",
-  bgImg: "",
   scrollOption: {
+    screenH: 0,
     domHight: window.innerHeight,
     scrollTop: 0,
     id: <any>0,
@@ -110,18 +135,29 @@ const data = reactive({
     top: <any>0,
     bottom: <any>0,
   },
+  themeColor: { id: 0, start: "", end: "" }, //当前主题颜色
+  bgImgOptions: [{ id: 0, start: "", end: "" }], //所有主题颜色
+  sunOptions: {
+    //太阳位置
+    X: 3,
+    Y: -10,
+  },
+  coverOption: {
+    color: "red",
+    opacity: 0,
+    zIndex: -99,
+  },
 });
 
 onMounted(async () => {
-  const store = useStore();
-  store.state.isPC = window.innerWidth < 700 ? false : true;
-
+  data.themeColor = store.state.themeColor;
+  data.bgImgOptions = store.state.themeColorOption;
+  setsunPosition(data.themeColor.id);
   // 获取博客数据
   const res = await getBlogData(1, 5);
   if (res.status != 200) {
     return ElMessage.error("信息获取失败！");
   }
-
   if (!store.state.isPC) {
     res.data.map((item: any) => {
       item.isShow = 1;
@@ -129,25 +165,47 @@ onMounted(async () => {
     });
   } else {
     scrollToTop();
-    window.addEventListener("scroll", scrollToTop);
+    window.addEventListener("scroll", throttle(scrollToTop, 500));
   }
-
   // 消除html标签
   res.data.map((item: any) => {
     item.container = item.container.replace(/<.*?>/gi, "");
     return item;
   });
-
   // 渲染数据
-  data.newBlogData = res.data.splice(-1, 1);
+  data.newBlogData = res.data.splice(0, 1);
   data.showBlogData = res.data;
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", scrollToTop);
 });
 
+// 切换主题颜色
+const ChangeBgColor = (item: any) => {
+  data.coverOption = {
+    zIndex: 98,
+    color: item.start,
+    opacity: 1,
+  };
+  setTimeout(() => {
+    store.state.themeColor = item;
+    data.themeColor = item;
+    data.coverOption.opacity = 0;
+    setsunPosition(item.id);
+
+    setTimeout(() => {
+      data.coverOption.zIndex = -99;
+    }, 1000);
+  }, 2000);
+};
+
 //  滚动显示博客
 const scrollToTop = () => {
+  data.scrollOption.screenH = document.body.clientHeight - window.innerHeight;
+  if (data.scrollOption.screenH == data.scrollOption.scrollTop + 1) {
+    addMoreBlog();
+  }
+
   // 获取视窗高度
   // let domHight = window.innerHeight;
   // dom滚动位置
@@ -192,9 +250,39 @@ const addMoreBlog = async () => {
   data.pageNum++;
   const res = await getBlogData(data.pageNum, data.Num);
   if (res.data.length == 0) {
+    window.removeEventListener("scroll", scrollToTop);
     return (data.moreText = "暂无更多");
   }
   data.showBlogData = data.showBlogData.concat(res.data);
+};
+
+const setsunPosition = (id: number) => {
+  switch (id) {
+    case 0:
+      data.sunOptions = {
+        X: 3,
+        Y: -10,
+      };
+      break;
+    case 1:
+      data.sunOptions = {
+        X: 45,
+        Y: 90,
+      };
+      break;
+    case 2:
+      data.sunOptions = {
+        X: 94,
+        Y: 5,
+      };
+      break;
+    case 3:
+      data.sunOptions = {
+        X: -100,
+        Y: 100,
+      };
+      break;
+  }
 };
 </script>
 
@@ -204,14 +292,13 @@ const addMoreBlog = async () => {
 }
 .blogContainer {
   width: 100%;
-  background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(27, 41, 71));
   background-size: 800%;
   background-position: 0% 50%;
-
   display: flex;
   justify-content: center;
   padding: 6rem 0;
   overflow: hidden;
+  transition: 1s;
 
   animation: changecolor 30s infinite;
   @keyframes changecolor {
@@ -260,5 +347,34 @@ const addMoreBlog = async () => {
       }
     }
   }
+}
+.sun {
+  position: fixed;
+  z-index: 0;
+  width: 160px;
+  height: 160px;
+  animation: sun 20s infinite linear;
+  user-select: none;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes sun {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.cover {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  transition: 1.5s;
 }
 </style>

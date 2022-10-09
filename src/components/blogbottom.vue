@@ -31,7 +31,7 @@ const getLocalTime = (n: number) => {
   color: rgba(0, 0, 0, 0.7);
   height: 100px;
   width: 100%;
-  background-color: rgb(246, 247, 248);
+  background-color: rgba(246, 247, 248, 0.7);
   display: flex;
   flex-direction: column;
   justify-content: center;

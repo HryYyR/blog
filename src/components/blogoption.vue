@@ -19,6 +19,7 @@ defineProps({
 
 <style scoped lang="less">
 .newBlog_option {
+  z-index: 1;
   width: auto;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
   margin: v-bind(DefaultMargin);

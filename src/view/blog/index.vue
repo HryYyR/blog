@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <blogheader :bgColor="data.navColor"></blogheader>
-    <viewTitle :viewTitle="data.viewTitle" :isShow="data.isShowTitle"></viewTitle>
+    <viewTitle :viewTitle="data.viewTitle" :isShow="data.isShowTitle" :themeColor="themeColor" ></viewTitle>
     <router-view></router-view>
   </div>
 </template>
@@ -11,11 +11,11 @@ import viewTitle from "../../components/title.vue";
 import blogheader from "../../components/blogheader.vue";
 import blogbottomVue from "../../components/blogbottom.vue";
 import anime from "animejs";
-import { onMounted, onUnmounted, reactive, watchEffect } from "vue";
+import { onMounted, onUnmounted, reactive, watchEffect, defineProps } from "vue";
 import { useRouter } from "vue-router";
 import router from "../../router";
-import { verifyToken } from "../../axios/apis";
 import { useStore } from "vuex";
+import throttle from "../../func/throttle/throttle";
 const route = useRouter();
 const store = useStore();
 
@@ -23,16 +23,17 @@ const data = reactive({
   isShowTitle: true,
   viewTitle: "", //当前页面标题
   navColor: false,
+  isdisplay: true,
+});
+
+defineProps({
+  themeColor: {
+    type: Object,
+  },
 });
 
 onMounted(async () => {
-  const isToken = await verifyToken();
-  if (!isToken.data.token) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
-    localStorage.removeItem("id");
-  }
-
+  data.isShowTitle = store.state.isPC;
   window.addEventListener("scroll", changeNavColor);
 });
 onUnmounted(() => {
@@ -42,7 +43,7 @@ onUnmounted(() => {
 const changeNavColor = () => {
   let windowHeight;
   windowHeight = window.innerHeight;
-  if (window.scrollY > windowHeight - 50) {
+  if (window.scrollY > windowHeight - 70) {
     data.navColor = true;
   } else {
     data.navColor = false;
@@ -61,7 +62,7 @@ watchEffect(() => {
 }
 .container {
   width: 100%;
-  height: 99.9vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     BlogLeft: typeof import('./src/components/blogLeft.vue')['default']
     Blogoption: typeof import('./src/components/blogoption.vue')['default']
     BlogRight: typeof import('./src/components/blogRight.vue')['default']
+    ChangeBgColor: typeof import('./src/components/change-bgColor.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']

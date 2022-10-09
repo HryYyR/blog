@@ -67,9 +67,6 @@ onMounted(async () => {
     0% {
       background-position: 0% 50%;
     }
-    50% {
-      background-position: 100% 0%;
-    }
     100% {
       background-position: 0% 50%;
     }

@@ -34,9 +34,9 @@ const routes = [
 
 ]
 const router = createRouter({
-    // history: createWebHistory(),  //history
-    history: createWebHashHistory(), // hash
-    routes, // short for `routes: routes
+    history: createWebHistory(),  //history
+    // history: createWebHashHistory(), // hash
+    routes, 
 })
 
 // 用户判断登陆状态

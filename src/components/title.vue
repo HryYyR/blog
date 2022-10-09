@@ -1,5 +1,9 @@
 <template>
-  <div class="titleContainer" v-if="isShow">
+  <div
+    class="titleContainer"
+    v-if="isShow"
+    :style="{ backgroundImage: `linear-gradient(${themeColor.start},${themeColor.end})` }"
+  >
     <h1 class="titleWord" :class="data.wordInto ? 'wordInto' : ''">
       <!-- {{ props.viewTitle == "" ? "加载中。。。" : props.viewTitle }} -->
     </h1>
@@ -9,6 +13,10 @@
       :style="{ opacity: data.wordInto ? '1' : '0' }"
     >
       开启旅程
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
     <div class="down" @click="ToIndex">
       <img src="../assets/down.png" alt="" />
@@ -27,12 +35,15 @@
 </template>
 
 <script setup lang="ts">
+import { log } from "console";
+import { type } from "os";
 import { array } from "snabbdom";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch, defineProps } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
 const star = ref(null);
 
 const data = reactive({
-  // bgColor: "url(../src/assets/titleimg/1.jpg)",
   wordInto: false,
   target: <Element>{},
   bg: {
@@ -40,11 +51,18 @@ const data = reactive({
     distance: 800,
   },
 });
+type themeColor = {
+  start: string;
+  end: string;
+};
+watch(store.state.themeColor, (newvalue: themeColor, oldvalue: themeColor) => {
+  console.log(newvalue, oldvalue);
+});
 
 onMounted(() => {
   if (navigator.platform != "Win32") {
     data.bg.startnum = 80;
-    console.log("pe");
+    // console.log("pe");
   }
 
   setTimeout(() => {
@@ -81,10 +99,16 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  themeColor: {
+    type: Object,
+    default: { start: "", end: "" },
+  },
 });
 </script>
 
 <style scoped lang="less">
+@import "../css-compoments/nav-btn.css";
+
 .titleContainer {
   width: 100%;
   height: 99.9vh;
@@ -97,7 +121,7 @@ const props = defineProps({
   overflow: hidden;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: linear-gradient(#1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+  background-image: linear-gradient(#6cc6cb, #eae59c);
   background-attachment: fixed;
   transition: 0.3s;
   .titleWord {
@@ -124,34 +148,14 @@ const props = defineProps({
     position: relative;
     top: 2rem;
     font-size: 1.2rem;
+    letter-spacing: 4px;
     border-radius: 10px;
     font-family: STHupo !important ;
     backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.2);
-    color: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.4);
-    animation: navbtn 1s infinite alternate;
-
-    @keyframes navbtn {
-      from {
-        background: rgba(0, 0, 0, 0.2);
-        color: rgba(255, 255, 255, 0.4);
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.4);
-      }
-      to {
-        transition: 0.5s;
-        box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        background: rgba(0, 0, 0, 0.1);
-        color: white;
-      }
-    }
-
-    &:hover {
-      animation-play-state: paused;
-    }
+    border: none;
+    background-color: transparent;
+    color: white;
+    overflow: hidden;
   }
   .down {
     z-index: 80;
@@ -189,6 +193,7 @@ const props = defineProps({
   left: 45%;
   animation: rotate 90s infinite linear;
   bottom: 0;
+  user-select: none;
 }
 .star {
   width: 2px;
@@ -199,6 +204,7 @@ const props = defineProps({
   left: 0;
   top: 0;
   backface-visibility: hidden;
+  user-select: none;
 }
 .bg {
   width: 100%;

@@ -264,7 +264,7 @@ const islogin = async () => {
       flex-direction: column;
       align-items: center;
       .content_container {
-        padding: 1rem;
+        padding: 1rem 1rem 1rem 3rem;
         background-color: white;
         display: flex;
         flex-direction: column;

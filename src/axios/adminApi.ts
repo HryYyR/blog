@@ -5,7 +5,7 @@ axios.defaults.baseURL = 'http://localhost:3001'
 export function getAdminBlogData(pageNum:number,num:number){
    return axios({
       method:'post',
-      url: '/admin/getBlogData',
+      url: '/api/admin/getBlogData',
       data:{
          pageNum:pageNum,
          num:num
@@ -17,7 +17,7 @@ export function getAdminBlogData(pageNum:number,num:number){
 export function getAdminLabelData(){
    return axios({
       method:'post',
-      url: '/admin/getLabelData',
+      url: '/api/admin/getLabelData',
     })
 }
 
@@ -25,7 +25,7 @@ export function getAdminLabelData(){
 export function getAdminSortData(){
    return axios({
       method:'post',
-      url: '/admin/getSortData',
+      url: '/api/admin/getSortData',
     })
 }
 
@@ -33,7 +33,7 @@ export function getAdminSortData(){
 export function getAdminCommentData(){
    return axios({
       method:'post',
-      url: '/admin/getCommentData',
+      url: '/api/admin/getCommentData',
     })
 }
 
@@ -41,7 +41,7 @@ export function getAdminCommentData(){
 export function getAdminLuadData(){
    return axios({
       method:'post',
-      url: '/admin/getLaudData',
+      url: '/api/admin/getLaudData',
     })
 }
 
@@ -49,7 +49,7 @@ export function getAdminLuadData(){
 export function getAdminUserData(){
    return axios({
       method:'post',
-      url: '/admin/getUserData',
+      url: '/api/admin/getUserData',
     })
 }
 
@@ -57,7 +57,7 @@ export function getAdminUserData(){
 export function getAdminGradeData(){
    return axios({
       method:'post',
-      url: '/admin/getGradeData',
+      url: '/api/admin/getGradeData',
     })
 }
 
@@ -65,7 +65,7 @@ export function getAdminGradeData(){
 export function addblog(title:String,container:String,labellist:any,sortID:number,Img:string){
    return axios({
       method:'post',
-      url: '/admin/addblog',
+      url: '/api/admin/addblog',
       data:{
          title:title,
          container:container,
@@ -80,7 +80,7 @@ export function addblog(title:String,container:String,labellist:any,sortID:numbe
 export function deleteBlog(id:number){
    return axios({
       method:'post',
-      url: '/admin/deleteblog',
+      url: '/api/admin/deleteblog',
       data:{
          id:id
       }

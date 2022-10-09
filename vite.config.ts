@@ -4,7 +4,6 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-
 export default defineConfig({
   define: {
     'process.env': {}
@@ -31,7 +30,8 @@ export default defineConfig({
       qc: 'QC'
     }
   },
-  base: process.env.NODE_ENV === 'production' ? './' : '/',
+  base: '/',  //history
+  // base: process.env.NODE_ENV === 'production' ? './' : '/',  //hash
   build: {
     rollupOptions: {
       output: {

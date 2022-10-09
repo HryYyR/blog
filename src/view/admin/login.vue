@@ -303,7 +303,7 @@ input {
   display: flex;
   align-items: center;
   z-index: 1;
-  background-image: linear-gradient(135deg, rgb(246, 240, 180), rgb(155, 224, 95));
+  background-image: linear-gradient(135deg, #f9957f, #f2f5d0);
   .backindex {
     position: absolute;
     left: 10px;

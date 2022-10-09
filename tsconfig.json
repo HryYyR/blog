@@ -25,7 +25,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-, "src/main.ts", "src/func/wave/wave.es.min.js"  ],
+, "src/main.ts", "src/func/wave/wave.es.min.js", "src/func/debounce/.es.min.d.ts"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

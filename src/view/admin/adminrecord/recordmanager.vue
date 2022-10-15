@@ -38,6 +38,7 @@ const toRecord = async () => {
   }
   ElMessage.success(res.data.msg);
   data.recordData = res.data.data;
+  data.inputContainer = "";
 };
 </script>
 

@@ -1,13 +1,99 @@
 <template>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <keep-alive include="about">
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+
+  <!-- 切换主题颜色 -->
+  <changeBgColorVue @ChangeBgColor="ChangeBgColor" />
+  <!-- 太阳 -->
+  <div
+    class="sun"
+    :style="{ right: `${data.sunOptions.X}%`, bottom: `${data.sunOptions.Y}%` }"
+  >
+    <img src="https://hyyyh.top:3001/icon/sun.png" />
+  </div>
+  <!-- 覆盖层 -->
+  <div
+    class="stylecover"
+    :style="{
+      opacity: data.coverOption.opacity,
+      backgroundColor: data.coverOption.color,
+      zIndex: data.coverOption.zIndex,
+    }"
+  ></div>
 </template>
 <script setup lang="ts">
-import { onMounted } from "vue";
+import changeBgColorVue from "./components/change-bgColor.vue";
+import { onMounted, reactive } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
 onMounted(() => {
   store.commit("getTimeState");
+  store.state.userid = localStorage.getItem("id") || "-1";
+  store.state.username = localStorage.getItem("name") || "";
 });
+const data = reactive({
+  //太阳位置
+  sunOptions: {
+    X: 3,
+    Y: -10,
+  },
+  // 覆盖层数据
+  coverOption: {
+    color: "white",
+    opacity: 0,
+    zIndex: -99,
+  },
+});
+
+// 切换主题颜色
+const ChangeBgColor = (item: any) => {
+  data.coverOption = {
+    zIndex: 98,
+    color: item.start,
+    opacity: 1,
+  };
+  setTimeout(() => {
+    store.state.themeColor = item;
+    data.coverOption.opacity = 0;
+    setsunPosition(item.id);
+
+    setTimeout(() => {
+      data.coverOption.zIndex = -99;
+    }, 1000);
+  }, 2000);
+};
+// 设定太阳位置
+const setsunPosition = (id: number) => {
+  switch (id) {
+    case 0:
+      data.sunOptions = {
+        X: 3,
+        Y: -10,
+      };
+      break;
+    case 1:
+      data.sunOptions = {
+        X: 45,
+        Y: 90,
+      };
+      break;
+    case 2:
+      data.sunOptions = {
+        X: 94,
+        Y: 5,
+      };
+      break;
+    case 3:
+      data.sunOptions = {
+        X: -100,
+        Y: 100,
+      };
+      break;
+  }
+};
 </script>
 
 <style lang="less">
@@ -53,6 +139,9 @@ onMounted(() => {
     }
     .pass {
       width: 100% !important;
+      input {
+        min-width: 170px !important;
+      }
     }
     .login_container {
       width: 100% !important;
@@ -123,6 +212,9 @@ onMounted(() => {
     }
     .content {
       width: 100% !important;
+      .content_container {
+        padding: 0.2rem !important;
+      }
     }
     .edit {
       display: none !important;
@@ -135,7 +227,8 @@ onMounted(() => {
       overflow-x: scroll !important;
     }
     .comment {
-      width: 92% !important;
+      width: 93% !important;
+      min-width: 0 !important;
     }
   }
   /* record  */
@@ -161,7 +254,10 @@ onMounted(() => {
       padding: 0 !important;
     }
     .interaction_comment {
-      width: 94% !important ;
+      width: 87% !important ;
+      .interaction_time {
+        display: none !important;
+      }
     }
   }
 
@@ -213,6 +309,50 @@ onMounted(() => {
       height: 100% !important;
     }
   }
+
+  /*  friendlink  */
+  .friend_link {
+    .friend_link_container {
+      width: 95% !important;
+      .input {
+        width: 85% !important;
+        flex-direction: column !important;
+        & > div {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+}
+
+.sun {
+  position: fixed;
+  z-index: 0;
+  width: 160px;
+  height: 160px;
+  animation: sun 20s infinite linear;
+  user-select: none;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes sun {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.stylecover {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  transition: 1.5s;
 }
 
 ::-webkit-scrollbar {

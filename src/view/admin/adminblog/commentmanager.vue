@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from "element-plus";
 import { reactive, onMounted } from "vue";
 import { getAdminCommentData } from "../../../axios/adminApi";
 const data = reactive({
@@ -31,6 +32,10 @@ const data = reactive({
 
 onMounted(async () => {
   const res = await getAdminCommentData();
+  if (res.status != 200) {
+    return ElMessage.error("数据获取失败！");
+  }
+
   data.commentData = res.data;
 });
 </script>

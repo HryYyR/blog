@@ -67,9 +67,20 @@
 
 <script setup lang="ts">
 import { array } from "snabbdom";
-import { defineProps } from "vue";
+import {} from "vue";
 import router from "../router/index";
 import { useStore } from "vuex";
+import VanillaTilt from "vanilla-tilt";
+
+let domArr: any = document.querySelectorAll(".newBlog");
+let VanillaTiltOption = {
+  reverse: true,
+  scale: 1,
+  max: 5,
+  speed: 1000,
+  // "full-page-listening": true,
+};
+VanillaTilt.init(domArr, VanillaTiltOption);
 const store = useStore();
 defineProps({
   blogId: {

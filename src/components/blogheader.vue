@@ -26,7 +26,8 @@ const data = reactive({
   navList: [
     { name: "blog", path: "/blog", title: "首页" },
     { name: "sort", path: "/sort", title: "分类" },
-    { name: "interaction", path: "/interaction", title: "互动" },
+    { name: "interaction", path: "/interaction", title: "留言板" },
+    { name: "friendLink", path: "/friendLink", title: "友链" },
     { name: "record", path: "/record", title: "记录" },
     { name: "message", path: "/about", title: "关于" },
     { name: "login", path: "/login", title: "登录" },
@@ -63,7 +64,7 @@ const jump = async (name: string, index: number) => {
     // data.loading = !data.loading;
     if (localStorage.getItem("id") && name == "login") {
       if (localStorage.getItem("id") != "1") {
-        return ElMessage.error("暂未开放");
+        return ElMessage.error("权限不够哦！");
       }
       return router.push({ path: "/admin" });
     }

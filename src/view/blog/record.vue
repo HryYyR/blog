@@ -1,9 +1,20 @@
 <template>
   <div>
-    <blogheaderVue></blogheaderVue>
-    <div class="record">
+    <blogheaderVue :bgColor="true"></blogheaderVue>
+    <div
+      class="record"
+      :style="{
+        backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      }"
+    >
       <div class="record_body">
-        <div class="rope"></div>
+        <div
+          class="rope"
+          :style="{
+            borderColor:
+              data.themeColor.id != 3 ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255,255,255,0.3)',
+          }"
+        ></div>
         <div class="record_container">
           <div
             class="record_item"
@@ -11,29 +22,45 @@
             v-for="(item, index) in data.recordData"
             :key="index"
           >
-            <p class="record_text" :style="{ color: index % 3 == 0 ? 'white' : 'black' }">
+            <p
+              class="record_text"
+              :style="{
+                color: index % 3 == 0 && data.themeColor.id != 3 ? 'black' : 'white',
+              }"
+            >
               {{ item.container }}
             </p>
-            <p class="record_time">{{ item.createtime }}</p>
+            <p
+              class="record_time"
+              :style="{
+                color: data.themeColor.id != 3 ? 'black' : 'rgba(255,255,255,0.5)',
+              }"
+            >
+              {{ item.createtime }}
+            </p>
           </div>
         </div>
       </div>
-
-      <blogRightVue></blogRightVue>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, watch } from "vue";
 import blogheaderVue from "../../components/blogheader.vue";
 import blogRightVue from "../../components/blogRight.vue";
 import { getRecordData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
 import anime from "animejs";
+import { useStore } from "vuex";
+let store = useStore();
 const data = reactive({
   bgUrl: "http://hyyyh.top:3001/recordbg.jpg",
   recordData: <any>[],
+  themeColor: store.state.themeColor,
+});
+watch(store.state, (newvalue, oldvalue) => {
+  data.themeColor = newvalue.themeColor;
 });
 onMounted(async () => {
   const res = await getRecordData();
@@ -116,7 +143,8 @@ onMounted(async () => {
     width: 8px;
     height: 8px;
     border-radius: 10px;
-    border: 2px solid gray;
+    border: 2px solid transparent;
+    background-color: white;
   }
 }
 .after {
@@ -131,7 +159,8 @@ onMounted(async () => {
     width: 8px;
     height: 8px;
     border-radius: 10px;
-    border: 2px solid gray;
+    border: 2px solid transparent;
+    background-color: white;
   }
 }
 </style>

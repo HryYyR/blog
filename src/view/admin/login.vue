@@ -39,7 +39,7 @@
         </div>
         <div class="name">
           <span>邮箱:</span
-          ><input type="text" placeholder="邮箱" v-model="data.rigister.email" />
+          ><input type="email" placeholder="邮箱" v-model="data.rigister.email" />
         </div>
         <div class="name">
           <span>密码:</span>
@@ -92,7 +92,7 @@ import router from "../../router";
 import anime from "animejs";
 import { login, rigister } from "../../axios/apis";
 import { useStore } from "vuex";
-
+const store = useStore();
 const data = reactive({
   user: "",
   pass: "",
@@ -111,7 +111,6 @@ const data = reactive({
     distance: 800,
   },
 });
-const store = useStore();
 onMounted(() => {
   data.yzm = JSON.stringify(Math.floor(Math.random() * 8999 + 1000));
   setTimeout(() => {
@@ -153,6 +152,9 @@ const sendLogin = async () => {
       localStorage.setItem("name", res.data.name);
       localStorage.setItem("id", res.data.id);
       localStorage.setItem("token", res.data.token);
+      store.state.userid = res.data.id;
+      store.state.username = res.data.name;
+      store.state.token = res.data.token;
 
       router.push("/blog");
       return;
@@ -303,7 +305,7 @@ input {
   display: flex;
   align-items: center;
   z-index: 1;
-  background-image: linear-gradient(135deg, #f9957f, #f2f5d0);
+  background-image: url(https://hyyyh.top:3001/bg/loginbg.png);
   .backindex {
     position: absolute;
     left: 10px;
@@ -316,6 +318,7 @@ input {
     overflow: hidden;
     width: 30%;
     min-width: 500px;
+    min-height: 230px;
     z-index: 99;
     opacity: 1;
     height: 30%;
@@ -435,9 +438,11 @@ input {
     background-color: white;
     border: 1px solid gray;
     position: relative;
+    min-height: 86px;
     input {
       width: 300px;
       height: 43px;
+      min-height: 43px;
       padding: 0;
       overflow: hidden;
     }
@@ -450,7 +455,8 @@ input {
     }
     .pass {
       input {
-        width: 250px;
+        width: auto;
+        min-width: 250px;
       }
       .forgetPass {
         cursor: pointer;
@@ -463,7 +469,7 @@ input {
 }
 .yzm {
   width: 100px;
-  background-color: green;
+  background-color: rgb(239, 207, 64);
   height: 70px;
   font-size: 2rem;
   position: relative;

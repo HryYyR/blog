@@ -17,7 +17,7 @@ export async function getIpAndPath() {
 
 
 // 获取所有博客
-export function getBlogData(pageNum: number, num: number) {
+export function getBlogData(pageNum?: number, num?: number) {
    return axios({
       method: 'get',
       url: `/api/getBlogData?pageNum=${pageNum}&num=${num}`,

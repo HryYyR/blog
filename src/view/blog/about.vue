@@ -206,9 +206,7 @@ onMounted(async () => {
   const bodyheight = window.innerHeight;
 
   const aboutbg = new Image(data.scrollwidth, data.scrollheigth); //创建图片
-  const bg = await getaboutbg(); //获取图片信息
-  // console.log(bg.data);
-  // ------------------------
+  const bg: any = await getaboutbg(); //获取图片信息
 
   // -------------------
   data.objectURL = URL.createObjectURL(bg.data); //创建url
@@ -345,6 +343,7 @@ function getaboutbg() {
       transition: 0.5s;
       opacity: 1;
       background-color: rgba(105, 104, 121, 0.2);
+      color: white;
       li {
         line-height: 1.5rem;
         color: rgba(255, 255, 255, 0.7);

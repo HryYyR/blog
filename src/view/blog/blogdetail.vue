@@ -131,7 +131,14 @@ onMounted(async () => {
     ElMessage.error(blogRes.data.msg);
     return ElMessage.error(commentRes.data.msg);
   }
+  blogRes.data.data[0].container = blogRes.data.data[0].container.replace(
+    "<pre>",
+    "<pre style='background-color:rgb(33,37,43);color:white;padding:1rem;min-width:600px'>"
+  );
+
   data.blogData = blogRes.data.data[0];
+  // console.log(data.blogData);
+
   data.commentData = commentRes.data.data;
 
   // 获取点赞数
@@ -293,11 +300,12 @@ const islogin = async () => {
       .comment {
         height: auto;
         background-color: white;
-        width: 100%;
+        width: 96%;
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
         padding: 1rem;
+        min-width: 665px;
         .myComment {
           margin-bottom: 1rem;
           & h2 {

@@ -66,25 +66,6 @@
     <blogRight />
   </div>
   <blogbottomVue></blogbottomVue>
-
-  <!-- 切换主题颜色 -->
-  <changeBgColor @changeBgColor="ChangeBgColor"></changeBgColor>
-  <!-- 太阳 -->
-  <div
-    class="sun"
-    :style="{ right: `${data.sunOptions.X}%`, bottom: `${data.sunOptions.Y}%` }"
-  >
-    <img src="https://hyyyh.top:3001/icon/sun.png" />
-  </div>
-  <!-- cover -->
-  <div
-    class="cover"
-    :style="{
-      opacity: data.coverOption.opacity,
-      backgroundColor: data.coverOption.color,
-      zIndex: data.coverOption.zIndex,
-    }"
-  ></div>
 </template>
 <script setup lang="ts">
 import titleVue from "../../components/title.vue";
@@ -94,7 +75,7 @@ import blogoption from "../../components/blogoption.vue";
 import blogItem from "../../components/blogItem.vue";
 import blogRight from "../../components/blogRight.vue";
 import changeBgColor from "../../components/change-bgColor.vue";
-import { reactive, onMounted, onUnmounted, h } from "vue";
+import { reactive, onMounted, onUnmounted, onBeforeUnmount, h, watch } from "vue";
 import { getBlogData } from "../../axios/apis";
 import { ElMessage, ElNotification } from "element-plus";
 import router from "../../router";
@@ -124,7 +105,7 @@ const data = reactive({
   showBlogData: <any>[], //展示的博客数据
   pageNum: 1, //分页
   Num: 5, //每页数量
-  moreText: "更多",
+  moreText: "获取更多",
   scrollOption: {
     screenH: 0,
     domHight: window.innerHeight,
@@ -135,24 +116,14 @@ const data = reactive({
     top: <any>0,
     bottom: <any>0,
   },
-  themeColor: { id: 0, start: "", end: "" }, //当前主题颜色
-  bgImgOptions: [{ id: 0, start: "", end: "" }], //所有主题颜色
-  sunOptions: {
-    //太阳位置
-    X: 3,
-    Y: -10,
-  },
-  coverOption: {
-    color: "red",
-    opacity: 0,
-    zIndex: -99,
-  },
+  themeColor: store.state.themeColor, //当前主题颜色
+});
+watch(store.state, (newvalue, oldvalue) => {
+  data.themeColor = newvalue.themeColor;
 });
 
 onMounted(async () => {
   data.themeColor = store.state.themeColor;
-  data.bgImgOptions = store.state.themeColorOption;
-  setsunPosition(data.themeColor.id);
   // 获取博客数据
   const res = await getBlogData(1, 5);
   if (res.status != 200) {
@@ -165,47 +136,50 @@ onMounted(async () => {
     });
   } else {
     scrollToTop();
-    window.addEventListener("scroll", throttle(scrollToTop, 500));
+    window.addEventListener("scroll", throttle(scrollToTop, 200));
   }
   // 消除html标签
-  res.data.map((item: any) => {
-    item.container = item.container.replace(/<.*?>/gi, "");
-    return item;
-  });
+  // res.data.map((item: any) => {
+  //   item.container = item.container.replace(/<.*?>/gi, "");
+  //   return item;
+  // });
+  clearHTML(res.data);
   // 渲染数据
   data.newBlogData = res.data.splice(0, 1);
   data.showBlogData = res.data;
 });
-onUnmounted(() => {
+
+onBeforeUnmount(() => {
   window.removeEventListener("scroll", scrollToTop);
 });
 
-// 切换主题颜色
-const ChangeBgColor = (item: any) => {
-  data.coverOption = {
-    zIndex: 98,
-    color: item.start,
-    opacity: 1,
-  };
-  setTimeout(() => {
-    store.state.themeColor = item;
-    data.themeColor = item;
-    data.coverOption.opacity = 0;
-    setsunPosition(item.id);
+// 加载更多
+const addMoreBlog = async () => {
+  data.pageNum++;
+  const res = await getBlogData(data.pageNum, data.Num);
+  if (res.data.length == 0) {
+    window.removeEventListener("scroll", scrollToTop);
+    return (data.moreText = "暂无更多");
+  }
+  !store.state.isPC && res.data.map((item: any) => (item.isShow = 1)); //如果是手机就直接显示
+  clearHTML(res.data);
+  data.showBlogData = data.showBlogData.concat(res.data);
+};
 
-    setTimeout(() => {
-      data.coverOption.zIndex = -99;
-    }, 1000);
-  }, 2000);
+// 清除html标签
+const clearHTML = (data: any) => {
+  data.map((item: any) => {
+    item.container = item.container.replace(/<.*?>/gi, "");
+    return item;
+  });
 };
 
 //  滚动显示博客
 const scrollToTop = () => {
   data.scrollOption.screenH = document.body.clientHeight - window.innerHeight;
-  if (data.scrollOption.screenH == data.scrollOption.scrollTop + 1) {
-    addMoreBlog();
-  }
-
+  // if (data.scrollOption.scrollTop + 1 > data.scrollOption.screenH) {
+  //   addMoreBlog();
+  // }
   // 获取视窗高度
   // let domHight = window.innerHeight;
   // dom滚动位置
@@ -245,45 +219,6 @@ const scrollToTop = () => {
     }
   });
 };
-// 加载更多
-const addMoreBlog = async () => {
-  data.pageNum++;
-  const res = await getBlogData(data.pageNum, data.Num);
-  if (res.data.length == 0) {
-    window.removeEventListener("scroll", scrollToTop);
-    return (data.moreText = "暂无更多");
-  }
-  data.showBlogData = data.showBlogData.concat(res.data);
-};
-
-const setsunPosition = (id: number) => {
-  switch (id) {
-    case 0:
-      data.sunOptions = {
-        X: 3,
-        Y: -10,
-      };
-      break;
-    case 1:
-      data.sunOptions = {
-        X: 45,
-        Y: 90,
-      };
-      break;
-    case 2:
-      data.sunOptions = {
-        X: 94,
-        Y: 5,
-      };
-      break;
-    case 3:
-      data.sunOptions = {
-        X: -100,
-        Y: 100,
-      };
-      break;
-  }
-};
 </script>
 
 <style scoped lang="less">
@@ -320,12 +255,12 @@ const setsunPosition = (id: number) => {
   }
 
   .blogCenter {
-    overflow: hidden;
     width: 45%;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
     .moreBlock {
       width: auto;
       display: flex;
@@ -341,6 +276,8 @@ const setsunPosition = (id: number) => {
         transition: 0.2s;
         border-radius: 25px;
         font-family: heiti;
+        font-size: 1.1rem;
+        font-weight: 600;
         color: gray;
         border: none;
         background-color: transparent;

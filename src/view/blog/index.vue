@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <blogheader :bgColor="data.navColor"></blogheader>
-    <viewTitle :viewTitle="data.viewTitle" :isShow="data.isShowTitle" :themeColor="themeColor" ></viewTitle>
+    <viewTitle
+      :viewTitle="data.viewTitle"
+      :isShow="data.isShowTitle"
+      :themeColor="themeColor"
+    ></viewTitle>
     <router-view></router-view>
   </div>
 </template>
@@ -11,7 +15,14 @@ import viewTitle from "../../components/title.vue";
 import blogheader from "../../components/blogheader.vue";
 import blogbottomVue from "../../components/blogbottom.vue";
 import anime from "animejs";
-import { onMounted, onUnmounted, reactive, watchEffect, defineProps } from "vue";
+import {
+  onMounted,
+  onBeforeUnmount,
+  onUnmounted,
+  reactive,
+  watchEffect,
+  defineProps,
+} from "vue";
 import { useRouter } from "vue-router";
 import router from "../../router";
 import { useStore } from "vuex";
@@ -33,10 +44,10 @@ defineProps({
 });
 
 onMounted(async () => {
-  data.isShowTitle = store.state.isPC;
+  // data.isShowTitle = store.state.isPC;
   window.addEventListener("scroll", changeNavColor);
 });
-onUnmounted(() => {
+onBeforeUnmount(() => {
   window.removeEventListener("click", changeNavColor);
 });
 // 切换导航栏颜色

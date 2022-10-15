@@ -1,28 +1,44 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    :style="{
+      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+    }"
+  >
     <blogheaderVue :bgColor="true"></blogheaderVue>
     <div class="sort_container">
-      <div class="sort_nav" :style="{ opacity: data.isshownav ? 1 : 0 }">
+      <div
+        class="sort_nav"
+        :style="{
+          opacity: data.isshownav ? 1 : 0,
+          backgroundColor:
+            data.themeColor.id == 3 ? 'rgba(255,255,255,0.5)' : 'rgba(0, 0, 0, 0.1)',
+        }"
+      >
         <div class="sort_nav_sorter">
           <span> 分类：</span>
-          <div
-            v-for="(item, index) in data.sortData"
-            :key="item.id"
-            @click="clickSort(item)"
-            :class="item.check ? 'check' : ''"
-          >
-            {{ item.name }}
+          <div>
+            <div
+              v-for="(item, index) in data.sortData"
+              :key="item.id"
+              @click="clickSort(item)"
+              :class="item.check ? 'check' : ''"
+            >
+              {{ item.name }}
+            </div>
           </div>
         </div>
         <div class="sort_nav_label">
           <span>标签：</span>
-          <div
-            v-for="(item, index) in data.labelData"
-            :key="item.id"
-            @click="clickLabel(item)"
-            :class="item.check ? 'check' : ''"
-          >
-            {{ item.name }}
+          <div>
+            <div
+              v-for="(item, index) in data.labelData"
+              :key="item.id"
+              @click="clickLabel(item)"
+              :class="item.check ? 'check' : ''"
+            >
+              {{ item.name }}
+            </div>
           </div>
         </div>
       </div>
@@ -59,12 +75,13 @@
 <script setup lang="ts">
 import blogItemVue from "../../components/blogItem.vue";
 import blogheaderVue from "../../components/blogheader.vue";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, watch } from "vue";
 import { getAdminLabelData, getAdminSortData } from "../../axios/adminApi";
 import { getBlogData, getAssignSortLabelData } from "../../axios/apis";
 import { ElMessage } from "element-plus";
 import anime from "animejs";
-
+import { useStore } from "vuex";
+let store = useStore();
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],
@@ -74,8 +91,11 @@ const data = reactive({
   isshownav: false,
   isshowcontainer: false,
   isloading: false,
+  themeColor: store.state.themeColor,
 });
-
+watch(store.state, (newvalue, oldvalue) => {
+  data.themeColor = newvalue.themeColor;
+});
 onMounted(async () => {
   let labelres = await getAdminLabelData();
   if (labelres.status == 200) {
@@ -93,7 +113,9 @@ onMounted(async () => {
   }
   data.isshownav = true;
 
-  const blogres = await getBlogData(1, 5);
+  const blogres = await getBlogData(0, 0);
+  // console.log(blogres);
+
   if (blogres.status != 200) {
     return ElMessage.error("信息获取失败！");
   }
@@ -177,25 +199,38 @@ const handleblogdata = (data: any) => {
     .sort_nav {
       width: 100%;
       height: auto;
-      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
       transition: 1s;
-      & > div {
+      display: flex;
+      flex-direction: column;
+      & span {
+        color: white;
+        margin: 0.1rem 0.3rem;
+      }
+      .sort_nav_label,
+      .sort_nav_sorter {
         display: flex;
         flex-wrap: wrap;
         margin: 1rem 1rem;
-        justify-content: center;
         align-items: center;
         & > div {
-          cursor: pointer;
-          user-select: none;
-          width: auto;
-          height: auto;
-          border: 2px solid rgba(38, 0, 255, 0.3);
-          padding: 0.2rem 0.5rem;
-          margin: 0.1rem 0.3rem;
-          transition: 0.3s;
-          &:hover {
-            border: 2px dashed white;
+          display: flex;
+          flex-wrap: wrap;
+          & > div {
+            cursor: pointer;
+            user-select: none;
+            width: auto;
+            height: auto;
+            border: 2px solid white;
+            border-radius: 8px;
+            background-color: white;
+            padding: 0.2rem 0.5rem;
+            margin: 0.1rem 0.3rem;
+            transition: 0.3s;
+            &:hover {
+              background-color: rgb(226, 226, 226);
+              border: 2px dashed rgba(255, 255, 255, 1);
+            }
           }
         }
       }
@@ -219,8 +254,8 @@ const handleblogdata = (data: any) => {
   }
 }
 .check {
-  border: 2px dashed white !important;
-  background-color: skyblue;
+  border: 2px dashed rgb(255, 255, 255) !important;
+  background-color: rgb(153, 210, 248) !important;
   color: white;
 }
 .loading {

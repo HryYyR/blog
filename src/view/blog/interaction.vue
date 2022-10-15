@@ -1,8 +1,21 @@
 <template>
-  <div class="interaction_container">
+  <div
+    class="interaction_container"
+    :style="{
+      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+    }"
+  >
     <blogheaderVue :bgColor="true" />
     <div class="interaction_body">
-      <div class="interaction_body_container">
+      <div
+        class="interaction_body_container"
+        :style="{
+          backgroundColor:
+            data.themeColor.id == 3
+              ? 'rgba(243, 243, 255, 0.9)'
+              : 'rgba(243, 243, 255, 0.7)',
+        }"
+      >
         <h1>留言板</h1>
         <div class="interaction__inputbody">
           <el-input
@@ -80,18 +93,17 @@
           </div>
         </div>
       </div>
-      <blogRightVue></blogRightVue>
     </div>
   </div>
   <tologindialogVue :isshow="data.isshowtologindialog" @back="closedialog" />
-  <div class="wave" :style="{ opacity: data.isshowwave }"></div>
+  <div class="wave" :style="{ opacity: data.isshowwave, zIndex: 0 }"></div>
 </template>
 
 <script setup lang="ts">
 import blogheaderVue from "../../components/blogheader.vue";
 import blogRightVue from "../../components/blogRight.vue";
 import Wave from "../../func/wave/wave.es.min";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, watch } from "vue";
 import anime from "animejs";
 import { ElMessage } from "element-plus";
 import {
@@ -103,7 +115,8 @@ import {
   getIpAndPath,
 } from "../../axios/apis";
 import tologindialogVue from "../../components/tologindialog.vue";
-import { log } from "console";
+import { useStore } from "vuex";
+let store = useStore();
 const data = reactive({
   textarea: "",
   commentData: <any>[],
@@ -114,6 +127,10 @@ const data = reactive({
   userhasbeenlaudData: [],
   replycontent: "",
   newopenreplydialogIndex: -1,
+  themeColor: store.state.themeColor,
+});
+watch(store.state, (newvalue, oldvalue) => {
+  data.themeColor = newvalue.themeColor;
 });
 onMounted(async () => {
   let myAnimation = anime({
@@ -165,7 +182,7 @@ onMounted(async () => {
 // 提交留言
 const submitcomment = async () => {
   if (!data.userid || !data.username) {
-    return ElMessage.error("未登录");
+    // ElMessage.error("未登录");
   }
   if (data.textarea == "" || data.textarea.length < 5) {
     return ElMessage.error("您输入的字数不够哦！");
@@ -173,17 +190,17 @@ const submitcomment = async () => {
 
   let { ip }: any = await getIpAndPath();
   const resolve = await addinteraction(
-    data.userid,
-    data.username,
+    data.userid || "-1",
+    data.username || "游客",
     data.textarea,
-    "1",
+    data.userid ? "1" : "-1",
     0,
     -1,
     ip
   );
 
   if (resolve.status == 200) {
-    data.commentData = resolve.data.data;
+    data.commentData = await (await getallinteraction()).data.data;
     data.commentData.map((item: any) => {
       if (data.userhasbeenlaudData.includes(<never>item.id)) {
         item.islaud = true;
@@ -204,7 +221,7 @@ const laudinteraction = async (interaction: any) => {
     return (data.isshowtologindialog = true);
   } else {
     const islaudres = await interactionhasBeenLaud(interaction.id, parseInt(data.userid));
-    console.log(islaudres);
+    // console.log(islaudres);
 
     if (islaudres.status == 201) {
       ElMessage.error("你已经点赞过了！");
@@ -216,7 +233,7 @@ const laudinteraction = async (interaction: any) => {
       interaction.laudnum++;
       interaction.islaud = true;
     }
-    console.log(resolve);
+    // console.log(resolve);
   }
 };
 
@@ -267,7 +284,7 @@ const submitreply = async () => {
 };
 
 const judge = (data: any) => {
-  return data.map((item: any) => {
+  data.map((item: any) => {
     if (data.userhasbeenlaudData.includes(<never>item.id)) {
       item.islaud = true;
     } else {
@@ -285,14 +302,16 @@ const closedialog = () => {
 .interaction_container {
   display: flex;
   justify-content: center;
+
   .interaction_body {
     display: flex;
     justify-content: center;
     width: 100vw;
     .interaction_body_container {
+      z-index: 1;
       width: 50vw;
-      background-color: rgba(243, 243, 255, 0.7);
-      box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 15px 0px -5px rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
       min-height: 100vh;
       margin: 7rem 0;
       position: relative;

@@ -1,8 +1,13 @@
 <template>
   <div class="bottom">
     <p>技术栈：Vue3+Element-Plus+Node+Mysql</p>
-    <p>© 2022 HYYYH. ALL RIGHTS RESERVED.</p>
     <p>至今已苟延残喘{{ data.date }}</p>
+    <p>
+      <span>© 2022 HYYYH. ALL RIGHTS RESERVED. </span>
+      <a href="https://beian.miit.gov.cn" target="_blank">蜀ICP备2021029882号-1</a>
+    </p>
+
+    <p></p>
   </div>
 </template>
 

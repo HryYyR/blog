@@ -2,9 +2,9 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { verifyToken } from '../axios/apis'
 import { ElMessage } from 'element-plus'
-
+import { useStore } from 'vuex'
 import blog from '../view/blog/blog.vue'
-
+let store = useStore()
 
 const routes = [
     { path: '/', redirect: '/blog' },
@@ -12,6 +12,7 @@ const routes = [
     { path: '/blog', name: 'blog', component: blog },
     { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
     { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction.vue') },
+    { path: '/friendLink', name: 'friendLink', component: () => import('../view/blog/friend-link.vue') },
     { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
     { path: '/about', name: 'about', component: () => import('../view/blog/about.vue') },
 
@@ -36,13 +37,14 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),  //history
     // history: createWebHashHistory(), // hash
-    routes, 
+    routes,
 })
 
 // 用户判断登陆状态
 router.beforeEach(async (to, from, next) => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
 
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
@@ -53,6 +55,9 @@ router.beforeEach(async (to, from, next) => {
             localStorage.removeItem('token')
             localStorage.removeItem('name')
             localStorage.removeItem('id')
+            store.state.userid = '-1'
+            store.state.username = ''
+            store.state.token = ''
             return router.push({ path: '/login' })
         }
     } else {

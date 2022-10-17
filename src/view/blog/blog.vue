@@ -10,8 +10,8 @@
     <div class="blogCenter">
       <!-- 最新博客标题 -->
       <blogoption
-        :optionSrc="data.option.newBlogTitle.src"
-        :option="data.option.newBlogTitle.option"
+        :optionSrc="changeData.option.newBlogTitle.src"
+        :option="changeData.option.newBlogTitle.option"
       />
       <!-- 最新博客内容 -->
       <blogItem
@@ -35,8 +35,8 @@
       />
       <!-- 所有博客标题 -->
       <blogoption
-        :optionSrc="data.option.allBlogTitle.src"
-        :option="data.option.allBlogTitle.option"
+        :optionSrc="changeData.option.allBlogTitle.src"
+        :option="changeData.option.allBlogTitle.option"
       />
 
       <!-- 所有博客内容 -->
@@ -59,7 +59,7 @@
       />
 
       <div class="moreBlock">
-        <button class="more" @click="addMoreBlog">{{ data.moreText }}</button>
+        <button class="more" @click="addMoreBlog">{{ changeData.moreText }}</button>
       </div>
     </div>
 
@@ -75,26 +75,45 @@ import blogoption from "../../components/blogoption.vue";
 import blogItem from "../../components/blogItem.vue";
 import blogRight from "../../components/blogRight.vue";
 import changeBgColor from "../../components/change-bgColor.vue";
-import { reactive, onMounted, onUnmounted, onBeforeUnmount, h, watch } from "vue";
+import {
+  reactive,
+  onMounted,
+  onUnmounted,
+  onBeforeUnmount,
+  h,
+  watch,
+  computed,
+} from "vue";
 import { getBlogData } from "../../axios/apis";
 import { ElMessage, ElNotification } from "element-plus";
 import router from "../../router";
 import { useStore } from "vuex";
 import throttle from "../../func/throttle/throttle";
 import { nextTick } from "process";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 const store = useStore();
 
+let changeData: any = computed(() => {
+  return {
+    option: {
+      newBlogTitle: {
+        src: "https://hyyyh.top:3001/icon/newblogtitle.svg",
+        option: i18n.t("blog.newblog"),
+      },
+      allBlogTitle: {
+        src: "https://hyyyh.top:3001/icon/allblogtitle.svg",
+        option: i18n.t("blog.allblog"),
+      },
+    },
+    moreText: i18n.t("blog.more"),
+  };
+});
+
 const data = reactive({
-  option: {
-    newBlogTitle: {
-      src: "https://hyyyh.top:3001/icon/newblogtitle.svg",
-      option: "最新博客",
-    },
-    allBlogTitle: {
-      src: "https://hyyyh.top:3001/icon/allblogtitle.svg",
-      option: "所有博客",
-    },
-  },
   newBlogData: <any>[
     {
       createtime: "",
@@ -105,7 +124,6 @@ const data = reactive({
   showBlogData: <any>[], //展示的博客数据
   pageNum: 1, //分页
   Num: 5, //每页数量
-  moreText: "获取更多",
   scrollOption: {
     screenH: 0,
     domHight: window.innerHeight,
@@ -159,7 +177,7 @@ const addMoreBlog = async () => {
   const res = await getBlogData(data.pageNum, data.Num);
   if (res.data.length == 0) {
     window.removeEventListener("scroll", scrollToTop);
-    return (data.moreText = "暂无更多");
+    return (changeData.moreText = "暂无更多");
   }
   !store.state.isPC && res.data.map((item: any) => (item.isShow = 1)); //如果是手机就直接显示
   clearHTML(res.data);
@@ -256,7 +274,7 @@ const scrollToTop = () => {
 
   .blogCenter {
     width: 45%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -278,7 +296,7 @@ const scrollToTop = () => {
         font-family: heiti;
         font-size: 1.1rem;
         font-weight: 600;
-        color: gray;
+        color: white;
         border: none;
         background-color: transparent;
       }

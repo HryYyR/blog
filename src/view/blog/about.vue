@@ -304,15 +304,16 @@ function getaboutbg() {
       padding: 0.5rem 1.2rem;
       backdrop-filter: blur(5px);
       border-radius: 20px;
+      height: auto;
+      transition: 0.5s;
+      opacity: 1;
       overflow: hidden;
     }
     .aboutmedialog {
       width: 12.5%;
-      height: auto;
-      margin-top: 38vmin;
+      margin-top: 42vmin;
       font-size: 0.6rem;
-      transition: 0.5s;
-      opacity: 1;
+
       background-color: rgba(155, 100, 175, 0.4);
       li {
         line-height: 1.2rem;
@@ -324,11 +325,8 @@ function getaboutbg() {
     }
     .aboutblogdialog {
       width: 17%;
-      height: auto;
       margin-top: 46vmin;
       font-size: 0.6rem;
-      transition: 0.5s;
-      opacity: 1;
       background-color: rgba(251, 199, 177, 0.4);
       li {
         line-height: 1.5rem;
@@ -337,11 +335,8 @@ function getaboutbg() {
     }
     .aboutskilldialog {
       width: 12.5%;
-      height: auto;
       margin-left: 35vw;
       font-size: 0.6rem;
-      transition: 0.5s;
-      opacity: 1;
       background-color: rgba(105, 104, 121, 0.2);
       color: white;
       li {
@@ -351,11 +346,8 @@ function getaboutbg() {
     }
     .aboutspecialnotedialog {
       width: 12.5%;
-      height: auto;
       font-size: 0.6rem;
       margin-top: 45vh;
-      transition: 0.5s;
-      opacity: 1;
       background-color: rgba(206, 107, 162, 0.3);
 
       li {

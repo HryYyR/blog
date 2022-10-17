@@ -5,7 +5,7 @@
       backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
     }"
   >
-    <blogheaderVue :bgColor="true"></blogheaderVue>
+    <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
     <div class="sort_container">
       <div
         class="sort_nav"
@@ -42,8 +42,10 @@
           </div>
         </div>
       </div>
-      <div class="loading" v-if="!data.isloading"></div>
-      <div class="sort_body" v-show="data.isshowcontainer">
+      <div class="loading" v-if="!data.isloading">
+        <img src="https://hyyyh.top:3001/loading.png" alt="" />
+      </div>
+      <div class="sort_body" :style="{ opacity: data.isshowcontainer ? '1' : '0' }">
         <blogItemVue
           :blogId="item.id"
           :blogTitle="item.name"
@@ -112,6 +114,13 @@ onMounted(async () => {
     });
   }
   data.isshownav = true;
+  data.isloading = true;
+  anime({
+    targets: [".sort_container"],
+    translateY: "-5rem",
+    opacity: "1",
+    duration: 1000,
+  });
 
   const blogres = await getBlogData(0, 0);
   // console.log(blogres);
@@ -126,17 +135,16 @@ onMounted(async () => {
   data.blogData = blogres.data;
   data.isshowcontainer = true;
 
-  setTimeout(() => {
-    data.isloading = true;
-    let myAnimation = anime({
-      targets: [".sort_body"],
-      opacity: "1",
-      duration: 3000,
-    });
-  }, 300);
-
   // console.log(data.labelData, data.sortData);
 });
+
+const changePage = () => {
+  anime({
+    targets: [".sort_container"],
+    opacity: 0,
+    duration: 1500,
+  });
+};
 
 const clickSort = async (item: any) => {
   if (item.check == true) {
@@ -195,6 +203,8 @@ const handleblogdata = (data: any) => {
     height: auto;
     min-height: 90vh;
     padding-top: 7rem;
+    position: relative;
+    top: 5rem;
 
     .sort_nav {
       width: 100%;
@@ -264,9 +274,12 @@ const handleblogdata = (data: any) => {
   height: 30px;
   border-radius: 50%;
   user-select: none;
-  border-bottom: 1px solid skyblue;
-  border-right: 1px solid skyblue;
   animation: loading 1s infinite linear;
+  opacity: 0.1;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 @keyframes loading {
   from {

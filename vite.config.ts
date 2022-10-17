@@ -25,21 +25,29 @@ export default defineConfig({
     }),
 
   ],
-  resolve:{
-    alias:{
+  resolve: {
+    alias: {
       qc: 'QC'
     }
   },
   base: '/',  //history
   // base: process.env.NODE_ENV === 'production' ? './' : '/',  //hash
   build: {
+    minify: 'terser',
     rollupOptions: {
       output: {
         chunkFileNames: 'static/js/[name]-[hash].js',
         entryFileNames: 'static/js/[name]-[hash].js',
         assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
       }
-    }
+    },
+    terserOptions: {
+      compress: {
+        //生产环境时移除console.log()
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   }
 })
 

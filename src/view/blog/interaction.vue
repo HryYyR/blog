@@ -5,7 +5,7 @@
       backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
     }"
   >
-    <blogheaderVue :bgColor="true" />
+    <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="interaction_body">
       <div
         class="interaction_body_container"
@@ -16,20 +16,20 @@
               : 'rgba(243, 243, 255, 0.7)',
         }"
       >
-        <h1>留言板</h1>
+        <h1>{{ i18n.t("interaction.title") }}</h1>
         <div class="interaction__inputbody">
           <el-input
             v-model="data.textarea"
             :rows="2"
             type="textarea"
-            placeholder="留下你的建议吧！"
+            :placeholder="i18n.t('interaction.info')"
             :autosize="{ minRows: 5, maxRows: 6 }"
           />
           <div class="interaction__btnbody">
-            <span>(建议登陆后评论哦！)</span
-            ><el-button type="primary" class="submitbtn" @click="submitcomment"
-              >提交留言</el-button
-            >
+            <span>{{ i18n.t("interaction.info") }}</span
+            ><el-button type="primary" class="submitbtn" @click="submitcomment">{{
+              i18n.t("interaction.submitinfo")
+            }}</el-button>
           </div>
         </div>
         <div class="interaction_comment">
@@ -103,7 +103,7 @@
 import blogheaderVue from "../../components/blogheader.vue";
 import blogRightVue from "../../components/blogRight.vue";
 import Wave from "../../func/wave/wave.es.min";
-import { reactive, onMounted, watch } from "vue";
+import { reactive, onMounted, watch, onBeforeUnmount } from "vue";
 import anime from "animejs";
 import { ElMessage } from "element-plus";
 import {
@@ -116,6 +116,11 @@ import {
 } from "../../axios/apis";
 import tologindialogVue from "../../components/tologindialog.vue";
 import { useStore } from "vuex";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 let store = useStore();
 const data = reactive({
   textarea: "",
@@ -128,14 +133,16 @@ const data = reactive({
   replycontent: "",
   newopenreplydialogIndex: -1,
   themeColor: store.state.themeColor,
+  containerOpacity: 1,
 });
 watch(store.state, (newvalue, oldvalue) => {
   data.themeColor = newvalue.themeColor;
 });
+
 onMounted(async () => {
   let myAnimation = anime({
     targets: [".interaction_body_container"],
-    translateY: "-50vh",
+    translateY: "-10vh",
     opacity: 1,
     duration: 1000,
   });
@@ -178,6 +185,14 @@ onMounted(async () => {
     });
   }
 });
+
+const changePage = () => {
+  anime({
+    targets: [".interaction_body_container"],
+    opacity: 0,
+    duration: 1000,
+  });
+};
 
 // 提交留言
 const submitcomment = async () => {
@@ -316,7 +331,7 @@ const closedialog = () => {
       margin: 7rem 0;
       position: relative;
       opacity: 0;
-      top: 50vh;
+      top: 10vh;
       display: flex;
       flex-direction: column;
       align-items: center;

@@ -2,9 +2,11 @@ import { createStore } from 'vuex'
 
 export default createStore({
     state: {
-        userid:-1,
-        username:'',
-        token:'',
+        language: localStorage.getItem('language') || 'en',
+        userid: -1,
+        username: '',
+        token: '',
+        header: '',
         title: 'index',
         isPC: window.innerWidth < 700 ? false : true,
         userdata: [],

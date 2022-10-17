@@ -4,7 +4,8 @@
       <div class="blogRight_about">
         <div class="blogRight_about_item">
           <p class="address blogRight_name">Hyyyh</p>
-          <p class="address">
+          <p class="address">又是灵感枯竭的一天</p>
+          <!-- <p class="address">
             <span>2020-2023级</span>
           </p>
           <p class="address">
@@ -16,11 +17,11 @@
             <img src="http://hyyyh.top:3001/icon/email.png" alt="" /><span
               >2452719312@QQ.com</span
             >
-          </p>
+          </p> -->
         </div>
         <div class="contact">
           <hr />
-          <span>社交帐号</span>
+          <span>INFO</span>
           <hr />
         </div>
         <div class="meta">
@@ -37,7 +38,7 @@
       </div>
       <div class="blogRight_label">
         <blogoption
-          option="标签"
+          :option="i18n.t('blogRight.label')"
           optionSrc="http://hyyyh.top:3001/icon/lable.png"
           DefaultMargin="1rem"
         />
@@ -50,7 +51,7 @@
       </div>
       <div class="blogRight_sort">
         <blogoption
-          option="分类"
+          :option="i18n.t('blogRight.sort')"
           optionSrc="http://hyyyh.top:3001/icon/sort.png"
           DefaultMargin="1rem"
         />
@@ -70,6 +71,11 @@ import blogoption from "./blogoption.vue";
 import { reactive, onMounted, ref } from "vue";
 import { getAdminLabelData, getAdminSortData } from "../axios/adminApi";
 import anime from "animejs";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],

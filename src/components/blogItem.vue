@@ -2,8 +2,8 @@
   <div
     class="newBlog"
     id="newBlog"
-    :style="{ height: isTitle ? '20rem' : '16rem', left: num % 2 ? '-10rem' : '10rem' }"
-    :class="isShow ? (num % 2 == 0 ? 'leftShowBlog' : 'RightShowBlog') : ''"
+    :style="{ height: isTitle ? '20rem' : '16rem' }"
+    :class="isShow ? 'ShowBlog' : ''"
     @click="toDetail(blogId)"
   >
     <div class="newBlog_right" v-if="num % 2 == 0 ? false : true">
@@ -158,7 +158,7 @@ const toDetail = (id: number) => {
   opacity: 0;
   bottom: -10rem;
   position: relative;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   &:hover {
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.45);
     & > img {
@@ -173,6 +173,8 @@ const toDetail = (id: number) => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+    z-index: 2;
     .newblog_labelsort {
       font-size: 0.8rem;
       color: rgba(0, 0, 0, 0.5);
@@ -268,15 +270,7 @@ const toDetail = (id: number) => {
     }
   }
 }
-.leftShowBlog {
-  opacity: 1;
-  left: 0 !important;
-  bottom: 0;
-  img {
-    filter: blur(0px) !important;
-  }
-}
-.RightShowBlog {
+.ShowBlog {
   opacity: 1;
   left: 0 !important;
   bottom: 0;

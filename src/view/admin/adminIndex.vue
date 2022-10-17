@@ -101,9 +101,7 @@ const signout = async () => {
   if (res.status == 201) {
     ElMessage.error(res.data.msg);
   } else {
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
-    localStorage.removeItem("id");
+    localStorage.clear();
     router.push("/login");
     ElMessage.success(res.data.msg);
   }

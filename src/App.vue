@@ -97,6 +97,7 @@ const setsunPosition = (id: number) => {
 </script>
 
 <style lang="less">
+@containerbgcolor:rgba (227, 237, 255, 0.7);
 * {
   padding: 0;
   margin: 0;
@@ -233,17 +234,27 @@ const setsunPosition = (id: number) => {
   }
   /* record  */
   .record {
+    .record_body {
+      min-width: 0 !important;
+      .record_title {
+        left: 95px !important;
+      }
+      width: 95% !important;
+    }
     .record_item {
       width: 150px !important;
     }
     .rope {
-      margin-left: -10rem !important;
+      left: 60px !important;
     }
     .before {
-      left: -190px !important;
+      left: -120px !important;
       &::before {
-        left: 167px !important ;
+        left: 150px !important;
       }
+    }
+    .after {
+      left: 60px !important;
     }
   }
 

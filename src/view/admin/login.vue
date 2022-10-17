@@ -5,24 +5,34 @@
         <img src="http://hyyyh.top:3001/icon/back.png" alt="" />
       </div>
       <div class="loginTitle">
-        <span style="color: black">密码登录</span>|<span @click="smlogin">短信登录</span>
+        <span style="color: black">{{ i18n.t("login.passlogin") }}</span
+        >|<span @click="smlogin">{{ i18n.t("login.qqlogin") }}</span>
       </div>
 
       <div class="input_box">
         <div class="name">
-          <span>账号:</span><input type="text" placeholder="账号" v-model="data.user" />
+          <span>{{ i18n.t("login.user") }}:</span
+          ><input type="text" :placeholder="i18n.t('login.user')" v-model="data.user" />
         </div>
         <div class="pass">
-          <span>密码:</span
-          ><input type="password" placeholder="密码" v-model="data.pass" />
-          <span class="forgetPass">忘记密码</span>
+          <span>{{ i18n.t("login.pass") }}:</span
+          ><input
+            type="password"
+            :placeholder="i18n.t('login.passlogin')"
+            v-model="data.pass"
+          />
+          <span class="forgetPass">{{ i18n.t("login.forget") }}</span>
         </div>
       </div>
       <div class="btn_box">
-        <button class="btn login" @click="sendLogin" type="submit">登录</button>
+        <button class="btn login" @click="sendLogin" type="submit">
+          {{ i18n.t("login.loginbtn") }}
+        </button>
       </div>
       <div class="registerbtn">
-        <span class="toregister" @click="toRegister" type="submit">去注册</span>
+        <span class="toregister" @click="toRegister" type="submit">{{
+          i18n.t("login.toregister")
+        }}</span>
       </div>
     </div>
     <div class="register_container" :style="{ zIndex: data.isShowRegister ? 99 : -1 }">
@@ -30,38 +40,46 @@
         <img src="http://hyyyh.top:3001/icon/back.png" alt="" />
       </div>
       <div class="registerTitle">
-        <span>注册</span>
+        <span>{{ i18n.t("register.title") }}</span>
       </div>
       <div class="input_box">
         <div class="name">
-          <span>昵称:</span
-          ><input type="text" placeholder="昵称" v-model="data.rigister.name" />
+          <span>{{ i18n.t("register.name") }}:</span
+          ><input
+            type="text"
+            :placeholder="i18n.t('register.name')"
+            v-model="data.rigister.name"
+          />
         </div>
         <div class="name">
-          <span>邮箱:</span
-          ><input type="email" placeholder="邮箱" v-model="data.rigister.email" />
+          <span>{{ i18n.t("register.email") }}:</span
+          ><input
+            type="email"
+            :placeholder="i18n.t('register.email')"
+            v-model="data.rigister.email"
+          />
         </div>
         <div class="name">
-          <span>密码:</span>
+          <span>{{ i18n.t("register.pass") }}:</span>
           <input
             type="password"
-            placeholder="密码不能少于6位"
+            :placeholder="i18n.t('register.pass')"
             v-model="data.rigister.pass"
           />
         </div>
         <div class="name">
-          <span>确认密码:</span
+          <span>{{ i18n.t("register.Verifypassword") }}:</span
           ><input
             type="password"
-            placeholder="确认密码"
+            :placeholder="i18n.t('register.Verifypassword')"
             v-model="data.rigister.checkpass"
           />
         </div>
         <div class="name">
-          <span>验证码:</span
+          <span>{{ i18n.t("register.Verification") }}:</span
           ><input
             type="text"
-            placeholder="验证码"
+            :placeholder="i18n.t('register.Verification')"
             v-model="data.rigister.checkyzm"
             style="width: 100px"
           />
@@ -73,9 +91,11 @@
         </div>
       </div>
       <div class="btn_box">
-        <button class="btn login" @click="sendregister" type="submit">注册</button>
+        <button class="btn login" @click="sendregister" type="submit">
+          {{ i18n.t("register.title") }}
+        </button>
       </div>
-      <div class="backlogin" @click="backlogin">返回登录</div>
+      <div class="backlogin" @click="backlogin">{{ i18n.t("register.tologin") }}</div>
     </div>
   </div>
 </template>
@@ -92,6 +112,11 @@ import router from "../../router";
 import anime from "animejs";
 import { login, rigister } from "../../axios/apis";
 import { useStore } from "vuex";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 const store = useStore();
 const data = reactive({
   user: "",
@@ -152,9 +177,11 @@ const sendLogin = async () => {
       localStorage.setItem("name", res.data.name);
       localStorage.setItem("id", res.data.id);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("header", res.data.avatar);
       store.state.userid = res.data.id;
       store.state.username = res.data.name;
       store.state.token = res.data.token;
+      store.state.header = res.data.avatar;
 
       router.push("/blog");
       return;
@@ -451,12 +478,12 @@ input {
     }
     .name {
       border-bottom: 1px solid gray;
-      width: 400px;
+      width: 420px;
     }
     .pass {
       input {
         width: auto;
-        min-width: 250px;
+        min-width: 285px;
       }
       .forgetPass {
         cursor: pointer;

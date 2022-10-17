@@ -24,6 +24,8 @@ defineProps({
   border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
   margin: v-bind(DefaultMargin);
   transition: all 1s;
+  font-size: 1.2rem;
+  font-weight: 900;
   span {
     color: rgba(0, 0, 0, 0.5);
     position: relative;

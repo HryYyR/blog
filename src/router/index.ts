@@ -52,9 +52,7 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             ElMessage.error('token无效，请重新登录')
-            localStorage.removeItem('token')
-            localStorage.removeItem('name')
-            localStorage.removeItem('id')
+            localStorage.clear()
             store.state.userid = '-1'
             store.state.username = ''
             store.state.token = ''

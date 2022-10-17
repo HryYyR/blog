@@ -8,7 +8,7 @@ import lazyImg from 'vue-lazyload'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/message.scss'
 
-
+import i18n from './language/i18n'
 
 const app = createApp(App)
 
@@ -24,6 +24,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
 
+app.use(i18n)
 app.use(vuex)
 app.use(router)
 // app.use(anime)

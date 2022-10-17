@@ -12,14 +12,14 @@
       class="navBtn"
       :style="{ opacity: data.wordInto ? '1' : '0' }"
     >
-      开启旅程
+      {{ i18n.t("header.title") }}
       <span></span>
       <span></span>
       <span></span>
       <span></span>
     </button>
     <div class="down" @click="ToIndex">
-      <img src="../assets/down.png" alt="" />
+      <img src="../assets/down.png" alt="" style="display: none" />
     </div>
   </div>
   <div class="bg">
@@ -40,6 +40,11 @@ import { type } from "os";
 import { array } from "snabbdom";
 import { onMounted, reactive, ref, watch, defineProps } from "vue";
 import { useStore } from "vuex";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 const store = useStore();
 const star = ref(null);
 

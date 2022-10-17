@@ -5,13 +5,13 @@
       backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
     }"
   >
-    <blogheaderVue :bgColor="true" />
-    <main class="friend_link_container">
-      <p class="title">友联</p>
+    <blogheaderVue :bgColor="true" @changePage="changePage" />
+    <div class="friend_link_container">
+      <p class="title">{{ i18n.t("friend.title1") }}</p>
       <div class="input">
         <div class="input_left">
           <div class="website">
-            <div class="input_itemTitle">网址：</div>
+            <div class="input_itemTitle">{{ i18n.t("friend.website") }}</div>
             <el-input
               v-model="data.inputData.website"
               placeholder="website"
@@ -33,7 +33,7 @@
             </el-input>
           </div>
           <div class="icon">
-            <div class="input_itemTitle">图标：</div>
+            <div class="input_itemTitle">{{ i18n.t("friend.favicon") }}</div>
             <el-input
               v-model="data.inputData.icon"
               placeholder="icon"
@@ -43,7 +43,7 @@
             />
           </div>
           <div class="email">
-            <div class="input_itemTitle">邮箱：</div>
+            <div class="input_itemTitle">{{ i18n.t("friend.email") }}</div>
 
             <el-input
               v-model="data.inputData.email"
@@ -59,24 +59,29 @@
             v-model="data.inputData.textarea"
             :rows="3"
             type="textarea"
-            placeholder="博客简介（大于6个字,小于25个字）"
+            :placeholder="i18n.t('friend.blogIntroduction')"
           />
-          <el-button type="primary" class="apply" size="large" @click="apply"
-            >申请友联</el-button
-          >
+          <el-button type="primary" class="apply" size="large" @click="apply">{{
+            i18n.t("friend.btn")
+          }}</el-button>
         </div>
       </div>
-
-      <p class="title">友链列表</p>
+    </div>
+    <div class="friend_link_container">
+      <p class="title">{{ i18n.t("friend.title2") }}</p>
       <!-- 友链 -->
       <div class="link_list">
         <div v-for="(item, index) in data.linkData" :key="item.id" class="link_item">
           <a :href="item.website" target="_blank">
             <img :src="item.icon" :alt="item.website" />
+            <div>
+              <p>{{ item.username }}</p>
+              <p>{{ item.container }}</p>
+            </div>
           </a>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -86,13 +91,26 @@ import { applyFriendLink, getFriendLink } from "../../axios/friend-link-api";
 import { onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
+import anime from "animejs";
 import { dataset } from "dom7";
+
+// 国际化
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+let i18n = useI18n();
+
 let store = useStore();
 onMounted(async () => {
   const resolve: any = await getFriendLink();
   resolve.status != 200 && ElMessage.error("数据获取失败！");
   data.linkData = resolve.data.data;
   console.log(data.linkData);
+
+  anime({
+    targets: [".friend_link_container"],
+    translateY: "-10vh",
+    opacity: 1,
+    duration: 1000,
+  });
 });
 watch(store.state, (newvalue, oldvalue) => {
   data.themeColor = newvalue.themeColor;
@@ -110,7 +128,13 @@ const data = reactive({
     textarea: "",
   },
 });
-
+const changePage = () => {
+  anime({
+    targets: [".friend_link_container"],
+    opacity: 0,
+    duration: 1000,
+  });
+};
 const apply = async () => {
   Object.keys(data.inputData).forEach((key) => {
     if (data.inputData[key].length < 6) {
@@ -142,17 +166,21 @@ const apply = async () => {
   width: 100%;
   min-height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 17vh;
   .friend_link_container {
-    margin: 6rem 0;
+    margin: 2rem 0 0rem 0;
     width: 60%;
-    min-height: 800px;
-    background-color: rgba(227, 237, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: 0;
+    position: relative;
+    box-shadow: @boxshadow;
     .title {
       font-size: 2rem;
       position: relative;
@@ -177,6 +205,10 @@ const apply = async () => {
         & > div {
           margin: 0.5rem 0;
           display: flex;
+
+          & > div {
+            min-width: 70px;
+          }
         }
       }
       .input_right {
@@ -200,7 +232,7 @@ const apply = async () => {
 
     .link_list {
       position: relative;
-      width: 80%;
+      width: 90%;
       padding: 1rem;
       margin-bottom: 4rem;
       min-height: 200px;
@@ -212,23 +244,52 @@ const apply = async () => {
       align-items: center;
       justify-content: center;
       .link_item {
-        width: 90px;
-        height: 90px;
-        background-color: rgba(255, 255, 255, 0.4);
-        border: 3px solid rgba(255, 255, 255, 0.7);
+        width: 320px;
+        height: 120px;
+        background-color: rgba(241, 243, 249, 1);
+        box-shadow: 0px 2px 5px rgb(197, 197, 197);
         border-radius: 10px;
         transition: 0.3s;
         overflow: hidden;
         user-select: none;
-        margin: 0.3rem 1rem;
+        margin: 0.5rem 0.5rem;
+        &:hover {
+          background-color: rgb(255, 255, 255);
+        }
         a {
           width: 100%;
           height: 100%;
           display: flex;
           text-decoration: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0 1rem;
+          color: black;
+          transition: 0.5s;
           img {
-            width: 90px;
-            height: 90px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            position: relative;
+          }
+          & > div {
+            position: relative;
+            flex: 1;
+            padding-left: 1rem;
+            padding-right: 2rem;
+            overflow: hidden;
+            & p:nth-child(1) {
+              font-size: 1.1rem;
+              margin-bottom: 0.5rem;
+              font-weight: 900;
+            }
+            & p:nth-child(2) {
+              font-size: 1rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
           }
         }
       }

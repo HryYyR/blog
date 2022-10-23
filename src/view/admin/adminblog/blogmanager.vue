@@ -12,7 +12,7 @@
       />
       <el-table-column align="center" label="操作" width="200" show-overflow-tooltip>
         <template #default="{ row }">
-          <el-button type="primary">编辑</el-button>
+          <el-button type="primary" @click="toEditBlog(row.id)">编辑</el-button>
 
           <el-popover v-model:visible="row.isdelete" placement="top" :width="160">
             <p>确定要删除此博客吗？?</p>
@@ -46,6 +46,7 @@ import { getAdminBlogData, deleteBlog } from "../../../axios/adminApi";
 import { onMounted, reactive } from "vue";
 import { ElMessage } from "element-plus";
 import { rest } from "lodash";
+import router from "../../../router";
 const data = reactive({
   tableData: [
     {
@@ -116,6 +117,10 @@ const data = reactive({
 onMounted(async () => {
   getData(1, 5);
 });
+
+const toEditBlog = (id: number) => {
+  router.push({ path: "addblog", query: { id: id } });
+};
 
 const handleSizeChange = (val: number) => {
   console.log(val);

@@ -76,6 +76,22 @@ export function addblog(title:String,container:String,labellist:any,sortID:numbe
     })
 }
 
+
+// 修改博客
+export function editblog(id:number,title:String,container:String,labellist:any,sortID:number){
+   return axios({
+      method:'put',
+      url: '/api/admin/editblog',
+      data:{
+         id:id,
+         title:title,
+         container:container,
+         labellist:labellist,
+         sortID:sortID,
+      }
+    })
+
+}
 // 删除博客
 export function deleteBlog(id:number){
    return axios({

@@ -5,7 +5,15 @@
         type="primary"
         style="width: 10%; height: 80%; margin-right: 3rem"
         @click="data.dialogVisible = true"
+        v-if="data.visibelEdit"
         >发布文章</el-button
+      >
+      <el-button
+        type="primary"
+        style="width: 10%; height: 80%; margin-right: 3rem"
+        v-if="!data.visibelEdit"
+        @click="data.dialogVisible = true"
+        >提交修改文章</el-button
       >
       <el-input
         style="width: 70%; height: 100%"
@@ -93,7 +101,12 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="data.dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="UploadBlog()">发布</el-button>
+          <el-button type="primary" @click="editBlog()" v-if="!data.visibelEdit"
+            >修改</el-button
+          >
+          <el-button type="primary" @click="UploadBlog()" v-if="data.visibelEdit"
+            >发布</el-button
+          >
         </span>
       </template>
     </el-dialog>
@@ -104,8 +117,14 @@
 import { ElMessage } from "element-plus";
 import "@wangeditor/editor/dist/css/style.css"; // 引入富文本css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-import { getAdminLabelData, getAdminSortData, addblog } from "../../../axios/adminApi";
-import { File } from "../../../axios/apis";
+import {
+  getAdminLabelData,
+  getAdminSortData,
+  addblog,
+  editblog,
+} from "../../../axios/adminApi";
+import { File, getAssignBlogData } from "../../../axios/apis";
+import { useRoute } from "vue-router";
 import {
   reactive,
   watch,
@@ -115,7 +134,11 @@ import {
   shallowRef,
   getCurrentInstance,
 } from "vue";
+import { log } from "console";
+import { dataset } from "dom7";
+const route = useRoute();
 const internalInstance = getCurrentInstance();
+
 const data = reactive({
   toolbarConfig: {}, //工具栏配置
   editorConfig: { placeholder: "请输入内容...", MENU_CONF: <any>{} }, //内容区配置
@@ -124,13 +147,42 @@ const data = reactive({
   blogContainer: "", //博客内容
   dialogVisible: false, //是否显示发布详情页
   labelData: <any>[], //标签数据
-  sortData: <Object>[], //分类数据
+  sortData: <any>[], //分类数据
   checkSort: <any>{ name: "选择分类", id: -1 }, //默认选择的分类
   coverUrl: "", //封面图片base64数据
+  visibelEdit: true, ///编辑模式
+  willEditBlog: <any>[], //将被修改的博客
 });
 onMounted(async () => {
-  data.labelData = await (await getAdminLabelData()).data; //获取label数据
   data.sortData = await (await getAdminSortData()).data; //获取sort数据
+  data.labelData = await (await getAdminLabelData()).data; //获取label数据
+
+  if (route.query.id) {
+    data.visibelEdit = false;
+    let id: any = route.query.id;
+    let resolve = await (await getAssignBlogData(id)).data.data[0];
+    data.willEditBlog = resolve;
+    // console.log(resolve);
+    editorRef.value.setHtml(resolve.container);
+    data.blogTitle = resolve.name;
+    let checkLabel = resolve.label.split(",");
+
+    // 编辑文章时，渲染默认选中的标签
+    checkLabel.forEach((item: any) => {
+      data.labelData.map((i: any) => {
+        if (i.id == item) {
+          i.check = 1;
+        }
+      });
+    });
+
+    // 编辑文章时，渲染默认选中的分类
+    data.sortData.forEach((item: any) => {
+      if (item.id == resolve.sort) {
+        data.checkSort = { name: item.name, id: item.id };
+      }
+    });
+  }
 }),
   onBeforeUnmount(() => {
     const editor = editorRef.value;
@@ -151,10 +203,39 @@ const UploadBlog = async () => {
     data.checkSort.id,
     data.coverUrl
   );
-  console.log(res);
+  // console.log(res);
   if (res.status == 200) {
     data.dialogVisible = false;
     ElMessage.success("添加博客成功！");
+  }
+};
+
+// 修改博客
+const editBlog = async () => {
+  if (data.blogTitle.length < 5 || data.checkSort.id == -1) {
+    return ElMessage.error("信息输入有误，请检查后重新提交");
+  }
+
+  let labelList: any = [];
+  data.labelData.map((item: any) => {
+    if (item.check == 1) {
+      labelList.push(item.id);
+    }
+  });
+  labelList.length > 1 ? labelList.join(",") : "";
+
+  const res = await editblog(
+    data.willEditBlog.id,
+    data.blogTitle,
+    data.blogContainer,
+    labelList,
+    data.checkSort.id
+  );
+  if (res.status == 200) {
+    data.dialogVisible = false;
+    ElMessage.success("修改博客成功！");
+  } else {
+    console.log(res);
   }
 };
 
@@ -187,6 +268,7 @@ const getBase64 = (file: any) => {
 
 // 富文本钩子
 const editorRef = shallowRef();
+
 data.editorConfig.MENU_CONF["uploadImage"] = {
   server: "http://hyyyh.top:3001/api/File",
   metaWithUrl: true,
@@ -195,6 +277,8 @@ const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 const onChange = (edit: any) => {
+  // console.log(edit);
+
   data.blogContainer = edit.getHtml();
   // console.log(data.blogContainer);
   const showDom = <HTMLElement>document.querySelector(".show");

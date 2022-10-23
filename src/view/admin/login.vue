@@ -182,6 +182,7 @@ const sendLogin = async () => {
       store.state.username = res.data.name;
       store.state.token = res.data.token;
       store.state.header = res.data.avatar;
+      store.state.userdata = res.data;
 
       router.push("/blog");
       return;
@@ -306,7 +307,7 @@ const toindex = () => {
   router.push({ path: "/" });
 };
 
-//  短信登录
+//  qq登录
 const smlogin = () => {
   ElMessage.error("暂未开放");
 };

@@ -28,10 +28,12 @@ export default {
   friend: {
     title1: '申请友链',
     title2: '友链列表',
+    name:'名称:',
     website: '网址：',
+    
     favicon: '图标:',
     email: '邮箱:',
-    blogIntroduction: '博客简介( 大于6个字,小于25个字 )',
+    blogIntroduction: '博客简介( 大于6个字,小于50个字 )',
     btn: '申请友链'
   },
   record: {

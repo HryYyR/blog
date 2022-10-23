@@ -140,11 +140,12 @@ const loginOut = async () => {
 };
 
 const openUserInfo = () => {
-  ElMessage.error("开发中");
+  store.state.isVisibelUserDrawer = true;
 };
 </script>
 
 <style scoped lang="less">
+@bg-light-color: rgba(255, 255, 255, 0.9);
 * {
   font-family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';";
 }
@@ -234,7 +235,7 @@ const openUserInfo = () => {
   }
 }
 .navColor {
-  background: rgba(255, 255, 255, 0.9);
+  background: @bg-light-color;
   backdrop-filter: blur(10px);
 }
 .userHeader_popover {

@@ -7,6 +7,7 @@ import vuex from './store/index'
 import lazyImg from 'vue-lazyload'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/message.scss'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import i18n from './language/i18n'
 

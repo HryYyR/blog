@@ -28,6 +28,7 @@ export default {
   friend: {
     title1: 'friend chain',
     title2: 'Friend chain list',
+    name:'Name:',
     website: 'Website:',
     favicon: 'Favicon:',
     email: 'Email:',

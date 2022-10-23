@@ -2,14 +2,20 @@ import { createStore } from 'vuex'
 
 export default createStore({
     state: {
-        language: localStorage.getItem('language') || 'en',
-        userid: -1,
+        bgcolor:'#fff',
+        fontcolor:'#000',
+        language: localStorage.getItem('language') || 'en',//语言
+
+        userid: -1, 
         username: '',
         token: '',
         header: '',
         title: 'index',
+
+        isVisibelUserDrawer:false,
         isPC: window.innerWidth < 700 ? false : true,
         userdata: [],
+
         themeColor: {},  //选中的主题颜色
         themeState: '',  //主题提示问题
         themeColorOption:  //时间主题颜色
@@ -19,6 +25,7 @@ export default createStore({
             { id: 3, start: "#000000", end: "#2B86C5", label: '晚上' }, //ok
 
             ],
+            
         aboutbg: null,
     },
     mutations: {

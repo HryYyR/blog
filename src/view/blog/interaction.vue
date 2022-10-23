@@ -22,7 +22,7 @@
             v-model="data.textarea"
             :rows="2"
             type="textarea"
-            :placeholder="i18n.t('interaction.info')"
+            :placeholder="i18n.t('interaction.textarea')"
             :autosize="{ minRows: 5, maxRows: 6 }"
           />
           <div class="interaction__btnbody">
@@ -43,7 +43,9 @@
             </div>
             <div class="interaction_comment_container">
               <div class="interaction_comment_top">
-                <span class="interaction_name">{{ item.username }}</span>
+                <span class="interaction_name"
+                  >{{ item.username }}{{ item.userid === "1" ? "(博主)" : "" }}</span
+                >
                 <span class="interaction_time">{{ item.createtime }}</span>
                 <span class="interaction_time">IP:{{ item.userip }}</span>
               </div>
@@ -75,7 +77,8 @@
                 class="replycontainer"
               >
                 <span
-                  ><span style="color: rgb(135, 168, 235)">{{ childen.username }}</span
+                  ><span style="color: rgb(135, 168, 235)"
+                    >{{ childen.username }}{{ item.userid === "1" ? "(博主)" : "" }}</span
                   >:{{ childen.container }}</span
                 >
               </div>

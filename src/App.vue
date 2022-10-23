@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="{ Component }">
-    <keep-alive include="about">
+    <keep-alive :include="['about']">
       <component :is="Component" />
     </keep-alive>
   </router-view>
@@ -23,6 +23,18 @@
       zIndex: data.coverOption.zIndex,
     }"
   ></div>
+
+  <el-drawer v-model="store.state.isVisibelUserDrawer" title="个人资料" direction="rtl">
+    <div class="UserDrawer">
+      <div class="avatar">
+        <img :src="data.user_avatar" alt="" />
+      </div>
+      <div class="UserDrawer_name">
+        <span>昵称：</span>
+        <el-input v-model="data.user_name" placeholder="name" disabled />
+      </div>
+    </div>
+  </el-drawer>
 </template>
 <script setup lang="ts">
 import changeBgColorVue from "./components/change-bgColor.vue";
@@ -31,8 +43,8 @@ import { useStore } from "vuex";
 const store = useStore();
 onMounted(() => {
   store.commit("getTimeState");
-  store.state.userid = localStorage.getItem("id") || "-1";
-  store.state.username = localStorage.getItem("name") || "";
+  store.state.userid = data.user_id;
+  store.state.username = data.user_name;
 });
 const data = reactive({
   //太阳位置
@@ -46,6 +58,10 @@ const data = reactive({
     opacity: 0,
     zIndex: -99,
   },
+  user_drawer: false, ///是否显示个人资料
+  user_avatar: localStorage.getItem("header") || "",
+  user_name: localStorage.getItem("name") || "",
+  user_id: localStorage.getItem("id") || "-1",
 });
 
 // 切换主题颜色
@@ -199,8 +215,18 @@ const setsunPosition = (id: number) => {
 
   /* blogheader  */
   .blogheaderContainer {
+    overflow-x: scroll !important;
+    &::-webkit-scrollbar {
+      height: 3px !important;
+    }
+    .userHeader {
+      .userHeader_Text {
+        width: 40px;
+      }
+    }
     .nav_ul {
       & div {
+        width: 50px !important;
         margin: 0.4rem !important;
       }
     }
@@ -336,36 +362,6 @@ const setsunPosition = (id: number) => {
   }
 }
 
-.sun {
-  position: fixed;
-  z-index: 0;
-  width: 160px;
-  height: 160px;
-  animation: sun 20s infinite linear;
-  user-select: none;
-  cursor: pointer;
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
-@keyframes sun {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.stylecover {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  z-index: 99;
-  top: 0;
-  transition: 1.5s;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -406,5 +402,62 @@ const setsunPosition = (id: number) => {
       opacity: 0 !important;
     }
   }
+}
+</style>
+<style lang="less" scoped>
+.UserDrawer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .avatar {
+    width: 100px;
+    height: 100px;
+    margin-top: 3rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .UserDrawer_name {
+    margin-top: 3rem;
+    display: flex;
+    width: 300px;
+    span {
+      width: 60px;
+      line-height: 2rem;
+    }
+  }
+}
+
+.sun {
+  position: fixed;
+  z-index: 0;
+  width: 160px;
+  height: 160px;
+  animation: sun 20s infinite linear;
+  user-select: none;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes sun {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.stylecover {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  transition: 1.5s;
 }
 </style>

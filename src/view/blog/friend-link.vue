@@ -10,6 +10,16 @@
       <p class="title">{{ i18n.t("friend.title1") }}</p>
       <div class="input">
         <div class="input_left">
+          <div class="name">
+            <div class="input_itemTitle">{{ i18n.t("friend.name") }}</div>
+            <el-input
+              v-model="data.inputData.name"
+              placeholder="name"
+              class="input-with-select"
+              size="large"
+              clearable
+            />
+          </div>
           <div class="website">
             <div class="input_itemTitle">{{ i18n.t("friend.website") }}</div>
             <el-input
@@ -57,7 +67,7 @@
         <div class="input_right">
           <el-input
             v-model="data.inputData.textarea"
-            :rows="3"
+            :rows="5"
             type="textarea"
             :placeholder="i18n.t('friend.blogIntroduction')"
           />
@@ -75,7 +85,7 @@
           <a :href="item.website" target="_blank">
             <img :src="item.icon" :alt="item.website" />
             <div>
-              <p>{{ item.username }}</p>
+              <p>{{ item.name }}</p>
               <p>{{ item.container }}</p>
             </div>
           </a>
@@ -122,6 +132,7 @@ const data = reactive({
   websiteprefix: "http://",
   linkData: <any>[], //所有友链数据
   inputData: <any>{
+    name: "",
     website: "",
     icon: "",
     email: "",
@@ -136,13 +147,14 @@ const changePage = () => {
   });
 };
 const apply = async () => {
-  Object.keys(data.inputData).forEach((key) => {
-    if (data.inputData[key].length < 6) {
+  for (let i in data.inputData) {
+    if (data.inputData[i].length < 6)
       return ElMessage.error("输入的信息有误，请重新输入");
-    }
-  });
-  let { website, icon, email, textarea } = data.inputData;
+  }
+
+  let { name, website, icon, email, textarea } = data.inputData;
   const res = await applyFriendLink(
+    name,
     data.websiteprefix + website,
     icon,
     email,

@@ -47,6 +47,9 @@ router.beforeEach(async (to, from, next) => {
 
 
     if (to.fullPath.includes('/admin')) {
+        if(localStorage.getItem('id') != '1'){
+            router.push({ path: '/login' })
+        }
         const res = await verifyToken()
         if (res.data.token) {
             next()

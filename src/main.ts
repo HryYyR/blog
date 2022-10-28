@@ -17,7 +17,6 @@ const app = createApp(App)
 //dev开发，prod上线
 axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
 
-
 app.config.globalProperties.$axios = axios
 
 

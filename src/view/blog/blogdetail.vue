@@ -109,6 +109,7 @@ import {
   hasBeenLaud,
 } from "../../axios/apis";
 import { ElMessage } from "element-plus";
+import store from "../../store";
 
 const data = reactive({
   blogData: <any>[],
@@ -207,7 +208,7 @@ const sendComment = async () => {
   }
   if (await islogin()) {
     const res = await publishComment(
-      data.blogData.createuserid,
+      store.state.userid,
       data.blogData.id,
       data.commentInput,
       data.blogData.createusername,

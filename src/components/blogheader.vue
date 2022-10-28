@@ -91,13 +91,14 @@ defineProps({
 });
 
 onMounted(async () => {
+  data.header = localStorage.getItem("header") || "";
   const isToken = await verifyToken();
   data.ShowUserHeader = true;
   if (!isToken.data.token) {
     data.islogin = false;
     return localStorage.clear();
   }
-  data.header = localStorage.getItem("header") || "";
+
   data.islogin = true;
 });
 
@@ -174,13 +175,13 @@ const openUserInfo = () => {
       user-select: none;
       cursor: pointer;
       font-size: 1rem;
-      width: auto;
+      width: 110px;
       text-align: center;
       color: black;
       font-weight: 900;
       /* background: rgba(0, 0, 0, 0.2); */
       margin: 1rem;
-      padding: 0.5rem 1.5rem;
+      padding: 0.5rem 0rem;
       transition: 0.2s;
       border-radius: 10px;
       &:hover {

@@ -62,10 +62,16 @@ const data = reactive({
   user_avatar: localStorage.getItem("header") || "",
   user_name: localStorage.getItem("name") || "",
   user_id: localStorage.getItem("id") || "-1",
+  NowIsChangeBgColor: false, //现在是否正在切换背景颜色
 });
 
 // 切换主题颜色
 const ChangeBgColor = (item: any) => {
+  if (data.NowIsChangeBgColor) {
+    return;
+  } else {
+    data.NowIsChangeBgColor = true;
+  }
   data.coverOption = {
     zIndex: 98,
     color: item.start,
@@ -78,6 +84,7 @@ const ChangeBgColor = (item: any) => {
 
     setTimeout(() => {
       data.coverOption.zIndex = -99;
+      data.NowIsChangeBgColor = false;
     }, 1000);
   }, 2000);
 };
@@ -227,7 +234,7 @@ const setsunPosition = (id: number) => {
     .nav_ul {
       & div {
         width: 50px !important;
-        margin: 0.4rem !important;
+        padding: 0.4rem !important;
       }
     }
   }

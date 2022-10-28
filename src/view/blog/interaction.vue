@@ -109,6 +109,7 @@ import Wave from "../../func/wave/wave.es.min";
 import { reactive, onMounted, watch, onBeforeUnmount } from "vue";
 import anime from "animejs";
 import { ElMessage } from "element-plus";
+import debounce from "../../func/debounce/debounce";
 import {
   addinteraction,
   getallinteraction,
@@ -175,17 +176,7 @@ onMounted(async () => {
   });
 
   if (data.userid) {
-    const res = await getassigninteractionlaud(parseInt(data.userid));
-    data.userhasbeenlaudData = res.data.data.map((item: any) => {
-      return item.interactionid;
-    });
-    data.commentData.map((item: any) => {
-      if (data.userhasbeenlaudData.includes(<never>item.id)) {
-        item.islaud = true;
-      } else {
-        item.islaud = false;
-      }
-    });
+    getAsiignUserLaud();
   }
 });
 
@@ -219,13 +210,7 @@ const submitcomment = async () => {
 
   if (resolve.status == 200) {
     data.commentData = await (await getallinteraction()).data.data;
-    data.commentData.map((item: any) => {
-      if (data.userhasbeenlaudData.includes(<never>item.id)) {
-        item.islaud = true;
-      } else {
-        item.islaud = false;
-      }
-    });
+    getAsiignUserLaud();
     ElMessage.success("留言成功！");
     data.textarea = "";
   } else {
@@ -242,6 +227,8 @@ const laudinteraction = async (interaction: any) => {
     // console.log(islaudres);
 
     if (islaudres.status == 201) {
+      // console.log(islaudres);
+
       ElMessage.error("你已经点赞过了！");
       return;
     }
@@ -313,6 +300,21 @@ const judge = (data: any) => {
 
 const closedialog = () => {
   data.isshowtologindialog = false;
+};
+
+// 获取当前登录用户点赞信息
+const getAsiignUserLaud = async () => {
+  const res = await getassigninteractionlaud(parseInt(data.userid || "-1"));
+  data.userhasbeenlaudData = res.data.data.map((item: any) => {
+    return item.interactionid;
+  });
+  data.commentData.forEach((item: any) => {
+    if (data.userhasbeenlaudData.includes(<never>item.id)) {
+      item.islaud = true;
+    } else {
+      item.islaud = false;
+    }
+  });
 };
 </script>
 

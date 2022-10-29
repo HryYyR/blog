@@ -33,21 +33,18 @@ export default createStore({
         getTimeState(state) {
             let timeNow = new Date();
             let hours = timeNow.getHours();
-            if (hours > 5 && hours <= 10) {
+            if (hours > 5 && hours <= 11) {
                 state.themeState = `早上好!`;
                 state.themeColor = state.themeColorOption[0]
-            } else if (hours > 10 && hours <= 14) {
+            } else if (hours > 11 && hours <= 13) {
                 state.themeState = `中午好!`;
                 state.themeColor = state.themeColorOption[1]
 
-            } else if (hours > 14 && hours <= 18) {
+            } else if (hours > 13 && hours <= 18) {
                 state.themeState = `下午好!`;
                 state.themeColor = state.themeColorOption[2]
 
-            } else if (hours > 18 && hours <= 24) {
-                state.themeState = `晚上好!`;
-                state.themeColor = state.themeColorOption[3]
-            } else if (hours >= 0 && hours <= 5) {
+            } else if (hours > 18 && hours <= 24 || hours >= 0 && hours <= 5) {
                 state.themeState = `晚上好!`;
                 state.themeColor = state.themeColorOption[3]
             }

@@ -44,13 +44,11 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
-
     if (to.fullPath.includes('/admin')) {
-        if(localStorage.getItem('id') != '1'){
-            router.push({ path: '/login' })
-        }
         const res = await verifyToken()
+        if(localStorage.getItem('id') != '1'){
+            router.push({ path: '/blog' })
+        }
         if (res.data.token) {
             next()
         } else {

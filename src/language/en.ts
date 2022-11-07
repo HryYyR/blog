@@ -6,13 +6,15 @@ export default {
     friends: 'Friends',
     record: 'Record',
     about: 'About',
+    object:'Project',
     login: 'Login',
     title: 'Start',
   },
   blog: {
     newblog: 'Feature Articles',
     allblog: 'Articles',
-    more: 'More'
+    more: 'More',
+    nomore:'No more'
   },
   blogRight: {
     label: 'Label',
@@ -26,14 +28,14 @@ export default {
 
   },
   friend: {
-    title1: 'friend chain',
-    title2: 'Friend chain list',
+    title1: 'Friends Link',
+    title2: 'Friends link list',
     name:'Name:',
     website: 'Website:',
     favicon: 'Favicon:',
     email: 'Email:',
     blogIntroduction: 'blog Introduction (More than six characters but less than twenty-five characters)',
-    btn: 'Apply for a friend chain'
+    btn: 'Apply for a friend link'
   },
   record: {
     title: 'Record'

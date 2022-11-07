@@ -59,7 +59,12 @@
       />
 
       <div class="moreBlock">
-        <button class="more" @click="addMoreBlog">{{ changeData.moreText }}</button>
+        <button class="more" @click="addMoreBlog" v-if="data.haveMoreData">
+          {{ changeData.moreText }}
+        </button>
+        <button class="more" @click="addMoreBlog" v-if="!data.haveMoreData">
+          {{ changeData.nomoreText }}
+        </button>
       </div>
     </div>
 
@@ -89,7 +94,6 @@ import { ElMessage, ElNotification } from "element-plus";
 import router from "../../router";
 import { useStore } from "vuex";
 import throttle from "../../func/throttle/throttle";
-import { nextTick } from "process";
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
@@ -110,6 +114,7 @@ let changeData: any = computed(() => {
       },
     },
     moreText: i18n.t("blog.more"),
+    nomoreText: i18n.t("blog.nomore"),
   };
 });
 
@@ -124,6 +129,7 @@ const data = reactive({
   showBlogData: <any>[], //展示的博客数据
   pageNum: 1, //分页
   Num: 5, //每页数量
+  haveMoreData: true, //是否还有更多数据
   scrollOption: {
     screenH: 0,
     domHight: window.innerHeight,
@@ -175,9 +181,13 @@ onBeforeUnmount(() => {
 const addMoreBlog = async () => {
   data.pageNum++;
   const res = await getBlogData(data.pageNum, data.Num);
+
   if (res.data.length == 0) {
+    data.haveMoreData = false;
     window.removeEventListener("scroll", scrollToTop);
-    return (changeData.moreText = "暂无更多");
+    changeData.moreText = "暂无更多";
+
+    return;
   }
   !store.state.isPC && res.data.map((item: any) => (item.isShow = 1)); //如果是手机就直接显示
   clearHTML(res.data);
@@ -284,7 +294,17 @@ const scrollToTop = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-bottom: 2rem;
+      align-items: center;
+      transition: 0.3s;
+      padding: 1rem 0;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        .more {
+          color: rgba(0, 0, 0, 0.7);
+        }
+      }
 
       .more {
         cursor: pointer;
@@ -292,11 +312,10 @@ const scrollToTop = () => {
         width: 7.5rem;
         height: 2.5rem;
         transition: 0.2s;
-        border-radius: 25px;
         font-family: heiti;
-        font-size: 1.1rem;
-        font-weight: 600;
         color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
         border: none;
         background-color: transparent;
       }

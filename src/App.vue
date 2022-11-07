@@ -24,6 +24,7 @@
     }"
   ></div>
 
+  <!-- 个人资料 -->
   <el-drawer v-model="store.state.isVisibelUserDrawer" title="个人资料" direction="rtl">
     <div class="UserDrawer">
       <div class="avatar">
@@ -38,7 +39,7 @@
 </template>
 <script setup lang="ts">
 import changeBgColorVue from "./components/change-bgColor.vue";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
 onMounted(() => {
@@ -64,7 +65,11 @@ const data = reactive({
   user_id: localStorage.getItem("id") || "-1",
   NowIsChangeBgColor: false, //现在是否正在切换背景颜色
 });
-
+watch(store.state, (newvalue, oldvalue) => {
+  data.user_avatar = localStorage.getItem("header") || "";
+  data.user_name = localStorage.getItem("name") || "";
+  data.user_id = localStorage.getItem("id") || "-1";
+});
 // 切换主题颜色
 const ChangeBgColor = (item: any) => {
   if (data.NowIsChangeBgColor) {
@@ -120,6 +125,7 @@ const setsunPosition = (id: number) => {
 </script>
 
 <style lang="less">
+@import "./APP.css";
 @containerbgcolor:rgba (227, 237, 255, 0.7);
 * {
   padding: 0;

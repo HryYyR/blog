@@ -1,0 +1,16 @@
+.flex{
+    display: flex;
+}
+.flex-jcc{
+    display: flex;
+    justify-content: center;
+}
+.flex-aic{
+    display: flex;
+    align-items: center;
+}
+.flex-jcc-aic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

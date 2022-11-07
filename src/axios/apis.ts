@@ -252,3 +252,11 @@ export function getassigninteractionlaud(userid: number) {
       }
    })
 }
+
+// 获取所有的项目数据
+export function getAllobjectData(){
+   return axios({
+      method: 'post',
+      url: '/api/getAllobjectData',
+   })
+}

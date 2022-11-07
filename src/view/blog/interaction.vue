@@ -32,7 +32,7 @@
             }}</el-button>
           </div>
         </div>
-        <div class="interaction_comment">
+        <div class="interaction_comment flex-jcc-aic">
           <div
             class="interaction_comment_item"
             v-for="(item, index) in data.commentData"
@@ -376,11 +376,8 @@ const getAsiignUserLaud = async () => {
     }
     .interaction_comment {
       position: relative;
-      display: flex;
       flex-direction: column;
       flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
       height: auto;
       width: 100%;
       top: 3rem;

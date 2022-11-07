@@ -113,7 +113,9 @@ onMounted(async () => {
 
   .blogRight_about {
     width: 98%;
+    border-radius: 20px;
     height: auto;
+    overflow: hidden;
     background: rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
@@ -184,6 +186,7 @@ onMounted(async () => {
   }
   .blogRight_label {
     width: 98%;
+    border-radius: 20px;
     height: auto;
     min-height: 15rem;
     background: rgba(255, 255, 255, 0.5);
@@ -215,7 +218,7 @@ onMounted(async () => {
         justify-content: center;
         align-items: center;
         margin: 0.5rem 0.2rem;
-        border-radius: 3px;
+        border-radius: 5px;
         background-color: white;
         color: rgba(0, 0, 0, 0.6);
         transition: all 0.2s;
@@ -250,6 +253,7 @@ onMounted(async () => {
 
   .blogRight_sort {
     width: 98%;
+    border-radius: 20px;
     height: auto;
     padding-bottom: 1.4rem;
     background: rgba(255, 255, 255, 0.5);

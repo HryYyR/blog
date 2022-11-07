@@ -390,7 +390,7 @@ const islogin = async () => {
       flex-direction: column;
       align-items: flex-end;
       position: fixed;
-      left: 10rem;
+      left: 5rem;
       top: 17%;
       & > div {
         cursor: pointer;

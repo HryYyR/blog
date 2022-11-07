@@ -15,6 +15,7 @@ const routes = [
     { path: '/friendLink', name: 'friendLink', component: () => import('../view/blog/friend-link.vue') },
     { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
     { path: '/about', name: 'about', component: () => import('../view/blog/about.vue') },
+    { path: '/object', name: 'object', component: () => import('../view/blog/object.vue') },
 
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog//blogdetail.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login.vue') },
@@ -47,6 +48,7 @@ router.beforeEach(async (to, from, next) => {
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
         if(localStorage.getItem('id') != '1'){
+            ElMessage.error('权限不够')
             router.push({ path: '/blog' })
         }
         if (res.data.token) {

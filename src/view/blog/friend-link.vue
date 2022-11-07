@@ -113,7 +113,7 @@ onMounted(async () => {
   const resolve: any = await getFriendLink();
   resolve.status != 200 && ElMessage.error("数据获取失败！");
   data.linkData = resolve.data.data;
-  console.log(data.linkData);
+  // console.log(data.linkData);
 
   anime({
     targets: [".friend_link_container"],

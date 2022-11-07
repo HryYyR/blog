@@ -6,13 +6,15 @@ export default {
     friends: '友链',
     record: '记录',
     about: '关于',
+    object:'项目',
     login: '登录',
     title: '开启旅程',
   },
   blog: {
     newblog: '最新博客',
     allblog: '所有博客',
-    more: '获取更多'
+    more: '获取更多',
+    nomore:'暂无更多'
   },
   blogRight: {
     label: '标签',
@@ -30,7 +32,6 @@ export default {
     title2: '友链列表',
     name:'名称:',
     website: '网址：',
-    
     favicon: '图标:',
     email: '邮箱:',
     blogIntroduction: '博客简介( 大于6个字,小于50个字 )',

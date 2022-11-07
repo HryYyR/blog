@@ -71,6 +71,7 @@ let navList: any = computed(() => {
     { name: "friendLink", path: "/friendLink", title: i18n.t("header.friends") },
     { name: "record", path: "/record", title: i18n.t("header.record") },
     { name: "message", path: "/about", title: i18n.t("header.about") },
+    { name: "object", path: "/object", title: i18n.t("header.object") },
   ]; //导航栏信息
 });
 

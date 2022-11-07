@@ -2,12 +2,12 @@
   <div>
     <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
     <div
-      class="record"
+      class="record flex-jcc"
       :style="{
         backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
       }"
     >
-      <div class="record_body">
+      <div class="record_body flex-jcc">
         <div class="record_title">{{ i18n.t("record.title") }}</div>
 
         <div class="rope"></div>
@@ -76,6 +76,7 @@ onMounted(async () => {
   let myAnimation = anime({
     targets: [".record_body"],
     translateY: "-5rem",
+    opacity: 1,
     duration: 1000,
   });
 });
@@ -94,16 +95,13 @@ const changePage = () => {
   width: 100%;
   height: auto;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
   position: relative;
   overflow: hidden;
   .record_body {
-    display: flex;
-    justify-content: center;
     width: 50%;
     min-width: 700px;
     height: auto;
+    opacity: 0;
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
     border-radius: 30px;

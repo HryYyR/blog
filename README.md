@@ -16,20 +16,27 @@
 
 前端
 ``` 
-
 git clone https://github.com/HryYyR/blog.git 
-
-npm i 
-
-npm run dev
-
  ```
+ 
+```
+npm i 
+ ```
+ 
+```
+npm run dev
+ ```
+ 
 后端
 ```
 git clone https://github.com/HryYyR/blognode.git 
-
+ ```
+ 
+```
 npm i 
-
+ ```
+ 
+```
 node index.js 
 or
 nodemon index.js

@@ -4,12 +4,19 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import viteCompression from 'vite-plugin-compression'  //gzip
+import resolveExternalsPlugin from 'vite-plugin-resolve-externals'
+
 export default defineConfig({
   define: {
     'process.env': {}
   },
+  
   plugins: [
     Vue(),
+    resolveExternalsPlugin({
+      QC: 'QC'
+    }),
     AutoImport({
       imports: ['vue'],
       resolvers: [
@@ -23,8 +30,15 @@ export default defineConfig({
       ],
 
     }),
+    viteCompression({
+      threshold: 409600, // 对大于 400kb 的文件进行压缩
+      algorithm: 'gzip'
+    })
 
   ],
+  server: {
+    port: 8080
+  },
   resolve: {
     alias: {
       qc: 'QC'

@@ -111,7 +111,7 @@ const data = reactive({
   ],
   blogData: <any>[],
   blogTotal: 0, //数据总数
-  pageSize: 5, //每页数量
+  pageSize: 8, //每页数量
   deletevisible: false,
 });
 onMounted(async () => {

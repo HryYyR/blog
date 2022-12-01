@@ -7,13 +7,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Blogbottom: typeof import('./src/components/blogbottom.vue')['default']
-    Blogheader: typeof import('./src/components/blogheader.vue')['default']
-    BlogItem: typeof import('./src/components/blogItem.vue')['default']
-    BlogLeft: typeof import('./src/components/blogLeft.vue')['default']
-    Blogoption: typeof import('./src/components/blogoption.vue')['default']
-    BlogRight: typeof import('./src/components/blogRight.vue')['default']
-    ChangeBgColor: typeof import('./src/components/change-bgColor.vue')['default']
+    Blogbottom: typeof import('./src/components/blog-bottom/blogbottom.vue')['default']
+    Blogheader: typeof import('./src/components/blog-header/blogheader.vue')['default']
+    BlogItem: typeof import('./src/components/blog-item/blogItem.vue')['default']
+    Blogoption: typeof import('./src/components/blog-option/blogoption.vue')['default']
+    BlogRight: typeof import('./src/components/blog-right/blogRight.vue')['default']
+    BlogTop: typeof import('./src/components/blog-top/blogTop.vue')['default']
+    ChangeBgColor: typeof import('./src/components/change-bgcolor/change-bgColor.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -45,8 +45,7 @@ declare module '@vue/runtime-core' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Title: typeof import('./src/components/title.vue')['default']
-    Tologindialog: typeof import('./src/components/tologindialog.vue')['default']
+    Tologindialog: typeof import('./src/components/to-login-dialog/tologindialog.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

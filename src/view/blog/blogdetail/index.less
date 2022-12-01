@@ -1,0 +1,179 @@
+
+.blogDetailContainer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.8);
+    padding-bottom: 5rem;
+    background-color: rgba(128, 128, 128, 0.1);
+    overflow: hidden;
+    .blogDetailbody {
+      position: relative;
+      left: -10rem;
+      width: 90%;
+      display: flex;
+      justify-content: center;
+      margin-top: 5rem;
+      .content {
+        width: 55%;
+        height: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .content_container {
+          padding: 1rem 1rem 1rem 3rem;
+          background-color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+  
+          .title {
+            margin: 1rem 0 1rem 0;
+            color: black;
+          }
+          .time {
+            color: rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+          }
+          .cover {
+            width: 80%;
+            margin-bottom: 1rem;
+            img {
+              width: 100%;
+            }
+          }
+          .blogdetailContainerHtml {
+            overflow: hidden;
+          }
+        }
+        .comment {
+          height: auto;
+          background-color: white;
+          width: 96%;
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          padding: 1rem;
+          min-width: 665px;
+          .myComment {
+            margin-bottom: 1rem;
+            & h2 {
+              margin-bottom: 2rem;
+            }
+            & .sendComment {
+              width: 100%;
+              display: flex;
+              align-items: flex-end;
+              justify-content: flex-end;
+              margin-top: 1rem;
+              position: relative;
+            }
+          }
+          .allComment {
+            min-height: 100px;
+            .nomorecomment {
+              display: flex;
+              justify-content: center;
+              font-weight: 900;
+              font-family: "heiti";
+              color: rgba(0, 0, 0, 0.5);
+            }
+            .allComment_item {
+              display: flex;
+              margin: 2rem 0;
+              padding: 1rem 1rem 1rem 0.5rem;
+              background-color: rgba(157, 157, 157, 0.1);
+              .allComment_item_left {
+                width: 60px;
+                height: auto;
+                display: flex;
+                justify-content: center;
+                padding-top: 0.5rem;
+                padding-left: 1rem;
+                & div {
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50px;
+                  overflow: hidden;
+  
+                  & img {
+                    width: 60px;
+                    height: 60px;
+  
+                    transform-origin: center;
+                  }
+                }
+              }
+              .allComment_item_right {
+                padding: 0.3rem 0 0 0.3rem;
+                flex: 1;
+                .allComment_item_name {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                  color: black;
+                  padding-left: 1rem;
+                  & span:nth-child(1) {
+                    color: skyblue;
+                    font-weight: 600;
+                  }
+                  & span:nth-child(2) {
+                    color: rgba(0, 0, 0, 0.4);
+                    font-size: 0.8rem;
+                    margin-left: 0.5rem;
+                  }
+                }
+                .allComment_item_container {
+                  padding: 1rem 2rem;
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+        }
+      }
+      .edit {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: fixed;
+        left: 5rem;
+        top: 17%;
+        & > div {
+          cursor: pointer;
+          -webkit-user-select: none;
+          user-select: none;
+          width: 3rem;
+          height: 3rem;
+          margin: 1rem 0.5rem;
+          background-color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50px;
+          transition: 0.2s;
+  
+          &:hover {
+            background-color: rgba(128, 128, 128, 0.1);
+          }
+        }
+        & > div img {
+          width: 80%;
+          height: 80%;
+        }
+      }
+  
+      .info {
+        width: 20%;
+        background-color: white;
+      }
+    }
+  }
+  .item {
+    margin-right: -7px;   
+  }

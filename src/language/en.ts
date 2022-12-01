@@ -22,9 +22,9 @@ export default {
   },
   interaction: {
     title: 'Message',
-    textarea: 'Leave your suggestion!',
+    textarea: 'leave your suggestion!',
     submitinfo: 'Submit message',
-    info: '(It is suggested to comment after logging in!)'
+    info: '(suggested to comment after logging in!)'
 
   },
   friend: {

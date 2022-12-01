@@ -11,8 +11,8 @@ export async function getIpAndPath() {
       method: 'get',
       url: `/api/getip`,
    })
-   let ip =ipresolve.data.ip
-   return {ip: ip }
+   let ip = ipresolve.data.ip
+   return { ip: ip }
 }
 
 
@@ -124,7 +124,7 @@ export function hasBeenLaud(blogid: number, userid: number) {
 
 
 // 登录
-export  function login(user: string, pass: string) {
+export function login(user: string, pass: string) {
    return axios({
       method: 'post',
       url: '/api/login',
@@ -135,8 +135,23 @@ export  function login(user: string, pass: string) {
    })
 }
 
+
+
+// QQ登录
+export function QQlogin(data: string, openID: string,accessToken:String) {
+   return axios({
+      method: 'post',
+      url: '/api/QQlogin',
+      data: {
+         data: data,
+         openID: openID,
+         accessToken:accessToken
+      }
+   })
+}
+
 // 注册
-export  function   rigister(user: string, pass: string, email: string) {
+export function rigister(user: string, pass: string, email: string) {
    return axios({
       method: 'post',
       url: '/api/rigister',
@@ -191,7 +206,7 @@ export function File(img: any) {
 
 
 // 添加留言
-export function addinteraction(userid: string, username: string, container: string, islogin: String, isreply: number, replayuserid: number,userip:string) {
+export function addinteraction(userid: string, username: string, container: string, islogin: String, isreply: number, replayuserid: number, userip: string) {
    return axios({
       method: 'post',
       url: '/api/addinteraction',
@@ -202,7 +217,7 @@ export function addinteraction(userid: string, username: string, container: stri
          islogin: islogin,
          isreply: isreply,
          replayuserid: replayuserid,
-         userip:userip,
+         userip: userip,
       }
    })
 }
@@ -254,9 +269,12 @@ export function getassigninteractionlaud(userid: number) {
 }
 
 // 获取所有的项目数据
-export function getAllobjectData(){
+export function getAllobjectData() {
    return axios({
       method: 'post',
       url: '/api/getAllobjectData',
    })
 }
+
+
+

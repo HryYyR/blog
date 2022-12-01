@@ -29,6 +29,8 @@ const data = reactive({
 
 onMounted(async () => {
   const res = await getAdminSortData();
+  console.log(res);
+
   data.sortData = res.data;
 });
 </script>

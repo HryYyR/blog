@@ -2,25 +2,25 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { verifyToken } from '../axios/apis'
 import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
-import blog from '../view/blog/blog.vue'
-let store = useStore()
+import blog from '../view/blog/blog-index/blog.vue'
+
 
 const routes = [
     { path: '/', redirect: '/blog' },
-    { path: '/index', name: 'index', component: () => import('../view/blog/index.vue'), children: [] },
+    { path: '/index', name: 'index', component: () => import('../view/blog/index/index.vue'), children: [] },
     { path: '/blog', name: 'blog', component: blog },
-    { path: '/sort', name: 'sort', component: () => import('../view/blog/Sort.vue') },
-    { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction.vue') },
-    { path: '/friendLink', name: 'friendLink', component: () => import('../view/blog/friend-link.vue') },
-    { path: '/record', name: 'record', component: () => import('../view/blog/record.vue') },
-    { path: '/about', name: 'about', component: () => import('../view/blog/about.vue') },
-    { path: '/object', name: 'object', component: () => import('../view/blog/object.vue') },
-
-    { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog//blogdetail.vue') },
-    { path: '/login', name: 'login', component: () => import('../view/admin/login.vue') },
+    { path: '/sort', name: 'sort', component: () => import('../view/blog/sort/Sort.vue') },
+    { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction/interaction.vue') },
+    { path: '/friendLink', name: 'friendLink', component: () => import('../view/blog/friend-link/friend-link.vue') },
+    { path: '/record', name: 'record', component: () => import('../view/blog/record/record.vue') },
+    { path: '/about', name: 'about', component: () => import('../view/blog/about/about.vue') },
+    { path: '/object', name: 'object', component: () => import('../view/blog/object/object.vue') },
+    { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog/blogdetail/blogdetail.vue') },
+    
+    { path: '/checkQQlogin', name: 'checkQQlogin', component: () => import('../view/blog/checkQQlogin/checkQQlogin.vue') },
+    { path: '/login', name: 'login', component: () => import('../view/admin/login/login.vue') },
     {
-        path: '/admin', name: 'admin', redirect: '/admin/addblog', component: () => import('../view/admin/adminIndex.vue'), children: [
+        path: '/admin', name: 'admin', redirect: '/admin/addblog', component: () => import('../view/admin/admin-index/adminIndex.vue'), children: [
             { path: '/admin/addblog', name: 'addblog', component: () => import('../view/admin/adminblog/addblog.vue') },
             { path: '/admin/blogManager', name: 'blogManager', component: () => import('../view/admin/adminblog/blogmanager.vue') },
             { path: '/admin/labelManager', name: 'labelManager', component: () => import('../view/admin/adminblog/labelmanager.vue') },
@@ -30,6 +30,7 @@ const routes = [
             { path: '/admin/userinfoManager', name: 'userinfoManager', component: () => import('../view/admin/adminuser/userinfomanager.vue') },
             { path: '/admin/userPowerManager', name: 'userPowerManager', component: () => import('../view/admin/adminuser/userpowermanager.vue') },
             { path: '/admin/recordManager', name: 'recordManager', component: () => import('../view/admin/adminrecord/recordmanager.vue') },
+            { path: '/admin/friendLinkManager', name: 'friendLinkManager', component: () => import('../view/admin/adminfriendlink/friendlinkmanager.vue') }
 
         ]
     },
@@ -47,24 +48,21 @@ router.beforeEach(async (to, from, next) => {
     document.documentElement.scrollTop = 0;
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
-        if(localStorage.getItem('id') != '1'){
-            ElMessage.error('权限不够')
-            router.push({ path: '/blog' })
-        }
-        if (res.data.token) {
-            next()
+        if (res.data.token && res.data.grade == 1) {
+            return next()
         } else {
-            ElMessage.error('token无效，请重新登录')
-            localStorage.clear()
-            store.state.userid = '-1'
-            store.state.username = ''
-            store.state.token = ''
-            return router.push({ path: '/login' })
+            if (!res.data.token) {
+                ElMessage.error('token无效,请重新登录')
+                localStorage.clear()
+                return next("/login")
+            }
+            if (res.data.grade != 1) {
+                ElMessage.error('权限不够！')
+                return next("/blog")
+            }
         }
-    } else {
-        next()
-
     }
+    next()
 })
 
 

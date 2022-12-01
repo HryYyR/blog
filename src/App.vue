@@ -38,7 +38,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import changeBgColorVue from "./components/change-bgColor.vue";
+import changeBgColorVue from "./components/change-bgcolor/change-bgColor.vue";
 import { onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
@@ -125,254 +125,13 @@ const setsunPosition = (id: number) => {
 </script>
 
 <style lang="less">
-@import "./APP.css";
+@import "./app-css/APP.less";
+@import "./app-css/screen-adaptation.less";
+
 @containerbgcolor:rgba (227, 237, 255, 0.7);
 * {
   padding: 0;
   margin: 0;
-}
-@media screen and (max-width: 700px) {
-  /*  blogitem  */
-  .newBlog {
-    flex-direction: column;
-    height: auto !important;
-    .newBlog_right {
-      height: auto !important;
-      img {
-        width: 100% !important;
-        height: 100% !important;
-        min-height: 190px !important;
-      }
-    }
-    .newBlog_left {
-      width: 88% !important;
-      .newBlog_Title {
-        font-size: 1.1rem !important;
-      }
-      .newBlog_body {
-        font-size: 0.8rem !important;
-      }
-    }
-    .newblog_labelsort {
-      font-size: 0.4rem !important;
-    }
-  }
-
-  /*login */
-  .loginpage_top {
-    width: 100% !important;
-    .input_box {
-      width: 85% !important;
-    }
-    .name {
-      width: 100% !important;
-    }
-    .pass {
-      width: 100% !important;
-      input {
-        min-width: 170px !important;
-      }
-    }
-    .login_container {
-      width: 100% !important;
-      min-width: 0 !important;
-      transform: none !important;
-    }
-    .register_container {
-      width: 100% !important;
-      min-width: 0 !important;
-      transform: none !important;
-    }
-    input {
-      width: 100px !important;
-    }
-  }
-
-  /*  blog */
-  .blogRight {
-    width: 0 !important;
-    margin: 0 !important;
-    opacity: 0 !important;
-  }
-  .blogLeft {
-    width: 0 !important;
-    margin: 0 !important;
-  }
-  .blogCenter {
-    flex: 1 !important;
-    margin: 0 !important;
-  }
-
-  /* sort  */
-  .sort_container {
-    width: 96% !important;
-  }
-  .interaction_name {
-    width: 100% !important;
-  }
-
-  /* title  */
-  .titleWord {
-    font-size: 5rem !important;
-  }
-  .navBtn {
-    width: 8rem !important ;
-    height: 3rem !important ;
-    font-size: 1rem !important;
-  }
-  .down {
-    img {
-      width: 2.5rem !important;
-    }
-  }
-
-  /* blogheader  */
-  .blogheaderContainer {
-    overflow-x: scroll !important;
-    &::-webkit-scrollbar {
-      height: 3px !important;
-    }
-    .userHeader {
-      .userHeader_Text {
-        width: 40px;
-      }
-    }
-    .nav_ul {
-      & div {
-        width: 50px !important;
-        padding: 0.4rem !important;
-      }
-    }
-  }
-
-  /* blogdetail  */
-  .blogDetailContainer {
-    .body {
-      width: 100% !important;
-    }
-    .content {
-      width: 100% !important;
-      .content_container {
-        padding: 0.2rem !important;
-      }
-    }
-    .edit {
-      display: none !important;
-    }
-    .info {
-      display: none !important;
-    }
-    .blogdetailContainerHtml {
-      max-width: 340px;
-      overflow-x: scroll !important;
-    }
-    .comment {
-      width: 93% !important;
-      min-width: 0 !important;
-    }
-  }
-  /* record  */
-  .record {
-    .record_body {
-      min-width: 0 !important;
-      .record_title {
-        left: 95px !important;
-      }
-      width: 95% !important;
-    }
-    .record_item {
-      width: 150px !important;
-    }
-    .rope {
-      left: 60px !important;
-    }
-    .before {
-      left: -120px !important;
-      &::before {
-        left: 150px !important;
-      }
-    }
-    .after {
-      left: 60px !important;
-    }
-  }
-
-  /* inteeraction  */
-  .interaction_container {
-    .interaction_body_container {
-      width: 96% !important;
-      padding: 0 !important;
-    }
-    .interaction_comment {
-      width: 87% !important ;
-      .interaction_time {
-        display: none !important;
-      }
-    }
-  }
-
-  /* about */
-  .about {
-    height: auto !important;
-    .toaboutdetail {
-      display: none !important;
-    }
-    .cover {
-      display: none !important;
-    }
-    .about_container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-top: 5rem !important;
-    }
-    .aboutdialog {
-      font-size: 1rem !important;
-      margin: 1rem 0 !important;
-      padding: 35px !important;
-      opacity: 1 !important;
-      width: 80% !important;
-      min-height: 200px !important;
-      position: relative !important;
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      flex-direction: column !important;
-      div {
-        color: white !important;
-      }
-      p {
-        color: white !important;
-        font-size: 1.7rem;
-        margin-bottom: 0.3rem;
-      }
-      li {
-        color: white !important;
-      }
-    }
-    .aboutbg {
-      position: fixed;
-      z-index: 0-1 !important;
-      top: 0;
-      width: 100% !important;
-      height: 100% !important;
-    }
-  }
-
-  /*  friendlink  */
-  .friend_link {
-    .friend_link_container {
-      width: 95% !important;
-      .input {
-        width: 85% !important;
-        flex-direction: column !important;
-        & > div {
-          width: 100% !important;
-        }
-      }
-    }
-  }
 }
 
 ::-webkit-scrollbar {
@@ -393,28 +152,6 @@ const setsunPosition = (id: number) => {
 }
 ::-webkit-scrollbar-corner {
   background-color: lightcoral;
-}
-
-@media screen and (max-width: 1680px) and (min-width: 1100px) {
-  /* blogdetail  */
-  .blogDetailContainer {
-    .edit {
-      left: 1rem !important;
-    }
-  }
-}
-@media screen and (max-width: 1100px) and (min-width: 700px) {
-  /* blogdetail  */
-  .blogDetailContainer {
-    .edit {
-      display: none !important;
-    }
-    .blogRight {
-      width: 0 !important;
-      margin: 0 !important;
-      opacity: 0 !important;
-    }
-  }
 }
 </style>
 <style lang="less" scoped>
@@ -471,6 +208,6 @@ const setsunPosition = (id: number) => {
   position: fixed;
   z-index: 99;
   top: 0;
-  transition: 1.5s;
+  transition: 0.5s;
 }
 </style>

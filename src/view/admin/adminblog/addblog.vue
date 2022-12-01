@@ -136,6 +136,7 @@ import {
 } from "vue";
 import { log } from "console";
 import { dataset } from "dom7";
+import router from "../../../router";
 const route = useRoute();
 const internalInstance = getCurrentInstance();
 
@@ -234,6 +235,7 @@ const editBlog = async () => {
   if (res.status == 200) {
     data.dialogVisible = false;
     ElMessage.success("修改博客成功！");
+    router.back();
   } else {
     console.log(res);
   }

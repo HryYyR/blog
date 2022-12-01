@@ -61,6 +61,14 @@ export function getAdminGradeData(){
     })
 }
 
+// 获取所有友链数据
+export function getAdminFriendLinkData(){
+   return axios({
+      method:'post',
+      url: '/api/admin/getFriendLinkData',
+    })
+}
+
 // 添加博客
 export function addblog(title:String,container:String,labellist:any,sortID:number,Img:string){
    return axios({

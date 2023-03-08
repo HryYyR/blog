@@ -2,6 +2,9 @@
 
 演示地址：[demo](https://hyyyh.top)
 
+## 介绍
+vue3+typescript+vite+less
+
 ## 页面
 1. 首页
 2. 分类

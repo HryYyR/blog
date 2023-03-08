@@ -2,6 +2,7 @@ import { useScriptTag } from '@vueuse/core'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { Base64 } from 'js-base64'
+import store from '../store'
 axios.defaults.baseURL = 'http://localhost:3001'
 
 
@@ -173,6 +174,35 @@ export function loginout(userId: number) {
       }
    })
 }
+
+
+// 获取指定用户的基本数据
+export function getuserdata() {
+   return axios({
+      method: 'post',
+      url: '/api/getAssignUserData',
+      data:{
+         userid:store.state.userid
+      }
+   })
+}
+
+// 修改指定用户的数据
+export function edituserdata( userid:number, username:string, email:string, sex:string, year:number, city:string) {
+   return axios({
+      method: 'post',
+      url: '/api/editAssignUserData',
+      data:{
+         userid:userid,
+         username:username,
+         email:email,
+         sex:sex,
+         year:year,
+         city:city
+      }
+   })
+}
+
 
 // 获取所有记录数据
 export function getRecordData() {

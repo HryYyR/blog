@@ -2,7 +2,7 @@
   <div
     class="friend_link"
     :style="{
-      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
     }"
   >
     <blogheaderVue :bgColor="true" @changePage="changePage" />
@@ -122,11 +122,11 @@ onMounted(async () => {
     duration: 1000,
   });
 });
-watch(store.state, (newvalue, oldvalue) => {
-  data.themeColor = newvalue.themeColor;
-});
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 const data = reactive({
-  themeColor: store.state.themeColor,
+  // themeColor: store.state.themeColor,
   userid: store.state.userid,
   username: store.state.username,
   websiteprefix: "http://",
@@ -178,7 +178,7 @@ const apply = async () => {
 
 <style scoped lang="less">
 @bgcolor: rgba(255, 255, 255, 0.7);
-@boxshadow: 0 13px 0px -5px rgba(255, 255, 255, 0.4);
+@boxshadow: 0 13px 0px -5px var(--WB-4);
 .friend_link {
   width: 100%;
   min-height: 100%;
@@ -190,25 +190,28 @@ const apply = async () => {
   .friend_link_container {
     margin: 2rem 0 0rem 0;
     width: 60%;
-    background-color: rgba(255, 255, 255, 0.7);
+
+    background-color: var(--BW-9);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0;
     position: relative;
-    box-shadow: @boxshadow;
+    box-shadow: 0 13px 0px -5px var(--BW-3);
     .title {
       font-size: 2rem;
       position: relative;
       margin: 2rem 0;
       font-weight: 900;
+      color: var(--WB);
     }
     .input {
+      transition: 0.4s;
       width: 80%;
       height: auto;
-      background-color: @bgcolor;
-      box-shadow: @boxshadow;
+      background-color: var(--BW-7);
+      box-shadow: 0 13px 0px -5px var(--BW);
       border-radius: 30px;
       position: relative;
       user-select: none;
@@ -236,10 +239,12 @@ const apply = async () => {
         }
       }
       .input_itemTitle {
+        transition: 0.5s;
         margin: auto;
         min-width: 3rem;
-        color: rgba(0, 0, 0, 0.8);
+        color: var(--WB-8);
         font-weight: 600;
+        padding-right: 0.1rem;
       }
       .apply {
         margin-top: 0.8rem;
@@ -248,13 +253,14 @@ const apply = async () => {
     }
 
     .link_list {
+      transition: 0.6s;
       position: relative;
       width: 90%;
       padding: 1rem;
       margin-bottom: 4rem;
       min-height: 200px;
-      background-color: @bgcolor;
-      box-shadow: @boxshadow;
+      background-color: var(--BW-7);
+      box-shadow: 0 13px 0px -5px var(--BW);
       border-radius: 30px;
       display: flex;
       flex-wrap: wrap;

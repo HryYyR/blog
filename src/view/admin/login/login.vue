@@ -336,15 +336,6 @@ const backlogin = () => {
 const toindex = () => {
   router.push({ path: "/" });
 };
-
-//  qq登录
-const smlogin = () => {
-  ElMessage.error("暂未开放");
-};
-
-const sendRegister = async () => {
-  data.isShowRegister = true;
-};
 </script>
 
 <style scoped lang="less">

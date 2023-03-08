@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <blogheader :bgColor="data.navColor"></blogheader>
-    <blogTop
-      :viewTitle="data.viewTitle"
-      :isShow="data.isShowTitle"
-      :themeColor="themeColor"
-    ></blogTop>
+    <blogTop :viewTitle="data.viewTitle" :isShow="data.isShowTitle"></blogTop>
     <router-view></router-view>
   </div>
 </template>

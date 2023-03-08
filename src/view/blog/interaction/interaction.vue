@@ -2,21 +2,13 @@
   <div
     class="interaction_container"
     :style="{
-      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
     }"
   >
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="interaction_body">
-      <div
-        class="interaction_body_container"
-        :style="{
-          backgroundColor:
-            data.themeColor.id == 3
-              ? 'rgba(243, 243, 255, 0.9)'
-              : 'rgba(243, 243, 255, 0.7)',
-        }"
-      >
-        <h1>{{ i18n.t("interaction.title") }}</h1>
+      <div class="interaction_body_container" :style="{}">
+        <h1 style="color: var(--WB)">{{ i18n.t("interaction.title") }}</h1>
         <div class="interaction__inputbody">
           <el-input
             v-model="data.textarea"
@@ -136,12 +128,12 @@ const data = reactive({
   userhasbeenlaudData: [],
   replycontent: "",
   newopenreplydialogIndex: -1,
-  themeColor: store.state.themeColor,
+  // themeColor: store.state.themeColor,
   containerOpacity: 1,
 });
-watch(store.state, (newvalue, oldvalue) => {
-  data.themeColor = newvalue.themeColor;
-});
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 
 onMounted(async () => {
   let myAnimation = anime({
@@ -330,7 +322,8 @@ const getAsiignUserLaud = async () => {
     .interaction_body_container {
       z-index: 1;
       width: 50vw;
-      box-shadow: 0px 15px 0px -5px rgba(255, 255, 255, 0.8);
+      box-shadow: 0px 15px 0px -5px var(--BW-8);
+      background-color: var(--BW-5);
       border-radius: 15px;
       min-height: 100vh;
       margin: 7rem 0;
@@ -357,7 +350,7 @@ const getAsiignUserLaud = async () => {
           justify-content: space-between;
           & span {
             margin-left: 0.5rem;
-            color: rgba(0, 0, 0, 0.4);
+            color: var(--WB-7);
           }
           .submitbtn {
             position: relative;
@@ -395,6 +388,8 @@ const getAsiignUserLaud = async () => {
         border-radius: 5px;
         background-color: rgba(157, 157, 157, 0.1);
         border: 1px dashed rgba(0, 0, 0, 0.2);
+        color: var(--WB);
+        transition: 0.5s;
         .interaction_comment_img {
           width: 50px;
           height: 50px;
@@ -426,7 +421,7 @@ const getAsiignUserLaud = async () => {
               margin-right: 0.5rem;
             }
             .interaction_time {
-              color: rgba(0, 0, 0, 0.4);
+              color: var(--WB-3);
               font-size: 0.8rem;
               margin: 0 1rem 0 0;
             }

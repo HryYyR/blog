@@ -2,39 +2,23 @@
   <div class="about">
     <blogheaderVue :bgColor="data.isshowtitle"></blogheaderVue>
     <div class="about_container" ref="about_container">
-      <div
-        class="toaboutdetail"
-        v-for="(item, index) in data.aboutdetaildata"
-        :key="index"
+      <div class="toaboutdetail" v-for="(item, index) in data.aboutdetaildata" :key="index"
         :style="{ left: item.left, top: item.top, opacity: data.isshowbtn ? '1' : '0' }"
-        @click="toAboutDetailPage(item, index)"
-      >
-        <p
-          :style="{ color: item.textcolor }"
-          class="toaboutdetailtext_left"
-          v-if="item.name == 'skill' || item.name == 'specialnote'"
-        >
+        @click="toAboutDetailPage(item, index)">
+        <p :style="{ color: item.textcolor }" class="toaboutdetailtext_left"
+          v-if="item.name == 'skill' || item.name == 'specialnote'">
           {{ item.text }}
         </p>
-        <div
-          class="toaboutdetail_item"
-          :style="{ backgroundColor: item.backgroundcolor }"
-        ></div>
-        <p
-          :style="{ color: item.textcolor }"
-          class="toaboutdetailtext_right"
-          v-if="item.name == 'me' || item.name == 'blog'"
-        >
+        <div class="toaboutdetail_item" :style="{ backgroundColor: item.backgroundcolor }"></div>
+        <p :style="{ color: item.textcolor }" class="toaboutdetailtext_right"
+          v-if="item.name == 'me' || item.name == 'blog'">
           {{ item.text }}
         </p>
       </div>
-      <div
-        class="aboutmedialog aboutdialog"
-        :style="{
-          opacity: data.aboutdetaildata[0].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[0].isopen ? '7vmin' : '0',
-        }"
-      >
+      <div class="aboutmedialog aboutdialog" :style="{
+        opacity: data.aboutdetaildata[0].isopen ? '1' : '0',
+        marginLeft: data.aboutdetaildata[0].isopen ? '7vmin' : '0',
+      }">
         <p v-if="!data.ispc">{{ data.aboutdetaildata[0].text }}</p>
 
         <ul style="list-style: auto">
@@ -47,24 +31,14 @@
         </ul>
         <div class="" v-if="data.ispc">
           <p style="text-align: center; color: white">技能</p>
-          <el-progress
-            :percentage="item.percentage"
-            :color="item.customColor"
-            :format="item.progresstext"
-            v-for="(item, index) in data.percentagedata"
-            :key="index"
-            indeterminate
-            class="progress"
-          />
+          <el-progress :percentage="item.percentage" :color="item.customColor" :format="item.progresstext"
+            v-for="(item, index) in data.percentagedata" :key="index" indeterminate class="progress" />
         </div>
       </div>
-      <div
-        class="aboutblogdialog aboutdialog"
-        :style="{
-          opacity: data.aboutdetaildata[1].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[1].isopen ? '56vw' : '60vw',
-        }"
-      >
+      <div class="aboutblogdialog aboutdialog" :style="{
+        opacity: data.aboutdetaildata[1].isopen ? '1' : '0',
+        marginLeft: data.aboutdetaildata[1].isopen ? '56vw' : '60vw',
+      }">
         <p v-if="!data.ispc">{{ data.aboutdetaildata[1].text }}</p>
         <ol>
           <li>本网站于2022年7月5日开始搭建.</li>
@@ -76,13 +50,10 @@
           <li>也希望各位大佬，对本博客的完善提出建议，在此感谢.</li>
         </ol>
       </div>
-      <div
-        class="aboutskilldialog aboutdialog"
-        :style="{
-          opacity: data.aboutdetaildata[2].isopen ? '1' : '0',
-          marginTop: data.aboutdetaildata[2].isopen ? '70vh' : '60vh',
-        }"
-      >
+      <div class="aboutskilldialog aboutdialog" :style="{
+        opacity: data.aboutdetaildata[2].isopen ? '1' : '0',
+        marginTop: data.aboutdetaildata[2].isopen ? '70vh' : '60vh',
+      }">
         <p v-if="!data.ispc">{{ data.aboutdetaildata[2].text }}</p>
 
         <ol>
@@ -93,13 +64,10 @@
           <li>本站前后端均为个人书写，个人水平有限，不入法眼还请轻喷.</li>
         </ol>
       </div>
-      <div
-        class="aboutspecialnotedialog aboutdialog"
-        :style="{
-          opacity: data.aboutdetaildata[3].isopen ? '1' : '0',
-          marginLeft: data.aboutdetaildata[3].isopen ? '72vw' : '65vw',
-        }"
-      >
+      <div class="aboutspecialnotedialog aboutdialog" :style="{
+        opacity: data.aboutdetaildata[3].isopen ? '1' : '0',
+        marginLeft: data.aboutdetaildata[3].isopen ? '72vw' : '65vw',
+      }">
         <p v-if="!data.ispc">{{ data.aboutdetaildata[3].text }}</p>
 
         <ol>
@@ -109,14 +77,11 @@
         </ol>
       </div>
     </div>
-    <div
-      class="cover"
-      :style="{
-        opacity: data.isshowcover ? '0' : '1',
-        display: data.isdisplaycover ? '0' : '1',
-        zIndex: data.isdisplaycover ? -2 : 5,
-      }"
-    >
+    <div class="cover" :style="{
+      opacity: data.isshowcover ? '0' : '1',
+      display: data.isdisplaycover ? '0' : '1',
+      zIndex: data.isdisplaycover ? -2 : 5,
+    }">
       <div class="speed">
         <div class="speed_item" :style="{ width: data.loadbgspeed }"></div>
         <p>{{ data.loadbgspeed }}</p>
@@ -141,6 +106,8 @@ import { onMounted, ref, reactive } from "vue";
 import blogheaderVue from "../../../components/blog-header/blogheader.vue";
 import axios from "axios";
 import { useStore } from "vuex";
+import { number } from "@intlify/core-base";
+import { log } from "console";
 const store = useStore();
 
 const data = reactive({
@@ -214,40 +181,40 @@ onMounted(async () => {
   aboutbg.classList.add("aboutbg");
 
   about_container?.appendChild(aboutbg);
+
+  WatchScreenChange()
 });
+
+
+// 监听窗口变化
+const WatchScreenChange=()=>{
+window.addEventListener('resize',()=>{
+  let aboutbgDOM:any =document.querySelector('.aboutbg')||null
+  // console.log(aboutbgDOM);
+  console.log(aboutbgDOM.style.width);
+  console.log(aboutbgDOM.width);
+  aboutbgDOM.width=window.innerWidth
+  aboutbgDOM.height=window.innerHeight
+
+})
+}
 
 const toAboutDetailPage = (item: any, index: number) => {
   const about_container = document.querySelector(".about_container");
-  switch (index) {
-    case 0:
+
+  const list = [
+    'me', 'blog', 'skill', 'specialnote'
+  ]
+  list.forEach((el:String,i:Number)=>{
+    if (index==i) {
       if (item.isopen) {
-        about_container?.classList.remove("me");
+        about_container?.classList.remove(`${el}`);
       } else {
-        about_container?.classList.add("me");
+        about_container?.classList.add(`${el}`);
       }
-      break;
-    case 1:
-      if (item.isopen) {
-        about_container?.classList.remove("blog");
-      } else {
-        about_container?.classList.add("blog");
-      }
-      break;
-    case 2:
-      if (item.isopen) {
-        about_container?.classList.remove("skill");
-      } else {
-        about_container?.classList.add("skill");
-      }
-      break;
-    case 3:
-      if (item.isopen) {
-        about_container?.classList.remove("specialnote");
-      } else {
-        about_container?.classList.add("specialnote");
-      }
-      break;
-  }
+    }
+  })
+
   if (item.isopen) {
     item.isopen = !item.isopen;
   } else {

@@ -2,7 +2,9 @@
   <div
     class="titleContainer"
     v-if="isShow"
-    :style="{ backgroundImage: `linear-gradient(${themeColor.start},${themeColor.end})` }"
+    :style="{
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+    }"
   >
     <h1 class="titleWord" :class="data.wordInto ? 'wordInto' : ''">
       <!-- {{ props.viewTitle == "" ? "加载中。。。" : props.viewTitle }} -->
@@ -35,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { log } from "console";
-import { type } from "os";
 import { array } from "snabbdom";
 import { onMounted, reactive, ref, watch, defineProps } from "vue";
 import { useStore } from "vuex";
@@ -58,25 +58,23 @@ const data = reactive({
     distance: 800,
   },
 });
-type themeColor = {
-  start: string;
-  end: string;
-};
-watch(store.state.themeColor, (newvalue: themeColor, oldvalue: themeColor) => {
-  console.log(newvalue, oldvalue);
-});
+// type themeColor = {
+//   start: string;
+//   end: string;
+// };
+// watch(store.state.themeColor, (newvalue: themeColor, oldvalue: themeColor) => {
+//   console.log(newvalue, oldvalue);
+// });
 
 onMounted(() => {
   if (navigator.platform != "Win32") {
     data.bg.startnum = 80;
-    // console.log("pe");
   }
 
   setTimeout(() => {
     data.wordInto = true;
   }, 600);
   data.target = document.querySelector(".down")!;
-  // console.log(star.value);
 
   let starNodes = <any>star.value;
   starNodes.forEach((item: any) => {
@@ -105,10 +103,6 @@ const props = defineProps({
   isShow: {
     type: Boolean,
     default: true,
-  },
-  themeColor: {
-    type: Object,
-    default: { start: "", end: "" },
   },
 });
 </script>

@@ -71,12 +71,12 @@
           </div>
         </div>
       </div>
-      <blogRightVue style="margin-top: 1rem"></blogRightVue>
+      <!-- <blogRightVue style="margin-top: 1rem"></blogRightVue> -->
 
       <el-dialog
         v-model="data.isToLoginVisible"
         title="登陆提示"
-        width="20%"
+        :width="store.state.isPC ? '20%' : '90%'"
         top="20rem"
         :show-close="false"
         :lock-scroll="false"
@@ -132,6 +132,12 @@ onMounted(async () => {
     ElMessage.error(blogRes.data.msg);
     return ElMessage.error(commentRes.data.msg);
   }
+
+  blogRes.data.data[0].container = blogRes.data.data[0].container.replaceAll(
+    "<img",
+    "<img style='max-width:600px' "
+  );
+
   blogRes.data.data[0].container = blogRes.data.data[0].container.replaceAll(
     "<pre>",
     "<pre style='background-color:rgb(33,37,43);color:white;overflow-x:auto;padding:1rem;min-width:260px;border-radius:10px'>"

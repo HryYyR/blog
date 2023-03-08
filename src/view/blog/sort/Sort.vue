@@ -2,7 +2,7 @@
   <div
     class="container"
     :style="{
-      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
     }"
   >
     <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
@@ -11,8 +11,6 @@
         class="sort_nav"
         :style="{
           opacity: data.isshownav ? 1 : 0,
-          backgroundColor:
-            data.themeColor.id == 3 ? 'rgba(255,255,255,0.5)' : 'rgba(0, 0, 0, 0.1)',
         }"
       >
         <div class="sort_nav_sorter">
@@ -93,11 +91,11 @@ const data = reactive({
   isshownav: false,
   isshowcontainer: false,
   isloading: false,
-  themeColor: store.state.themeColor,
+  // themeColor: store.state.themeColor,
 });
-watch(store.state, (newvalue, oldvalue) => {
-  data.themeColor = newvalue.themeColor;
-});
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 onMounted(async () => {
   let labelres = await getAdminLabelData();
   if (labelres.status == 200) {
@@ -213,8 +211,9 @@ const handleblogdata = (data: any) => {
       transition: 1s;
       display: flex;
       flex-direction: column;
+      background-color: var(--BW-5);
       & span {
-        color: white;
+        color: var(--WB);
         margin: 0.1rem 0.3rem;
       }
       .sort_nav_label,
@@ -231,15 +230,16 @@ const handleblogdata = (data: any) => {
             user-select: none;
             width: auto;
             height: auto;
-            border: 2px solid white;
+            color: var(--WB);
+            border: 2px solid var(--BW);
             border-radius: 8px;
-            background-color: white;
+            background-color: var(--BW);
             padding: 0.2rem 0.5rem;
             margin: 0.1rem 0.3rem;
             transition: 0.3s;
             &:hover {
-              background-color: rgb(226, 226, 226);
-              border: 2px dashed rgba(255, 255, 255, 1);
+              background-color: var(--WB-1);
+              border: 2px dashed var(--BW);
             }
           }
         }
@@ -259,6 +259,7 @@ const handleblogdata = (data: any) => {
         height: 40vh;
         text-align: center;
         font-size: 1.4rem;
+        color: var(--WB);
       }
     }
   }
@@ -266,7 +267,7 @@ const handleblogdata = (data: any) => {
 .check {
   border: 2px dashed rgb(255, 255, 255) !important;
   background-color: rgb(153, 210, 248) !important;
-  color: white;
+  color: white !important;
 }
 .loading {
   margin-top: 100px;

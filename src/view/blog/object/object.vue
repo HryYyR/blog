@@ -2,7 +2,7 @@
   <div
     class="object flex-jcc"
     :style="{
-      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
     }"
   >
     <blogheaderVue :bgColor="true" @changePage="changePage" />
@@ -12,9 +12,10 @@
           v-for="(item, index) in data.objList"
           :key="item.id"
           class="obj_list_item flex-jcc-aic"
+          @click="toAssignProject(item.obj_url)"
         >
           <div class="obj_list_item_img">
-            <a :href="item.obj_url"><img :src="item.img" :alt="item.obj_name" /></a>
+            <img :src="item.img" :alt="item.obj_name" />
           </div>
           <div class="obj_list_item_right flex">
             <div :slot="item.tipList" class="obj_list_item_tiplist">
@@ -88,10 +89,12 @@ type objList = [
 
 const data = reactive({
   objList: <objList>new Array(),
-  themeColor: store.state.themeColor, //当前主题颜色
+  // themeColor: store.state.themeColor, //当前主题颜色
   loading: true, //播放加载动画
 });
-
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 onMounted(async () => {
   let resolve = await (await getAllobjectData()).data.data;
   setTimeout(() => {
@@ -114,6 +117,10 @@ const changePage = () => {
     duration: 1000,
   });
 };
+
+const toAssignProject =(url:String)=>{
+window.location.href=`https://hyyyh.top/${url}`
+}
 </script>
 
 <style scoped lang="less">
@@ -138,6 +145,7 @@ const changePage = () => {
         width: 100%;
         height: 400px;
         flex-direction: row;
+        cursor: pointer;
         .obj_list_item_img {
           width: 60%;
           height: 100%;

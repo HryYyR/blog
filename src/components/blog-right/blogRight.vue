@@ -85,7 +85,10 @@ const data = reactive({
       info: "2452719312",
       img: "http://hyyyh.top:3001/icon/QQ.png",
     },
-    { info: "17721972680", img: "http://hyyyh.top:3001/icon/wechat.png" },
+    {
+      info: "https://juejin.cn/user/462228666458615",
+      img: "http://hyyyh.top:3001/icon/juejin.png",
+    },
     { info: "https://github.com/HryYyR", img: "http://hyyyh.top:3001/icon/github.png" },
   ],
 });
@@ -116,14 +119,15 @@ onMounted(async () => {
     border-radius: 20px;
     height: auto;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--BW-5);
+    color: var(--WB);
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px var(--WB-1);
     transition: 0.3s;
     &:hover {
-      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 10px 10px 20px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
     .contact {
@@ -134,23 +138,27 @@ onMounted(async () => {
       hr {
         width: 80px;
         height: 3px;
-        background-color: rgba(135, 206, 235, 0.5);
+        background-color: var(--WB-5);
         border: none;
       }
       span {
         padding: 0 0.1rem;
+        color: var(--WB);
       }
     }
     .meta {
       padding: 0.5rem 0;
+      display: flex;
+      justify-content: center;
       img {
         padding: 0 1rem;
+        width: 10%;
       }
     }
 
     .blogRight_about_item {
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: var(--BW-7);
       display: flex;
       flex-direction: column;
       padding: 1rem 0;
@@ -189,16 +197,16 @@ onMounted(async () => {
     border-radius: 20px;
     height: auto;
     min-height: 15rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--BW-5);
     margin: 2rem 0;
     padding-top: 0.1rem;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px var(--WB-1);
     transition: 0.3s;
     &:hover {
-      box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
     .blogRight_label_container {
@@ -219,8 +227,8 @@ onMounted(async () => {
         align-items: center;
         margin: 0.5rem 0.2rem;
         border-radius: 5px;
-        background-color: white;
-        color: rgba(0, 0, 0, 0.6);
+        background-color: var(--BW);
+        color: var(--WB-8);
         transition: all 0.2s;
 
         & > div {
@@ -243,7 +251,7 @@ onMounted(async () => {
           padding: 0 0.5rem;
         }
         .lable_num {
-          border-left: 2px solid rgba(0, 0, 0, 0.2);
+          border-left: 2px solid var(--WB-3);
           padding: 0 0.3rem;
           font-family: kaiti;
         }
@@ -256,14 +264,14 @@ onMounted(async () => {
     border-radius: 20px;
     height: auto;
     padding-bottom: 1.4rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--BW-5);
     padding-top: 0.1rem;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px var(--WB-3);
     transition: 0.3s;
     &:hover {
-      box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
     .blogRight_sort_container {
@@ -276,7 +284,6 @@ onMounted(async () => {
       border: 2px dashed skyblue;
       border-radius: 8px;
       overflow: hidden;
-      color: rgba(0, 0, 0, 0.6);
       box-shadow: 1px 1px 5px 0px skyblue;
 
       .sort_item {
@@ -284,7 +291,8 @@ onMounted(async () => {
         border-bottom: 2px dashed skyblue;
         display: flex;
         align-items: center;
-        background-color: white;
+        background-color: var(--BW);
+        color: var(--WB-8);
         font-weight: 900;
         transition: all 0.2s;
         cursor: pointer;

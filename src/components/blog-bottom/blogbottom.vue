@@ -32,15 +32,20 @@ const getLocalTime = (n: number) => {
 
 <style scoped lang="less">
 .bottom {
+  transition: 0.5s;
   font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--WB-7);
   height: 100px;
   width: 100%;
-  background-color: rgba(246, 247, 248, 0.7);
+  background-color: var(--BW-7);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   line-height: 1.4rem;
+  a {
+    transition: 0.5s;
+    color: var(--WB);
+  }
 }
 </style>

@@ -9,12 +9,8 @@ export default createStore({
 
         userid: -1,
         username: '',
-        userinfo:{
-            city: '',
-            sex: '',
-            year: '',
-        },
         userdata: [],
+        userinfo:{},
 
         token: '',
         header: '',
@@ -24,6 +20,7 @@ export default createStore({
         isPC: window.innerWidth < 700 ? false : true,
 
 
+        currentColorTheme:false,
         themeColor: {},  //选中的主题颜色
         themeState: '',  //主题提示问题
         themeColorOption:  //时间主题颜色

@@ -18,20 +18,33 @@
       </div>
     </div>
 
+    <div>
+      <el-switch
+        v-model="data.dark"
+        size="large"
+        style="--el-switch-on-color: #000; --el-switch-off-color: skyblue"
+        inline-prompt
+        @change="changecolortheme"
+        :active-icon="Sunny"
+        :inactive-icon="Moon"
+      />
+    </div>
+
     <div style="color: black">
       <el-popover placement="bottom" :width="150" :visible="data.visibleLanguage">
         <template #reference>
           <div class="changelanguage" @mouseenter="data.visibleLanguage = true">
-            <img src="https://hyyyh.top:3001/global.png" alt="" />
             <span>{{ data.language }}</span>
           </div>
         </template>
-        <div class="userHeader_popover" @mouseleave="data.visibleLanguage = false">
+        <div class="userHeader_popover" v-on:mouseleave="data.visibleLanguage = false">
           <p @click="changeLanguage('ch')">中文</p>
           <p @click="changeLanguage('en')">English</p>
         </div>
       </el-popover>
     </div>
+
+    <!-- PC端 -->
     <div
       class="userHeader"
       :class="{ ShowCover: data.islogin }"
@@ -43,7 +56,7 @@
 
       <el-popover placement="bottom" :width="150" trigger="hover" v-if="data.islogin">
         <template #reference>
-          <div class="userHeader_Img"><img v-lazy="data.header" /></div>
+          <div class="userHeader_Img"><img :src="data.header" /></div>
         </template>
         <div class="userHeader_popover">
           <p @click="openUserInfo">个人资料</p>
@@ -53,6 +66,7 @@
     </div>
   </div>
 
+  <!-- PE端 -->
   <div class="PEnav" :class="{ openPEnav: data.isopenPEnav }" v-if="!store.state.isPC">
     <div class="PEnav_img" @click="openPEnav">
       <img src="https://hyyyh.top:3001/icon/open.png" v-show="!data.isopenPEnav" />
@@ -113,15 +127,17 @@
 
 <script setup lang="ts">
 import router from "../../router/index";
-import { verifyToken, loginout, login } from "../../axios/apis";
+import { verifyToken, loginout, login, getuserdata } from "../../axios/apis";
 
-import { onMounted, reactive, computed } from "vue";
+import { onMounted, reactive, computed, watchEffect, ref } from "vue";
 import { ElLoading, ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
 import store from "../../store";
-import { log } from "console";
+
+import { Moon, Sunny } from "@element-plus/icons-vue";
+
 import QC from "qc";
 let i18n = useI18n();
 
@@ -145,10 +161,15 @@ const data = reactive({
   islogin: false,
   loading: false,
   viewTitle: "", //当前页面标题
-  header: "", //头像
+  header: localStorage.getItem("header") || "", //头像
   ShowUserHeader: false, //是否展示用户信息选项卡
   language: localStorage.getItem("language")?.toUpperCase() || "EN", //当前语言
   visibleLanguage: false, //是否展示切换语言选项卡
+  dark: store.state.currentColorTheme,
+  darkImg: {
+    moon: "https://hyyyh.top:3001/icon/moon.png",
+    sun: "https://hyyyh.top:3001/icon/moon.png",
+  },
 });
 defineProps({
   bgColor: {
@@ -164,8 +185,6 @@ onMounted(async () => {
       navList.value[index].check = true;
     }
   });
-
-  data.header = localStorage.getItem("header") || "";
   const isToken = await verifyToken();
   data.ShowUserHeader = true;
   if (!isToken.data.token && !QC.Login.check()) {
@@ -175,6 +194,11 @@ onMounted(async () => {
 
   data.islogin = true;
 });
+
+const changecolortheme = () => {
+  console.log(data.dark);
+  store.state.currentColorTheme = data.dark;
+};
 
 const openPEnav = () => {
   data.isopenPEnav = !data.isopenPEnav;
@@ -194,13 +218,21 @@ const changeLanguage = (lang: string) => {
   i18n.locale.value = language;
   store.state.language = language;
   localStorage.setItem("language", language);
+
+  //解决刷新后header选中问题
+  navList.value.forEach((e: any, index: number) => {
+    if (e.name == route.name) {
+      navList.value[index].check = true;
+    }
+  });
 };
 
 // 路由跳转
 const jump = async (item: any, index: number) => {
   data.isopenPEnav = false;
   store.state.checkPage = index;
-  if (route.path.includes(item.name)) {
+
+  if (route.path == item.path) {
     return;
   }
   emit("changePage");
@@ -235,8 +267,19 @@ const loginOut = async () => {
   }
 };
 
-const openUserInfo = () => {
-  store.state.isVisibelUserDrawer = true;
+const openUserInfo = async () => {
+  let resolve = await getuserdata();
+  if (resolve.status == 200) {
+    store.state.isVisibelUserDrawer = true;
+    let data = resolve.data.data;
+    for (let i in data) {
+      data[i] == null && (data[i] = " ");
+    }
+    store.state.userinfo = data;
+    // console.log(resolve.data.data);
+  } else {
+    ElMessage.error("获取用户数据失败！");
+  }
 };
 </script>
 
@@ -255,7 +298,6 @@ const openUserInfo = () => {
   top: 0;
   transition: 0.5s all;
   z-index: 99;
-  color: white;
   overflow: hidden;
   backdrop-filter: blur(5px);
 
@@ -274,7 +316,7 @@ const openUserInfo = () => {
       font-size: 1rem;
       width: 110px;
       text-align: center;
-      color: black;
+      color: var(--WB);
       font-weight: 900;
       /* background: rgba(0, 0, 0, 0.2); */
       margin: 1rem;
@@ -284,7 +326,7 @@ const openUserInfo = () => {
       .nav_ul_cover {
         position: absolute;
         width: 110px;
-        background-color: black;
+        background-color: var(--WB);
         left: -16px;
         height: 20px;
         opacity: 0;
@@ -297,7 +339,7 @@ const openUserInfo = () => {
           opacity: 1;
           top: -15px;
         }
-        color: white;
+        color: var(--BW);
       }
     }
   }
@@ -313,12 +355,16 @@ const openUserInfo = () => {
     cursor: pointer;
     user-select: none;
     transition: 0.3s;
+    color: var(--WB);
+    img {
+      width: 40%;
+    }
     &:hover {
       opacity: 0.6;
     }
   }
   .userHeader {
-    color: black;
+    color: var(--WB);
     border-radius: 10px;
     font-weight: 900;
     font-size: 1rem;
@@ -330,6 +376,7 @@ const openUserInfo = () => {
     justify-content: center;
     align-items: center;
     transition: 0.2s all;
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.9);
       color: white;
@@ -351,7 +398,7 @@ const openUserInfo = () => {
   }
 }
 .navColor {
-  background: @bg-light-color;
+  background: var(--BW-8);
 }
 .userHeader_popover {
   cursor: pointer;
@@ -376,9 +423,12 @@ const openUserInfo = () => {
 }
 
 .PEnav {
+  transition: 0.6s;
   width: 100%;
   height: 80px;
-  background-color: white;
+  background-color: var(--BW);
+  color: var(--WB);
+  font-weight: 600;
   border-radius: 3px;
   position: fixed;
   top: 0px;
@@ -450,7 +500,8 @@ const openUserInfo = () => {
     & > div {
       width: 100%;
       padding: 1rem 0;
-      background-color: white;
+      background-color: var(--BW);
+      color: var(--WB);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -461,8 +512,8 @@ const openUserInfo = () => {
     }
   }
   .pecheck {
-    background-color: black !important;
-    color: white !important;
+    background-color: var(--WB) !important;
+    color: var(--BW) !important;
   }
 }
 .openPEnav {

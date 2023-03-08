@@ -48,9 +48,11 @@ router.beforeEach(async (to, from, next) => {
     document.documentElement.scrollTop = 0;
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
+        console.log(res.data);
         if (res.data.token && res.data.grade == 1) {
             return next()
         } else {
+ 
             if (!res.data.token) {
                 ElMessage.error('token无效,请重新登录')
                 localStorage.clear()

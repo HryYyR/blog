@@ -152,7 +152,7 @@ const toDetail = (id: number) => {
 <style scoped lang="less">
 .newBlog {
   cursor: pointer;
-  width: auto;
+  width: 100%;
   height: 20rem;
   display: flex;
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
@@ -180,16 +180,18 @@ const toDetail = (id: number) => {
     justify-content: space-between;
     position: relative;
     z-index: 2;
+    background-color: var(--BW);
+    transition: 0.3s;
     .newblog_labelsort {
       font-size: 0.8rem;
-      color: rgba(0, 0, 0, 0.5);
+      color: var(--WB-5);
       display: flex;
       flex-wrap: wrap;
       & span {
         font-family: "yahei";
       }
       & > :nth-child(1) {
-        color: rgba(0, 0, 0, 0.7);
+        color: var(--WB-7);
         margin-right: 3px;
         font-weight: 900;
       }
@@ -200,7 +202,7 @@ const toDetail = (id: number) => {
       min-height: 1.5rem;
       font-size: 1.5rem;
       margin: 0.2rem 0;
-      color: rgba(0, 0, 0, 0.9);
+      color: var(--WB-9);
       transition: 0.3s;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -214,7 +216,7 @@ const toDetail = (id: number) => {
     }
     .newBlog_body {
       line-height: 1.5rem;
-      color: rgba(0, 0, 0, 0.7);
+      color: var(--WB-7);
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: 10px;
@@ -224,7 +226,7 @@ const toDetail = (id: number) => {
     }
     .newBlog_time {
       width: 3rem;
-      color: rgba(0, 0, 0, 0.5);
+      color: var(--WB-5);
       margin-left: 0.2rem;
       position: relative;
     }
@@ -239,6 +241,7 @@ const toDetail = (id: number) => {
       align-items: flex-end;
       position: relative;
       bottom: 0.5rem;
+      color: var(--WB-7);
       .newBlog_info_item {
         display: flex;
         height: auto;

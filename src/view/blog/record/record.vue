@@ -4,7 +4,7 @@
     <div
       class="record flex-jcc"
       :style="{
-        backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+        backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
       }"
     >
       <div class="record_body flex-jcc">
@@ -16,12 +16,7 @@
             v-for="(item, index) in data.recordData"
             :key="index"
           >
-            <p
-              class="record_text"
-              :style="{
-                color: data.themeColor.id != 3 ? 'black' : 'black',
-              }"
-            >
+            <p class="record_text" :style="{}">
               {{ item.container }}
             </p>
             <p class="record_time">
@@ -51,11 +46,11 @@ let store = useStore();
 const data = reactive({
   bgUrl: "http://hyyyh.top:3001/recordbg.jpg",
   recordData: <any>[{}, {}, {}, {}, {}, {}, {}, {}, {}],
-  themeColor: store.state.themeColor,
+  // themeColor: store.state.themeColor,
 });
-watch(store.state, (newvalue, oldvalue) => {
-  data.themeColor = newvalue.themeColor;
-});
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 onMounted(async () => {
   const res = await getRecordData();
   if (res.status == 201) {
@@ -92,7 +87,7 @@ const changePage = () => {
     min-width: 700px;
     height: auto;
     opacity: 0;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: var(--BW);
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
     position: relative;
@@ -108,17 +103,19 @@ const changePage = () => {
     }
   }
   .rope {
+    transition: 0.5s all;
     width: 0;
     height: 93%;
-    border: 2px solid rgba(0, 0, 0, 1);
+    border: 2px solid var(--WB);
     position: relative;
     left: 136px;
     top: 6rem;
     margin: 1rem 0;
     &::before {
+      transition: 0.1s;
       position: absolute;
       content: "";
-      background-color: black;
+      background-color: var(--WB);
       width: 30px;
       height: 5px;
       left: -15px;
@@ -128,7 +125,7 @@ const changePage = () => {
     &::after {
       position: absolute;
       content: "";
-      background-color: black;
+      background-color: var(--WB);
       width: 30px;
       height: 5px;
       bottom: -2px;
@@ -146,14 +143,16 @@ const changePage = () => {
       border-bottom: 1px dashed gray;
       margin: 1rem;
       .record_text {
+        transition: 0.5s;
+        color: var(--WB);
         font-size: 1.2rem;
         font-weight: 900;
         opacity: 0.9;
       }
       .record_time {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: rgba(127, 127, 127, 1);
-        font-weight: 900;
+        font-weight: 600;
         margin: 1rem 0 0.2rem 0;
         font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
       }
@@ -174,7 +173,7 @@ const changePage = () => {
     width: 12px;
     height: 12px;
     border-radius: 20px;
-    border: 6px solid white;
+    border: 6px solid var(--BW);
     background-color: skyblue;
   }
 }
@@ -190,7 +189,7 @@ const changePage = () => {
     width: 12px;
     height: 12px;
     border-radius: 20px;
-    border: 6px solid white;
+    border: 6px solid var(--BW);
     background-color: rgb(28, 188, 0);
   }
 }

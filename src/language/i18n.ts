@@ -4,7 +4,7 @@ const language = (
   navigator.language || "ch"
 ).toLowerCase();
 
-let lang = localStorage.getItem('language') || 'en'
+let lang = localStorage.getItem('language') || 'ch'
 
 const i18n = createI18n({
   silentTranslationWarn: true,

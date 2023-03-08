@@ -27,7 +27,8 @@ defineProps({
   font-size: 1.2rem;
   font-weight: 900;
   span {
-    color: rgba(0, 0, 0, 0.5);
+    transition: 0.6s;
+    color: var(--WB-9);
     position: relative;
     top: -0.2rem;
     left: 0.5rem;

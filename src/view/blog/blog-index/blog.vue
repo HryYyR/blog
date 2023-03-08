@@ -1,9 +1,9 @@
 <template>
-  <indexVue :themeColor="data.themeColor"> </indexVue>
+  <indexVue> </indexVue>
   <div
     class="blogContainer"
     :style="{
-      backgroundImage: `linear-gradient(${data.themeColor.start},${data.themeColor.end})`,
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
     }"
   >
     <!-- <div class="blogLeft">le</div> -->
@@ -106,11 +106,11 @@ let changeData: any = computed(() => {
   return {
     option: {
       newBlogTitle: {
-        src: "https://hyyyh.top:3001/icon/newblogtitle.svg",
+        src: "https://hyyyh.top:3001/icon/newblogtitle.png",
         option: i18n.t("blog.newblog"),
       },
       allBlogTitle: {
-        src: "https://hyyyh.top:3001/icon/allblogtitle.svg",
+        src: "https://hyyyh.top:3001/icon/allblogtitle.png",
         option: i18n.t("blog.allblog"),
       },
     },
@@ -141,11 +141,11 @@ const data = reactive({
     top: <any>0,
     bottom: <any>0,
   },
-  themeColor: store.state.themeColor, //当前主题颜色
+  // themeColor: store.state.themeColor, //当前主题颜色
 });
-watch(store.state, (newvalue, oldvalue) => {
-  data.themeColor = newvalue.themeColor;
-});
+// watch(store.state, (newvalue, oldvalue) => {
+//   data.themeColor = newvalue.themeColor;
+// });
 
 onMounted(async () => {
   if (QC.Login.check()) {
@@ -165,11 +165,8 @@ onMounted(async () => {
             localStorage.setItem("name", data.name);
             store.state.username = data.name;
             store.state.userid = data.id;
-            store.state.userinfo = {
-              city: data.city,
-              sex: data.sex,
-              year: data.year,
-            };
+            store.state.userdata = data;
+            store.state.userinfo = data;
           } else {
           }
         });
@@ -177,7 +174,7 @@ onMounted(async () => {
     });
   }
 
-  data.themeColor = store.state.themeColor;
+  // data.themeColor = store.state.themeColor;
   // 获取博客数据
   const res = await getBlogData(1, 5);
   if (res.status != 200) {
@@ -314,7 +311,8 @@ const scrollToTop = () => {
 
   .blogCenter {
     width: 45%;
-    background-color: rgba(255, 255, 255, 0.3);
+    transition: 1s;
+    background-color: var(--BW-3);
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -330,9 +328,9 @@ const scrollToTop = () => {
       border-radius: 10px;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: var(--BW-8);
         .more {
-          color: rgba(0, 0, 0, 0.7);
+          color: var(--WB-9);
         }
       }
 
@@ -343,7 +341,7 @@ const scrollToTop = () => {
         height: 2.5rem;
         transition: 0.2s;
         font-family: heiti;
-        color: white;
+        color: var(--WB);
         font-size: 1.2rem;
         font-weight: 600;
         border: none;

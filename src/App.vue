@@ -75,8 +75,8 @@ onMounted(() => {
   store.commit("getTimeState");
   store.state.userid = data.user_id;
   store.state.username = data.user_name;
-  console.log(store.state.userinfo);
-  console.log(store.state.userdata);
+  // console.log(store.state.userinfo);
+  // console.log(store.state.userdata);
 });
 const data = reactive({
   //太阳位置
@@ -189,6 +189,7 @@ const setsunPosition = (id: number) => {
 
 .light {
   --WB: rgba(0, 0, 0, 1);
+  --WB-1: rgba(0, 0, 0, 0.1);
   --WB-3: rgba(0, 0, 0, 0.3);
   --WB-5: rgba(0, 0, 0, 0.5);
   --WB-7: rgba(0, 0, 0, 0.7);
@@ -196,6 +197,7 @@ const setsunPosition = (id: number) => {
   --WB-9: rgba(0, 0, 0, 0.9);
 
   --BW: rgb(255, 255, 255);
+  --BW-1: rgba(255, 255, 255, 0.1);
   --BW-3: rgba(255, 255, 255, 0.3);
   --BW-5: rgba(255, 255, 255, 0.5);
   --BW-7: rgba(255, 255, 255, 0.7);
@@ -205,6 +207,7 @@ const setsunPosition = (id: number) => {
 
 .dark {
   --WB: rgb(255, 255, 255);
+  --WB-1: rgba(255, 255, 255, 0.1);
   --WB-3: rgba(255, 255, 255, 0.3);
   --WB-5: rgba(255, 255, 255, 0.5);
   --WB-7: rgba(255, 255, 255, 0.7);
@@ -212,6 +215,7 @@ const setsunPosition = (id: number) => {
   --WB-9: rgba(255, 255, 255, 0.9);
 
   --BW: rgba(0, 0, 0, 1);
+  --BW-1: rgba(0, 0, 0, 0.1);
   --BW-3: rgba(0, 0, 0, 0.3);
   --BW-5: rgba(0, 0, 0, 0.5);
   --BW-7: rgba(0, 0, 0, 0.7);

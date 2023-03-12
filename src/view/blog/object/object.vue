@@ -130,10 +130,12 @@ window.location.href=`https://hyyyh.top/${url}`
   position: relative;
   padding: 6rem 0;
   user-select: none;
+  color: var(--WB);
   .obj_conatiner {
     width: 1300px;
     height: 100%;
     .obj_list {
+      transition: 0.5S;
       width: 100%;
       top: 10rem;
       transition: 0.1s;
@@ -159,7 +161,7 @@ window.location.href=`https://hyyyh.top/${url}`
           font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
           height: 100%;
           flex: 1;
-          background-color: rgb(255, 255, 255);
+          background-color:  var(--BW);
           flex-direction: column;
           & div {
             position: relative;
@@ -188,15 +190,16 @@ window.location.href=`https://hyyyh.top/${url}`
           .obj_list_item_time {
             position: relative;
             top: 130px;
-            color: gray;
+            color: var(--WB-5);
+            transition: 0.3S;
           }
           &::before {
             position: absolute;
             content: "";
             background-image: linear-gradient(
               90deg,
-              rgba(255, 255, 255, 0.1),
-              rgb(255, 255, 255)
+              var(--BW-1),
+              var(--BW)
             );
             width: 300px;
             height: 400px;
@@ -204,11 +207,12 @@ window.location.href=`https://hyyyh.top/${url}`
           }
         }
         &::after {
+          transition: 0.3s;
           position: absolute;
           content: "";
           width: 98%;
           height: 40px;
-          background-color: rgba(218, 218, 218, 0.6);
+          background-color: var(--BW-5);
           margin-top: 380px;
           z-index: -1;
           border-radius: 30px;

@@ -1,23 +1,10 @@
 <template>
   <div class="blogRight" :style="{ opacity: data.isShow ? '1' : 0 }">
-    <el-affix :offset="100">
-      <div class="blogRight_about">
+    <el-affix :offset="75">
+      <div class="blogRight_about blogRigth_item">
         <div class="blogRight_about_item">
-          <p class="address blogRight_name">Hyyyh</p>
-          <p class="address">又是灵感枯竭的一天</p>
-          <!-- <p class="address">
-            <span>2020-2023级</span>
-          </p>
-          <p class="address">
-            <img src="http://hyyyh.top:3001/icon/address.png" alt="" /><span
-              >Sichuan-Luzhou</span
-            >
-          </p>
-          <p class="address">
-            <img src="http://hyyyh.top:3001/icon/email.png" alt="" /><span
-              >2452719312@QQ.com</span
-            >
-          </p> -->
+          <p class="address blogRight_name">huangrui</p>
+          <p class="address">灵感枯竭</p>
         </div>
         <div class="contact">
           <hr />
@@ -36,7 +23,7 @@
           </el-tooltip>
         </div>
       </div>
-      <div class="blogRight_label">
+      <div class="blogRight_label blogRigth_item">
         <blogoption
           :option="i18n.t('blogRight.label')"
           optionSrc="http://hyyyh.top:3001/icon/lable.png"
@@ -49,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="blogRight_sort">
+      <div class="blogRight_sort blogRigth_item">
         <blogoption
           :option="i18n.t('blogRight.sort')"
           optionSrc="http://hyyyh.top:3001/icon/sort.png"
@@ -107,25 +94,28 @@ onMounted(async () => {
   margin: 0 3rem;
   padding: 0 0 1rem 0;
   min-height: 20rem;
-  width: 20%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   transition: 1s;
   opacity: 0;
   z-index: 2;
 
+.blogRigth_item{
+  width: 100%;
+  height: auto;
+  display: flex;
+  transition: 0.3s;
+  overflow: hidden;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
   .blogRight_about {
-    width: 98%;
-    border-radius: 20px;
-    height: auto;
-    overflow: hidden;
     background: var(--BW-5);
     color: var(--WB);
-    display: flex;
-    flex-direction: column;
     align-items: center;
     box-shadow: 2px 2px 5px var(--WB-1);
-    transition: 0.3s;
     &:hover {
       box-shadow: 10px 10px 20px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
@@ -137,7 +127,7 @@ onMounted(async () => {
       margin-top: 0.5rem;
       hr {
         width: 80px;
-        height: 3px;
+        height: 2px;
         background-color: var(--WB-5);
         border: none;
       }
@@ -159,6 +149,7 @@ onMounted(async () => {
     .blogRight_about_item {
       width: 100%;
       background-color: var(--BW-7);
+      // box-shadow: 0px 0px 20px 10px var(--BW-7);
       display: flex;
       flex-direction: column;
       padding: 1rem 0;
@@ -193,18 +184,12 @@ onMounted(async () => {
     }
   }
   .blogRight_label {
-    width: 98%;
-    border-radius: 20px;
-    height: auto;
     min-height: 15rem;
     background: var(--BW-5);
-    margin: 2rem 0;
+    margin: 0.5rem 0;
     padding-top: 0.1rem;
-    display: flex;
     justify-content: center;
-    flex-direction: column;
     box-shadow: 2px 2px 5px var(--WB-1);
-    transition: 0.3s;
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
@@ -260,16 +245,10 @@ onMounted(async () => {
   }
 
   .blogRight_sort {
-    width: 98%;
-    border-radius: 20px;
-    height: auto;
     padding-bottom: 1.4rem;
     background: var(--BW-5);
     padding-top: 0.1rem;
-    display: flex;
-    flex-direction: column;
     box-shadow: 2px 2px 5px var(--WB-3);
-    transition: 0.3s;
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);

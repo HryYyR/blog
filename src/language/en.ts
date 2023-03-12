@@ -1,14 +1,15 @@
 export default {
   header: {
-    home: 'Index',
-    tags: 'Tags',
+    blog: 'Index',
+    sort: 'Tags',
     interaction: 'Message',
-    friends: 'Friends',
+    friendLink: 'Friends',
     record: 'Record',
     about: 'About',
     object:'Project',
     login: 'Login',
     title: 'Start',
+    tools:'Tools'
   },
   blog: {
     newblog: 'Feature Articles',

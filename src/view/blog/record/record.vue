@@ -1,21 +1,14 @@
 <template>
   <div>
     <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
-    <div
-      class="record flex-jcc"
-      :style="{
-        backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
-      }"
-    >
+    <div class="record flex-jcc" :style="{
+      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+    }">
       <div class="record_body flex-jcc">
         <div class="rope"></div>
         <div class="record_container">
-          <div
-            class="record_item"
-            :class="index % 2 == 0 ? 'before' : 'after'"
-            v-for="(item, index) in data.recordData"
-            :key="index"
-          >
+          <div class="record_item" :class="index % 2 == 0 ? 'before' : 'after'" v-for="(item, index) in data.recordData"
+            :key="index">
             <p class="record_text" :style="{}">
               {{ item.container }}
             </p>
@@ -44,8 +37,7 @@ let i18n = useI18n();
 
 let store = useStore();
 const data = reactive({
-  bgUrl: "http://hyyyh.top:3001/recordbg.jpg",
-  recordData: <any>[{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  recordData: <any>[{},{},{},{},{}],
   // themeColor: store.state.themeColor,
 });
 // watch(store.state, (newvalue, oldvalue) => {
@@ -82,6 +74,7 @@ const changePage = () => {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+
   .record_body {
     width: 50%;
     min-width: 700px;
@@ -94,6 +87,8 @@ const changePage = () => {
     top: 20vh;
     margin-bottom: 20rem;
     padding-bottom: 5rem;
+    background-image: url(https://hyyyh.top:3001/recordimg/recordbg.png);
+
     .record_title {
       position: relative;
       top: 2rem;
@@ -102,15 +97,17 @@ const changePage = () => {
       font-weight: 900;
     }
   }
+
   .rope {
     transition: 0.5s all;
     width: 0;
-    height: 93%;
+    height: 97%;
     border: 2px solid var(--WB);
     position: relative;
     left: 136px;
     top: 6rem;
     margin: 1rem 0;
+
     &::before {
       transition: 0.1s;
       position: absolute;
@@ -122,6 +119,7 @@ const changePage = () => {
       top: -2px;
       border-radius: 5px;
     }
+
     &::after {
       position: absolute;
       content: "";
@@ -133,8 +131,10 @@ const changePage = () => {
       border-radius: 5px;
     }
   }
+
   .record_container {
     margin-top: 100px;
+
     .record_item {
       padding: 0px 0px;
       position: relative;
@@ -142,6 +142,7 @@ const changePage = () => {
       height: auto;
       border-bottom: 1px dashed gray;
       margin: 1rem;
+
       .record_text {
         transition: 0.5s;
         color: var(--WB);
@@ -149,6 +150,7 @@ const changePage = () => {
         font-weight: 900;
         opacity: 0.9;
       }
+
       .record_time {
         font-size: 0.8rem;
         color: rgba(127, 127, 127, 1);
@@ -166,7 +168,7 @@ const changePage = () => {
 
   &::before {
     position: relative;
-    left: 300px;
+    left: 302px;
     top: 17px;
     content: "";
     display: block;
@@ -177,12 +179,14 @@ const changePage = () => {
     background-color: skyblue;
   }
 }
+
 .after {
   left: 136px;
   text-align: left;
+
   &::before {
     position: relative;
-    left: -30px;
+    left: -27px;
     top: 17px;
     content: "";
     display: block;
@@ -192,5 +196,4 @@ const changePage = () => {
     border: 6px solid var(--BW);
     background-color: rgb(28, 188, 0);
   }
-}
-</style>
+}</style>

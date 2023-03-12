@@ -1,14 +1,16 @@
 export default {
   header: {
-    home: '首页',
-    tags: '标签',
+    blog: '首页',
+    sort: '标签',
     interaction: '留言板',
-    friends: '友链',
+    friendLink: '友链',
     record: '记录',
     about: '关于',
     object:'项目',
     login: '登录',
     title: '开启旅程',
+    tools:'工具'
+
   },
   blog: {
     newblog: '最新博客',

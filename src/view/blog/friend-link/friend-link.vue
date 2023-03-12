@@ -46,7 +46,7 @@
             <div class="input_itemTitle">{{ i18n.t("friend.favicon") }}</div>
             <el-input
               v-model="data.inputData.icon"
-              placeholder="icon"
+              placeholder="icon(网址)"
               class="input-with-select"
               size="large"
               clearable

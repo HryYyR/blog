@@ -8,15 +8,16 @@ import blog from '../view/blog/blog-index/blog.vue'
 const routes = [
     { path: '/', redirect: '/blog' },
     { path: '/index', name: 'index', component: () => import('../view/blog/index/index.vue'), children: [] },
-    { path: '/blog', name: 'blog', component: blog },
-    { path: '/sort', name: 'sort', component: () => import('../view/blog/sort/Sort.vue') },
-    { path: '/interaction', name: 'interaction', component: () => import('../view/blog/interaction/interaction.vue') },
-    { path: '/friendLink', name: 'friendLink', component: () => import('../view/blog/friend-link/friend-link.vue') },
-    { path: '/record', name: 'record', component: () => import('../view/blog/record/record.vue') },
-    { path: '/about', name: 'about', component: () => import('../view/blog/about/about.vue') },
-    { path: '/object', name: 'object', component: () => import('../view/blog/object/object.vue') },
+    { path: '/blog', name: 'blog', meta: { isBlogHeader: true }, component: blog },
+    { path: '/sort', name: 'sort', meta: { isBlogHeader: true }, component: () => import('../view/blog/sort/Sort.vue') },
+    { path: '/interaction', name: 'interaction', meta: { isBlogHeader: true }, component: () => import('../view/blog/interaction/interaction.vue') },
+    { path: '/friendLink', name: 'friendLink', meta: { isBlogHeader: true }, component: () => import('../view/blog/friend-link/friend-link.vue') },
+    { path: '/record', name: 'record', meta: { isBlogHeader: true }, component: () => import('../view/blog/record/record.vue') },
+    { path: '/about', name: 'about', meta: { isBlogHeader: true }, component: () => import('../view/blog/about/about.vue') },
+    { path: '/object', name: 'object', meta: { isBlogHeader: true }, component: () => import('../view/blog/object/object.vue') },
+    { path: '/tools', name: 'tools', meta: { isBlogHeader: true }, component: () => import('../view/blog/tools/tools.vue') },
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog/blogdetail/blogdetail.vue') },
-    
+
     { path: '/checkQQlogin', name: 'checkQQlogin', component: () => import('../view/blog/checkQQlogin/checkQQlogin.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login/login.vue') },
     {
@@ -52,7 +53,7 @@ router.beforeEach(async (to, from, next) => {
         if (res.data.token && res.data.grade == 1) {
             return next()
         } else {
- 
+
             if (!res.data.token) {
                 ElMessage.error('token无效,请重新登录')
                 localStorage.clear()

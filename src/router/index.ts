@@ -45,8 +45,9 @@ const router = createRouter({
 
 // 用户判断登陆状态
 router.beforeEach(async (to, from, next) => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
         console.log(res.data);

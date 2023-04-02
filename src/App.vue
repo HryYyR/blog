@@ -15,7 +15,7 @@
       data.dark = !data.dark;
     }
   " :style="{ right: `${data.sunOptions.X}%`, bottom: `${data.sunOptions.Y}%` }">
-    <img src="https://hyyyh.top:3001/icon/sun.png" />
+    <img src="https://hyyyh.top/icon/sun.png" alt="sun" />
   </div>
   <!-- 覆盖层 -->
   <div class="stylecover" :style="{

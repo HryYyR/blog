@@ -129,7 +129,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted,onBeforeUnmount } from "vue";
 import router from "../../../router";
 import anime from "animejs";
 import { login, rigister } from "../../../axios/apis";
@@ -140,6 +140,7 @@ import QC from "qc";
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
+import { log } from "console";
 let i18n = useI18n();
 
 const store = useStore();
@@ -162,10 +163,6 @@ const data = reactive({
   },
 });
 onMounted(() => {
-  // QC.Login({
-  //   btnId: "qqLoginBtn",
-  // });
-
   data.yzm = JSON.stringify(Math.floor(Math.random() * 8999 + 1000));
   setTimeout(() => {
     anime({

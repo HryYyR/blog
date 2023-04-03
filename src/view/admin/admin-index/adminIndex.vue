@@ -17,7 +17,7 @@
                 text-color="#fff"
                 background-color="#545c64"
                 :collapse="data.isCollapse"
-                default-openeds="[1,2,3,4]"
+                :default-openeds="['1']"
               >
                 <el-sub-menu index="1">
                   <template #title>

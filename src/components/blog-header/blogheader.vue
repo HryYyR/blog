@@ -293,9 +293,9 @@ const openUserInfo = async () => {
 
       .nav_ul_cover {
         position: absolute;
-        width: 110px;
+        width: 95px;
         background-color: var(--WB);
-        left: -16px;
+        left: -7px;
         height: 20px;
         opacity: 0;
         transition: 0.2s;
@@ -306,9 +306,8 @@ const openUserInfo = async () => {
       &:hover {
         & .nav_ul_cover {
           opacity: 1;
-          top: -8px;
+          top: -6px;
         }
-
         color: var(--BW);
       }
     }
@@ -343,7 +342,7 @@ const openUserInfo = async () => {
     border-radius: 10px;
     font-weight: 900;
     font-size: 1rem;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 2.5rem;
     user-select: none;
     margin: 1rem 3rem;
     cursor: pointer;
@@ -353,8 +352,8 @@ const openUserInfo = async () => {
     transition: 0.2s all;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.9);
-      color: white;
+      background-color: var(--WB);
+      color: var(--BW);
     }
 
     .userHeader_Img {

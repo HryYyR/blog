@@ -232,24 +232,8 @@ const clearHTML = (data: any) => {
 //  滚动显示博客
 const scrollToTop = () => {
   data.scrollOption.screenH = document.body.clientHeight - window.innerHeight;
-  // if (data.scrollOption.scrollTop + 1 > data.scrollOption.screenH) {
-  //   addMoreBlog();
-  // }
-  // 获取视窗高度
-  // let domHight = window.innerHeight;
-  // dom滚动位置
   data.scrollOption.scrollTop =
     window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-  // 获取监听元素
-  // let id;
-  // 获取监听元素本身高度
-  // let scrollHeight;
-  // 获取监听元素距离视窗顶部距离
-  // let offsetTop;
-  // 获取监听元素距离顶部高度-窗口高度
-  // let top;
-  // 元素距离底部的高度+元素本身高度
-  // let bottom;
   data.showBlogData.map((i: any, index: any) => {
     data.scrollOption.id =
       document.getElementById(`id${index}`) || document.createElement("div");

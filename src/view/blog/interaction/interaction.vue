@@ -324,6 +324,7 @@ const getAsiignUserLaud = async () => {
       width: 50vw;
       box-shadow: 0px 15px 0px -5px var(--BW-8);
       background-color: var(--BW-5);
+      
       border-radius: 15px;
       min-height: 100vh;
       margin: 7rem 0;
@@ -358,7 +359,6 @@ const getAsiignUserLaud = async () => {
             right: 0.5rem;
             background-color: skyblue;
             border-color: skyblue;
-            transition: 0.2s;
             &:hover {
               background-color: rgb(1, 177, 246);
               border-color: rgb(1, 177, 246);

@@ -97,7 +97,6 @@ onMounted(async () => {
   width: 25%;
   display: flex;
   flex-direction: column;
-  transition: 1s;
   opacity: 0;
   z-index: 2;
 
@@ -105,10 +104,11 @@ onMounted(async () => {
   width: 100%;
   height: auto;
   display: flex;
-  transition: 0.3s;
+  transition: 0.2s all;
   overflow: hidden;
   flex-direction: column;
   border-radius: 20px;
+  transition: 0.3s all;
 }
 
   .blogRight_about {
@@ -116,6 +116,7 @@ onMounted(async () => {
     color: var(--WB);
     align-items: center;
     box-shadow: 2px 2px 5px var(--WB-1);
+    transition: 0.3s all;
     &:hover {
       box-shadow: 10px 10px 20px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
@@ -153,6 +154,7 @@ onMounted(async () => {
       display: flex;
       flex-direction: column;
       padding: 1rem 0;
+      transition: 0.2s all;
       .address {
         font-family: "kaiti";
         display: flex;

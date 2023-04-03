@@ -191,7 +191,7 @@ const apply = async () => {
     margin: 2rem 0 0rem 0;
     width: 60%;
 
-    background-color: var(--BW-9);
+    background-color: var(--BW-7);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -211,13 +211,14 @@ const apply = async () => {
       width: 80%;
       height: auto;
       background-color: var(--BW-7);
-      box-shadow: 0 13px 0px -5px var(--BW);
+      box-shadow: 0 13px 0px -5px var(--WB-3);
       border-radius: 30px;
       position: relative;
       user-select: none;
       display: flex;
       justify-content: space-around;
       padding: 1rem;
+      transition: 0.2s all;
       margin-bottom: 3rem;
       .input_left {
         width: 50%;
@@ -239,7 +240,7 @@ const apply = async () => {
         }
       }
       .input_itemTitle {
-        transition: 0.5s;
+        transition: 0.2s;
         margin: auto;
         min-width: 3rem;
         color: var(--WB-8);
@@ -253,14 +254,14 @@ const apply = async () => {
     }
 
     .link_list {
-      transition: 0.6s;
+      transition: 0.2s;
       position: relative;
       width: 90%;
       padding: 1rem;
       margin-bottom: 4rem;
       min-height: 200px;
       background-color: var(--BW-7);
-      box-shadow: 0 13px 0px -5px var(--BW);
+      box-shadow: 0 13px 0px -5px var(--WB-3);
       border-radius: 30px;
       display: flex;
       flex-wrap: wrap;
@@ -272,7 +273,7 @@ const apply = async () => {
         background-color: rgba(241, 243, 249, 1);
         box-shadow: 0px 2px 5px rgb(197, 197, 197);
         border-radius: 10px;
-        transition: 0.3s;
+        transition: 0.2s;
         overflow: hidden;
         user-select: none;
         margin: 0.5rem 0.5rem;
@@ -289,7 +290,7 @@ const apply = async () => {
           align-items: center;
           padding: 0 1rem;
           color: black;
-          transition: 0.5s;
+          transition: 0.2s;
           img {
             width: 70px;
             height: 70px;

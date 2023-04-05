@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="friend_link"
-    :style="{
-      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
-    }"
-  >
+  <div class="friend_link" :style="{
+    backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+  }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="friend_link_container">
       <p class="title">{{ i18n.t("friend.title1") }}</p>
@@ -12,30 +9,14 @@
         <div class="input_left">
           <div class="name">
             <div class="input_itemTitle">{{ i18n.t("friend.name") }}</div>
-            <el-input
-              v-model="data.inputData.name"
-              placeholder="name"
-              class="input-with-select"
-              size="large"
-              clearable
-            />
+            <el-input v-model="data.inputData.name" placeholder="name" class="input-with-select" size="large" clearable />
           </div>
           <div class="website">
             <div class="input_itemTitle">{{ i18n.t("friend.website") }}</div>
-            <el-input
-              v-model="data.inputData.website"
-              placeholder="website"
-              class="input-with-select"
-              size="large"
-              clearable
-            >
+            <el-input v-model="data.inputData.website" placeholder="website" class="input-with-select" size="large"
+              clearable>
               <template #prepend>
-                <el-select
-                  v-model="data.websiteprefix"
-                  placeholder="Select"
-                  style="width: 115px"
-                  size="large"
-                >
+                <el-select v-model="data.websiteprefix" placeholder="Select" style="width: 115px" size="large">
                   <el-option label="http://" value="http://" />
                   <el-option label="https://" value="https://" />
                 </el-select>
@@ -44,33 +25,19 @@
           </div>
           <div class="icon">
             <div class="input_itemTitle">{{ i18n.t("friend.favicon") }}</div>
-            <el-input
-              v-model="data.inputData.icon"
-              placeholder="icon(网址)"
-              class="input-with-select"
-              size="large"
-              clearable
-            />
+            <el-input v-model="data.inputData.icon" placeholder="icon(网址)" class="input-with-select" size="large"
+              clearable />
           </div>
           <div class="email">
             <div class="input_itemTitle">{{ i18n.t("friend.email") }}</div>
 
-            <el-input
-              v-model="data.inputData.email"
-              placeholder="email"
-              class="input-with-select"
-              size="large"
-              clearable
-            />
+            <el-input v-model="data.inputData.email" placeholder="email" class="input-with-select" size="large"
+              clearable />
           </div>
         </div>
         <div class="input_right">
-          <el-input
-            v-model="data.inputData.textarea"
-            :rows="5"
-            type="textarea"
-            :placeholder="i18n.t('friend.blogIntroduction')"
-          />
+          <el-input v-model="data.inputData.textarea" :rows="5" type="textarea"
+            :placeholder="i18n.t('friend.blogIntroduction')" />
           <el-button type="primary" class="apply" size="large" @click="apply">{{
             i18n.t("friend.btn")
           }}</el-button>
@@ -179,6 +146,7 @@ const apply = async () => {
 <style scoped lang="less">
 @bgcolor: rgba(255, 255, 255, 0.7);
 @boxshadow: 0 13px 0px -5px var(--WB-4);
+
 .friend_link {
   width: 100%;
   min-height: 100%;
@@ -187,10 +155,11 @@ const apply = async () => {
   justify-content: center;
   align-items: center;
   padding-top: 17vh;
+
   .friend_link_container {
     margin: 2rem 0 0rem 0;
     width: 60%;
-
+    transition: 0.3s background-color,box-shadow;
     background-color: var(--BW-7);
     border-radius: 20px;
     display: flex;
@@ -199,6 +168,7 @@ const apply = async () => {
     opacity: 0;
     position: relative;
     box-shadow: 0 13px 0px -5px var(--BW-3);
+
     .title {
       font-size: 2rem;
       position: relative;
@@ -206,6 +176,7 @@ const apply = async () => {
       font-weight: 900;
       color: var(--WB);
     }
+
     .input {
       transition: 0.4s;
       width: 80%;
@@ -220,25 +191,30 @@ const apply = async () => {
       padding: 1rem;
       transition: 0.2s all;
       margin-bottom: 3rem;
+
       .input_left {
         width: 50%;
         height: 100%;
-        & > div {
+
+        &>div {
           margin: 0.5rem 0;
           display: flex;
 
-          & > div {
+          &>div {
             min-width: 70px;
           }
         }
       }
+
       .input_right {
         width: 40%;
         height: 100%;
-        & > div {
+
+        &>div {
           margin: 0.5rem 0;
         }
       }
+
       .input_itemTitle {
         transition: 0.2s;
         margin: auto;
@@ -247,6 +223,7 @@ const apply = async () => {
         font-weight: 600;
         padding-right: 0.1rem;
       }
+
       .apply {
         margin-top: 0.8rem;
         width: 100%;
@@ -267,6 +244,7 @@ const apply = async () => {
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
+
       .link_item {
         width: 320px;
         height: 120px;
@@ -277,9 +255,11 @@ const apply = async () => {
         overflow: hidden;
         user-select: none;
         margin: 0.5rem 0.5rem;
+
         &:hover {
           background-color: rgb(255, 255, 255);
         }
+
         a {
           width: 100%;
           height: 100%;
@@ -291,23 +271,27 @@ const apply = async () => {
           padding: 0 1rem;
           color: black;
           transition: 0.2s;
+
           img {
             width: 70px;
             height: 70px;
             border-radius: 50%;
             position: relative;
           }
-          & > div {
+
+          &>div {
             position: relative;
             flex: 1;
             padding-left: 1rem;
             padding-right: 2rem;
             overflow: hidden;
+
             & p:nth-child(1) {
               font-size: 1.1rem;
               margin-bottom: 0.5rem;
               font-weight: 900;
             }
+
             & p:nth-child(2) {
               font-size: 1rem;
               white-space: nowrap;

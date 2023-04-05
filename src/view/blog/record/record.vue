@@ -37,7 +37,7 @@ let i18n = useI18n();
 
 let store = useStore();
 const data = reactive({
-  recordData: <any>[{},{},{},{},{}],
+  recordData: <any>[{}, {}, {}, {}, {}],
   // themeColor: store.state.themeColor,
 });
 // watch(store.state, (newvalue, oldvalue) => {
@@ -88,6 +88,7 @@ const changePage = () => {
     margin-bottom: 20rem;
     padding-bottom: 5rem;
     background-image: url(https://hyyyh.top:3001/recordimg/recordbg.png);
+    transition: 0.3s background-color;
 
     .record_title {
       position: relative;
@@ -99,7 +100,7 @@ const changePage = () => {
   }
 
   .rope {
-    transition: 0.5s all;
+    transition: 0.3s all;
     width: 0;
     height: 97%;
     border: 2px solid var(--WB);
@@ -109,7 +110,7 @@ const changePage = () => {
     margin: 1rem 0;
 
     &::before {
-      transition: 0.1s;
+      transition: 0.3s;
       position: absolute;
       content: "";
       background-color: var(--WB);
@@ -121,6 +122,7 @@ const changePage = () => {
     }
 
     &::after {
+      transition: 0.3s;
       position: absolute;
       content: "";
       background-color: var(--WB);
@@ -177,6 +179,7 @@ const changePage = () => {
     border-radius: 20px;
     border: 6px solid var(--BW);
     background-color: skyblue;
+    transition: 0.3s;
   }
 }
 
@@ -195,5 +198,8 @@ const changePage = () => {
     border-radius: 20px;
     border: 6px solid var(--BW);
     background-color: rgb(28, 188, 0);
+    transition: 0.3s;
+
   }
-}</style>
+}
+</style>

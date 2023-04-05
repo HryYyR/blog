@@ -324,7 +324,6 @@ const getAsiignUserLaud = async () => {
       width: 50vw;
       box-shadow: 0px 15px 0px -5px var(--BW-8);
       background-color: var(--BW-5);
-      
       border-radius: 15px;
       min-height: 100vh;
       margin: 7rem 0;
@@ -335,6 +334,7 @@ const getAsiignUserLaud = async () => {
       flex-direction: column;
       align-items: center;
       padding: 1rem 1rem 5rem 1rem;
+      transition: 0.3s background-color;
       h1 {
         margin-top: 4rem;
       }

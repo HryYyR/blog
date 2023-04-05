@@ -208,7 +208,7 @@ const handleblogdata = (data: any) => {
       width: 100%;
       height: auto;
       border-radius: 10px;
-      transition: 1s;
+      transition: 0.3s background-color;
       display: flex;
       flex-direction: column;
       background-color: var(--BW-5);
@@ -236,7 +236,7 @@ const handleblogdata = (data: any) => {
             background-color: var(--BW);
             padding: 0.2rem 0.5rem;
             margin: 0.1rem 0.3rem;
-            transition: 0.3s;
+            transition: 0.3s background-color,border-color;
             &:hover {
               background-color: var(--WB-1);
               border: 2px dashed var(--BW);
@@ -253,7 +253,7 @@ const handleblogdata = (data: any) => {
       justify-content: center;
       align-items: center;
       opacity: 0;
-      transition: 1s;
+      transition: 0.3s background-color;
       .nomore {
         width: 100%;
         height: 40vh;

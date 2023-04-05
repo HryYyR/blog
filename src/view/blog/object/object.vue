@@ -103,8 +103,8 @@ const changePage = () => {
   });
 };
 
-const toAssignProject = (url: String) => {
-  window.location.href = `https://hyyyh.top/${url}`
+const toAssignProject = (url: string) => {
+  window.location.href = url
 }
 </script>
 

@@ -20,26 +20,33 @@ const main = async () => {
     program.parse();
     let info = program.opts().commitInfo
     try {
-        console.log("开始打包项目");
-        await shell.exec("npm run build-prod")
-        console.log("打包成功！");
-        console.log("开始添加到暂存区");
-        await shell.exec("git add .")
-        console.log("添加成功！");
-        console.log("开始推送到云端");
-        await shell.exec("git commit -m" + info)
-        console.log("设置推送成功！");
-        console.log("上传代码......");
-        await shell.exec("git push")
-        console.log("代码上传成功！");
+
+        if (Config.isbuild) {
+            console.log("开始打包项目");
+            await shell.exec("npm run build-prod")
+            console.log("打包成功！");
+        }
+
+        if (Config.isuploadgithub) {
+            console.log("开始添加到暂存区");
+            await shell.exec("git add .")
+            console.log("添加成功！");
+            console.log("开始推送到云端");
+            await shell.exec("git commit -m" + info)
+            console.log("设置推送成功！");
+            console.log("上传代码......");
+            await shell.exec("git push")
+            console.log("代码上传成功！");
+        }
+
         console.log("开始压缩为zip");
-        await compress('E:/desk/blog/blog/program/blog/dist', __dirname + '/'+ Config.targetFile)  //压缩
+        await compress(Config.localFile, __dirname + '/' + Config.targetFile)  //压缩
         console.log("压缩完成！");
         console.log('正在连接远程服务器');
         await connect(Config.sshinfo)  //连接
         console.log("连接成功！");
         console.log("上传压缩包");
-        await uplod(SSH, Config, __dirname + '/'+Config.targetFile)  //上传压缩包
+        await uplod(SSH, Config, __dirname + '/' + Config.targetFile)  //上传压缩包
         console.log("上传成功！");
         console.log("正在执行解压等后续操作");
         await runcommand(SSH, `autodeploy.bat`, '')  //

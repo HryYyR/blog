@@ -15,7 +15,7 @@
         }"
         @click="emit('changeBgColor', item)"
       >
-        <div>
+        <div class="flex-jcc-aic">
           {{ item.label }}
         </div>
       </div>
@@ -41,8 +41,8 @@ onMounted(() => {
 <style scoped lang="less">
 .change {
   position: fixed;
-  right: 1rem;
-  bottom: 5rem;
+  right: 3rem;
+  bottom: 3rem;
   cursor: pointer;
   user-select: none;
   z-index: 1;
@@ -56,14 +56,20 @@ onMounted(() => {
   .changebgcolor_item {
     margin: 0 0.5rem 1rem 0.5rem;
     width: 30px;
-    height: 100px;
+    height: 30px;
     user-select: none;
+    border-radius: 50%;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.8);
-    font-weight: 900;
+    font-weight: 600;
+    font-size: 0.1rem;
+    transition:  0.1s transform;
     & div {
       position: relative;
-      top: 100px;
+      top: 30px;
+    }
+    &:hover{
+      transform: scale(1.2);
     }
   }
 }

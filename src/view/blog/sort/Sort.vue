@@ -254,6 +254,7 @@ const handleblogdata = (data: any) => {
       align-items: center;
       opacity: 0;
       transition: 0.3s background-color;
+      transition: 1s opacity;
       .nomore {
         width: 100%;
         height: 40vh;

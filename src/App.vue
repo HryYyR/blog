@@ -19,9 +19,9 @@
   </div>
   <!-- 覆盖层 -->
   <div class="stylecover" :style="{
-    opacity: data.coverOption.opacity,
     backgroundColor: data.coverOption.color,
     zIndex: data.coverOption.zIndex,
+    transform:`scale(${data.coverOption.scale})`
   }"></div>
 
   <!-- 个人资料 -->
@@ -87,8 +87,8 @@ const data = reactive({
   // 覆盖层数据
   coverOption: {
     color: "white",
-    opacity: 0,
     zIndex: -99,
+    scale:"0"
   },
   user_drawer: false, //是否显示个人资料
   user_avatar: localStorage.getItem("header") || "",
@@ -131,17 +131,16 @@ const ChangeBgColor = (item: any) => {
     data.NowIsChangeBgColor = true;
   }
   data.coverOption = {
-    zIndex: 98,
     color: item.start,
-    opacity: 1,
+    zIndex: 99,
+    scale:"200"
   };
   setTimeout(() => {
     store.state.themeColor = item;
-    data.coverOption.opacity = 0;
+    data.coverOption.scale="0"
     setsunPosition(item.id);
 
     setTimeout(() => {
-      data.coverOption.zIndex = -99;
       data.NowIsChangeBgColor = false;
     }, 1000);
   }, 2000);
@@ -306,11 +305,14 @@ const setsunPosition = (id: number) => {
 }
 
 .stylecover {
-  width: 100%;
-  height: 100%;
+  width: 10px;
+  height: 10px;
   position: fixed;
   z-index: 99;
-  top: 0;
-  transition: 0.5s;
+  top: 50%;
+  left: 50%;
+  transition: 0.5s transform;
+  border-radius: 50%;
+  transform: scale(0);
 }
 </style>

@@ -203,7 +203,7 @@ const jump = async (item: any, index: number) => {
     router.push(item.path);
     data.viewTitle = item.title;
     store.state.title = item.title;
-  }, 200);
+  }, 20);
 };
 
 const toLogin = () => {
@@ -288,7 +288,7 @@ const openUserInfo = async () => {
       /* background: rgba(0, 0, 0, 0.2); */
       margin: 0.5rem ;
       padding: 0.5rem 0rem;
-      transition: 0.2s;
+      // transition: 0.2s;
       border-radius: 10px;
 
       .nav_ul_cover {

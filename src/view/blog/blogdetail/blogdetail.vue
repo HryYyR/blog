@@ -5,13 +5,11 @@
       <div class="edit">
         <div @click="tolaud()">
           <el-badge :value="data.LaudNum" class="item">
-            <img
-              :src="
-                data.isLaud
-                  ? 'http://hyyyh.top:3001/icon/laud_0.png'
-                  : 'http://hyyyh.top:3001/icon/laud.png'
-              "
-            />
+            <img :src="
+              data.isLaud
+                ? 'http://hyyyh.top:3001/icon/laud_0.png'
+                : 'http://hyyyh.top:3001/icon/laud.png'
+            " />
           </el-badge>
         </div>
         <div @click="toComment">
@@ -30,12 +28,7 @@
         <div class="comment">
           <div class="myComment">
             <h2>评论</h2>
-            <el-input
-              v-model="data.commentInput"
-              placeholder="请输入你的评论"
-              type="textarea"
-              height="100px"
-            ></el-input>
+            <el-input v-model="data.commentInput" placeholder="请输入你的评论" type="textarea" height="100px"></el-input>
             <div class="sendComment">
               <el-button type="primary" @click="sendComment">发表评论</el-button>
             </div>
@@ -46,23 +39,15 @@
               暂无评论
             </p>
             <div>
-              <div
-                class="allComment_item"
-                v-for="(item, index) in data.commentData"
-                :key="index"
-              >
+              <div class="allComment_item" v-for="(item, index) in data.commentData" :key="index">
                 <div class="allComment_item_left">
                   <div>
-                    <img
-                      :src="item.avatar || 'http://hyyyh.top:3001/icon/github.png'"
-                      alt=""
-                    />
+                    <img :src="item.avatar || 'http://hyyyh.top:3001/icon/github.png'" alt="" />
                   </div>
                 </div>
                 <div class="allComment_item_right">
                   <div class="allComment_item_name">
-                    <span>{{ item.blogusername }}</span
-                    ><span>{{ item.createtime }}</span>
+                    <span>{{ item.blogusername }}</span><span>{{ item.createtime }}</span>
                   </div>
                   <div class="allComment_item_container">{{ item.container }}</div>
                 </div>
@@ -73,14 +58,8 @@
       </div>
       <!-- <blogRightVue style="margin-top: 1rem"></blogRightVue> -->
 
-      <el-dialog
-        v-model="data.isToLoginVisible"
-        title="登陆提示"
-        :width="store.state.isPC ? '20%' : '90%'"
-        top="20rem"
-        :show-close="false"
-        :lock-scroll="false"
-      >
+      <el-dialog v-model="data.isToLoginVisible" title="登陆提示" :width="store.state.isPC ? '20%' : '90%'" top="20rem"
+        :show-close="false" :lock-scroll="false">
         <span>{{ data.toLoginDialogText }}</span>
         <template #footer>
           <span class="dialog-footer">
@@ -110,6 +89,7 @@ import {
 } from "../../../axios/apis";
 import { ElMessage } from "element-plus";
 import store from "../../../store";
+import { checkTEXT } from "../../../func/checkText/checkText";
 
 const data = reactive({
   blogData: <any>[],
@@ -209,16 +189,20 @@ const toComment = () => {
 };
 // 发送请求发表评论
 const sendComment = async () => {
+  const { id, createusername, name } = data.blogData
   if (!data.blogData || !data.commentInput) {
     return ElMessage.error("内容不能为空！");
+  }
+  if (!await checkTEXT(data.commentInput)) {
+    return 
   }
   if (await islogin()) {
     const res = await publishComment(
       store.state.userid,
-      data.blogData.id,
+      id,
       data.commentInput,
-      data.blogData.createusername,
-      data.blogData.name
+      createusername,
+      name
     );
     data.commentInput = "";
     if (res.status == 200) {

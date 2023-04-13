@@ -34,7 +34,7 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(function (response: any) {
-  console.log(response);
+  // console.log(response);
   if(response.status==205){
     router.push({path:'/prison'})
   }

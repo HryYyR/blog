@@ -70,6 +70,7 @@ import anime from "animejs";
 import { ElMessage } from "element-plus";
 import debounce from "../../../func/debounce/debounce";
 import scope from 'lodash/escape';
+import { checkTEXT } from "../../../func/checkText/checkText"
 import {
   addinteraction,
   getallinteraction,
@@ -84,6 +85,7 @@ import { useStore } from "vuex";
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
+import router from "../../../router";
 let i18n = useI18n();
 
 let store = useStore();
@@ -161,12 +163,10 @@ const submitcomment = async () => {
 
   let { ip }: any = await getIpAndPath();  //获取ip
 
-  console.log(ip);
-
-  if (ip && data.textarea.includes("<script>") || data.textarea.includes("and")) {
-    AddIpBlackList({ ip: ip || "null", type: "xss攻击" })
-    return ElMessage.error("为什么不听话?")
+  if (!await checkTEXT(data.textarea)) {
+    return 
   }
+
   const resolve = await addinteraction(
     data.userid || "-1",
     data.username || "游客",

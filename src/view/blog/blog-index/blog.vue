@@ -28,7 +28,7 @@
         :img="
           data.newBlogData[0].img
             ? data.newBlogData[0].img
-            : 'http://hyyyh.top:3001/icon/logo.png'
+            : 'http://hyyyh.top:3001/icon/loading.png'
         "
         :sortname="data.newBlogData[0].sortname"
         :labelname="data.newBlogData[0].labelname"
@@ -45,7 +45,7 @@
         :blogTitle="item.name"
         :time="item.createtime"
         :num="index"
-        :img="item.img ? item.img : 'http://hyyyh.top:3001/icon/logo.png'"
+        :img="item.img ? item.img : 'http://hyyyh.top:3001/icon/loading.png'"
         :container="item.container"
         v-for="(item, index) in data.showBlogData"
         :isShow="item.isShow == 0 ? false : true"

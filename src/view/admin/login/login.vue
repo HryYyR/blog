@@ -16,12 +16,7 @@
         <div class="pass">
           <span>{{ i18n.t("login.pass") }}:</span>
           <form>
-            <input
-              type="password"
-              :placeholder="i18n.t('login.pass')"
-              v-model="data.pass"
-              autocomplete=""
-            />
+            <input type="password" :placeholder="i18n.t('login.pass')" v-model="data.pass" autocomplete="" />
           </form>
           <span class="forgetPass">{{ i18n.t("login.forget") }}</span>
         </div>
@@ -35,14 +30,9 @@
         <!-- <span id="qqLoginBtn"></span> -->
 
         <!-- <span id="qqLoginBtn" data-v-7b08df9c=""> -->
-        <a
-          href="https://graph.qq.com/oauth2.0/authorize?client_id=102020370&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Fhyyyh.top%2Fblog"
-          target="_self"
-          ><img
-            src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-            alt="QQ登录"
-            border="0"
-        /></a>
+        <a href="https://graph.qq.com/oauth2.0/authorize?client_id=102020370&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Fhyyyh.top%2Fblog"
+          target="_self"><img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="QQ登录"
+            border="0" /></a>
         <!-- </span> -->
       </div>
       <div class="registerbtn">
@@ -60,56 +50,31 @@
       </div>
       <div class="input_box">
         <div class="name">
-          <span>{{ i18n.t("register.name") }}:</span
-          ><input
-            type="text"
-            :placeholder="i18n.t('register.name')"
-            v-model="data.rigister.name"
-          />
+          <span>{{ i18n.t("register.name") }}:</span><input type="text" :placeholder="i18n.t('register.name')"
+            v-model="data.rigister.name" />
         </div>
         <div class="name">
-          <span>{{ i18n.t("register.email") }}:</span
-          ><input
-            type="email"
-            :placeholder="i18n.t('register.email')"
-            v-model="data.rigister.email"
-          />
+          <span>{{ i18n.t("register.email") }}:</span><input type="email" :placeholder="i18n.t('register.email')"
+            v-model="data.rigister.email" />
         </div>
         <div class="name">
           <span>{{ i18n.t("register.pass") }}:</span>
           <form>
-            <input
-              type="password"
-              :placeholder="i18n.t('register.pass')"
-              v-model="data.rigister.pass"
-              autocomplete=""
-            />
+            <input type="password" :placeholder="i18n.t('register.pass')" v-model="data.rigister.pass" autocomplete="" />
           </form>
         </div>
         <div class="name">
           <span>{{ i18n.t("register.Verifypassword") }}:</span>
           <form>
-            <input
-              type="password"
-              :placeholder="i18n.t('register.Verifypassword')"
-              v-model="data.rigister.checkpass"
-              autocomplete=""
-            />
+            <input type="password" :placeholder="i18n.t('register.Verifypassword')" v-model="data.rigister.checkpass"
+              autocomplete="" />
           </form>
         </div>
         <div class="name">
-          <span>{{ i18n.t("register.Verification") }}:</span
-          ><input
-            type="text"
-            :placeholder="i18n.t('register.Verification')"
-            v-model="data.rigister.checkyzm"
-            style="width: 100px"
-          />
-          <span
-            class="yzm"
-            @click="data.yzm = JSON.stringify(Math.floor(Math.random() * 8999 + 1000))"
-            >{{ data.yzm }}</span
-          >
+          <span>{{ i18n.t("register.Verification") }}:</span><input type="text"
+            :placeholder="i18n.t('register.Verification')" v-model="data.rigister.checkyzm" style="width: 100px" />
+          <span class="yzm" @click="data.yzm = JSON.stringify(Math.floor(Math.random() * 8999 + 1000))">{{ data.yzm
+          }}</span>
         </div>
       </div>
       <div class="btn_box">
@@ -129,7 +94,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import { reactive, ref, onMounted,onBeforeUnmount } from "vue";
+import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import router from "../../../router";
 import anime from "animejs";
 import { login, rigister } from "../../../axios/apis";
@@ -141,6 +106,7 @@ import QC from "qc";
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
 import { log } from "console";
+import { checkTEXT } from "../../../func/checkText/checkText";
 let i18n = useI18n();
 
 const store = useStore();
@@ -196,6 +162,9 @@ const sendLogin = async () => {
     ElMessage.error("账号或密码不能为空");
     return;
   }
+  if (!await checkTEXT(data.user) || !await checkTEXT(data.pass)) {
+    return
+  }
   try {
     const md5: any = new Md5();
     md5.appendAsciiStr(data.pass);
@@ -243,12 +212,12 @@ const sendregister = async () => {
   }
   // user正则
   if (!userreg.test(data.rigister.name)) {
-    ElMessage.error("昵称只能包含字母，数字，下划线，减号，且大于1位不超过10位");
+    ElMessage.error("昵称只能包含字母,数字,下划线,减号,且大于1位不超过10位");
     return;
   }
   // pass正则
   if (!passreg.test(data.rigister.pass)) {
-    ElMessage.error("密码只能包含字母，数字，下划线，减号，且大于6位不超过16位");
+    ElMessage.error("密码只能包含字母,数字,下划线,减号,且大于6位不超过16位");
     return;
   }
   // 邮箱正则
@@ -264,6 +233,10 @@ const sendregister = async () => {
     ElMessage.error("验证码错误");
     return;
   }
+  if (!await checkTEXT(data.rigister.name) || !await checkTEXT(data.rigister.pass)) {
+    return
+  }
+
   const md5: any = new Md5();
   md5.appendAsciiStr(data.rigister.pass);
   const pass = md5.end();
@@ -339,10 +312,12 @@ const toindex = () => {
 * {
   font-family: Georgia, STZhongsong;
 }
+
 input {
   border: none;
   outline: none;
 }
+
 .top {
   height: 100vh;
   width: 100vw;
@@ -352,6 +327,7 @@ input {
   align-items: center;
   z-index: 1;
   background-image: url(https://hyyyh.top:3001/bg/loginbg.png);
+
   .backindex {
     position: absolute;
     left: 10px;
@@ -408,6 +384,7 @@ input {
       border: 1px solid rgba(255, 255, 255, 0.6);
       background-color: white;
     }
+
     .login {
       &:hover {
         background-color: rgb(244, 212, 160);
@@ -415,6 +392,7 @@ input {
       }
     }
   }
+
   .registerbtn {
     width: 100%;
     height: auto;
@@ -425,6 +403,7 @@ input {
     cursor: pointer;
     user-select: none;
     transition: 0.2s;
+
     .toregister {
       position: absolute;
       font-size: 1rem;
@@ -432,11 +411,13 @@ input {
       bottom: 5px;
       transition: 0.2s;
       color: black;
+
       &:hover {
         color: rgb(0, 181, 214);
       }
     }
   }
+
   .register_container {
     overflow: hidden;
     width: 30%;
@@ -454,6 +435,7 @@ input {
     position: absolute;
     transform: translateX(35vw);
     padding: 20px 0;
+
     .backlogin {
       position: absolute;
       font-size: 1rem;
@@ -463,10 +445,12 @@ input {
       user-select: none;
       transition: 0.2s;
       color: black;
+
       &:hover {
         color: rgb(0, 181, 214);
       }
     }
+
     .registerTitle {
       font-size: 1.5rem;
       color: black;
@@ -487,6 +471,7 @@ input {
     border: 1px solid gray;
     position: relative;
     min-height: 86px;
+
     input {
       flex: 1;
       width: 280px;
@@ -495,9 +480,11 @@ input {
       padding: 0;
       overflow: hidden;
     }
+
     span {
       padding: 0 13px;
     }
+
     .name {
       border-bottom: 1px solid gray;
       width: 100%;
@@ -505,15 +492,18 @@ input {
       display: flex;
       align-items: center;
     }
+
     .pass {
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+
       input {
         width: auto;
         min-width: 285px;
       }
+
       .forgetPass {
         cursor: pointer;
         user-select: none;
@@ -523,6 +513,7 @@ input {
     }
   }
 }
+
 .yzm {
   width: 100px;
   background-color: rgb(239, 207, 64);
@@ -531,6 +522,7 @@ input {
   position: relative;
   user-select: none;
   cursor: pointer;
+
   &::after {
     content: "";
     position: absolute;
@@ -541,6 +533,7 @@ input {
     margin-top: 20px;
     transform: rotate(10deg);
   }
+
   &::before {
     content: "";
     position: absolute;

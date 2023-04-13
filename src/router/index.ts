@@ -20,6 +20,7 @@ const routes = [
 
     { path: '/checkQQlogin', name: 'checkQQlogin', component: () => import('../view/blog/checkQQlogin/checkQQlogin.vue') },
     { path: '/login', name: 'login', component: () => import('../view/admin/login/login.vue') },
+    { path: '/prison', name: 'prison', component: () => import('../view/blog/prison/prison.vue') },
     {
         path: '/admin', name: 'admin', redirect: '/admin/addblog', component: () => import('../view/admin/admin-index/adminIndex.vue'), children: [
             { path: '/admin/addblog', name: 'addblog', component: () => import('../view/admin/adminblog/addblog.vue') },

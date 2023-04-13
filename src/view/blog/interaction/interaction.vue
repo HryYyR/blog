@@ -1,88 +1,55 @@
 <template>
-  <div
-    class="interaction_container"
-    :style="{
-      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
-    }"
-  >
+  <div class="interaction_container" :style="{
+    backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+  }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="interaction_body">
       <div class="interaction_body_container" :style="{}">
         <h1 style="color: var(--WB)">{{ i18n.t("interaction.title") }}</h1>
         <div class="interaction__inputbody">
-          <el-input
-            v-model="data.textarea"
-            :rows="2"
-            type="textarea"
-            :placeholder="i18n.t('interaction.textarea')"
-            :autosize="{ minRows: 5, maxRows: 6 }"
-          />
+          <el-input v-model="data.textarea" :rows="2" type="textarea" :placeholder="i18n.t('interaction.textarea')"
+            :autosize="{ minRows: 5, maxRows: 6 }" />
           <div class="interaction__btnbody">
-            <span>{{ i18n.t("interaction.info") }}</span
-            ><el-button type="primary" class="submitbtn" @click="submitcomment">{{
-              i18n.t("interaction.submitinfo")
-            }}</el-button>
+            <span>{{ i18n.t("interaction.info") }}</span><el-button type="primary" class="submitbtn"
+              @click="submitcomment">{{
+                i18n.t("interaction.submitinfo")
+              }}</el-button>
           </div>
         </div>
         <div class="interaction_comment flex-jcc-aic">
-          <div
-            class="interaction_comment_item"
-            v-for="(item, index) in data.commentData"
-            :index="item.id"
-          >
+          <div class="interaction_comment_item" v-for="(item, index) in data.commentData" :index="item.id">
             <div class="interaction_comment_img">
               <img :src="item.avatar || 'http://hyyyh.top:3001/icon/github.png'" alt="" />
             </div>
             <div class="interaction_comment_container">
               <div class="interaction_comment_top">
-                <span class="interaction_name"
-                  >{{ item.username }}{{ item.userid === "1" ? "(博主)" : "" }}</span
-                >
+                <span class="interaction_name">{{ item.username }}{{ item.userid === "1" ? "(博主)" : "" }}</span>
                 <span class="interaction_time">{{ item.createtime }}</span>
                 <span class="interaction_time">IP:{{ item.userip }}</span>
               </div>
-              <div
-                class="interaction_comment_mid"
-                @click="openReplyInteractionDialog(item, index)"
-              >
+              <div class="interaction_comment_mid" @click="openReplyInteractionDialog(item, index)">
                 {{ item.container }}
               </div>
               <div class="interaction_comment_bottom">
                 <div @click="laudinteraction(item)">
-                  <img
-                    :src="
-                      item.islaud
-                        ? 'http://hyyyh.top:3001/icon/laud_0.png'
-                        : 'http://hyyyh.top:3001/icon/laud.png'
-                    "
-                    alt=""
-                  />{{ item.laudnum }}
+                  <img :src="
+                    item.islaud
+                      ? 'http://hyyyh.top:3001/icon/laud_0.png'
+                      : 'http://hyyyh.top:3001/icon/laud.png'
+                  " alt="" />{{ item.laudnum }}
                 </div>
                 <div class="reply">
                   <span @click="openReplyInteractionDialog(item, index)">回复</span>
                 </div>
               </div>
 
-              <div
-                v-for="(childen, index) in item.childen"
-                :key="index"
-                class="replycontainer"
-              >
-                <span
-                  ><span style="color: rgb(135, 168, 235)"
-                    >{{ childen.username }}{{ item.userid === "1" ? "(博主)" : "" }}</span
-                  >:{{ childen.container }}</span
-                >
+              <div v-for="(childen, index) in item.childen" :key="index" class="replycontainer">
+                <span><span style="color: rgb(135, 168, 235)">{{ childen.username }}{{ item.userid === "1" ? "(博主)" : ""
+                }}</span>:{{ childen.container }}</span>
               </div>
               <div class="replydialog" v-if="item.isopenreply">
-                <el-input
-                  class="replytextarea"
-                  type="textarea"
-                  v-model="data.replycontent"
-                ></el-input>
-                <el-button class="replybtn" type="primary" @click="submitreply"
-                  >评论</el-button
-                >
+                <el-input class="replytextarea" type="textarea" v-model="data.replycontent"></el-input>
+                <el-button class="replybtn" type="primary" @click="submitreply">评论</el-button>
               </div>
             </div>
           </div>
@@ -102,6 +69,7 @@ import { reactive, onMounted, watch, onBeforeUnmount } from "vue";
 import anime from "animejs";
 import { ElMessage } from "element-plus";
 import debounce from "../../../func/debounce/debounce";
+import scope from 'lodash/escape';
 import {
   addinteraction,
   getallinteraction,
@@ -109,6 +77,7 @@ import {
   interactionhasBeenLaud,
   getassigninteractionlaud,
   getIpAndPath,
+  AddIpBlackList
 } from "../../../axios/apis";
 import tologindialogVue from "../../../components/to-login-dialog/tologindialog.vue";
 import { useStore } from "vuex";
@@ -184,16 +153,24 @@ const changePage = () => {
 const submitcomment = async () => {
   if (!data.userid || !data.username) {
     // ElMessage.error("未登录");
+    // return
   }
   if (data.textarea == "" || data.textarea.length < 5) {
     return ElMessage.error("您输入的字数不够哦！");
   }
 
-  let { ip }: any = await getIpAndPath();
+  let { ip }: any = await getIpAndPath();  //获取ip
+
+  console.log(ip);
+
+  if (ip && data.textarea.includes("<script>") || data.textarea.includes("and")) {
+    AddIpBlackList({ ip: ip || "null", type: "xss攻击" })
+    return ElMessage.error("为什么不听话?")
+  }
   const resolve = await addinteraction(
     data.userid || "-1",
     data.username || "游客",
-    data.textarea,
+    scope(data.textarea),
     data.userid ? "1" : "-1",
     0,
     -1,
@@ -319,6 +296,7 @@ const getAsiignUserLaud = async () => {
     display: flex;
     justify-content: center;
     width: 100vw;
+
     .interaction_body_container {
       z-index: 1;
       width: 50vw;
@@ -335,9 +313,11 @@ const getAsiignUserLaud = async () => {
       align-items: center;
       padding: 1rem 1rem 5rem 1rem;
       transition: 0.3s background-color;
+
       h1 {
         margin-top: 4rem;
       }
+
       .interaction__inputbody {
         margin-top: 2rem;
         width: 90%;
@@ -345,20 +325,24 @@ const getAsiignUserLaud = async () => {
         display: flex;
         flex-direction: column;
         align-items: center;
+
         .interaction__btnbody {
           display: flex;
           width: 100%;
           justify-content: space-between;
+
           & span {
             margin-left: 0.5rem;
             color: var(--WB-7);
           }
+
           .submitbtn {
             position: relative;
             top: 1rem;
             right: 0.5rem;
             background-color: skyblue;
             border-color: skyblue;
+
             &:hover {
               background-color: rgb(1, 177, 246);
               border-color: rgb(1, 177, 246);
@@ -367,6 +351,7 @@ const getAsiignUserLaud = async () => {
         }
       }
     }
+
     .interaction_comment {
       position: relative;
       flex-direction: column;
@@ -390,6 +375,7 @@ const getAsiignUserLaud = async () => {
         border: 1px dashed rgba(0, 0, 0, 0.2);
         color: var(--WB);
         transition: 0.5s;
+
         .interaction_comment_img {
           width: 50px;
           height: 50px;
@@ -404,36 +390,43 @@ const getAsiignUserLaud = async () => {
             height: 100%;
           }
         }
+
         .interaction_comment_container {
           display: flex;
           flex-direction: column;
           flex: 1;
           padding-left: 1rem;
+
           .interaction_comment_top {
             cursor: pointer;
             height: 30px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
+
             .interaction_name {
               color: rgb(135, 168, 235);
               font-weight: 900;
               margin-right: 0.5rem;
             }
+
             .interaction_time {
               color: var(--WB-3);
               font-size: 0.8rem;
               margin: 0 1rem 0 0;
             }
           }
+
           .interaction_comment_mid {
             padding: 0.5rem 1rem;
           }
+
           .interaction_comment_bottom {
             cursor: pointer;
             height: 30px;
             font-size: 0.7rem;
             display: flex;
+
             .reply {
               display: flex;
               justify-content: flex-end;
@@ -445,19 +438,23 @@ const getAsiignUserLaud = async () => {
               flex: 1;
               display: flex;
               align-items: center;
+
               & img {
                 width: 1rem;
                 margin-right: 3px;
               }
             }
           }
+
           .replydialog {
             display: flex;
             align-items: flex-end;
+
             .replybtn {
               margin: 0.5rem 1rem 0 1rem;
             }
           }
+
           .replycontainer {
             font-size: 0.8rem;
             margin: 0.5rem 0;
@@ -467,6 +464,7 @@ const getAsiignUserLaud = async () => {
     }
   }
 }
+
 .wave {
   position: fixed;
   width: 100%;

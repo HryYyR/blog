@@ -26,7 +26,7 @@ export default {
     title: '留言板',
     textarea: '留下你的建议吧！',
     submitinfo: '提交留言',
-    info: '(建议登陆后评论哦！)'
+    info: '(建议登陆后评论！请不要尝试攻击哦！)'
 
   },
   friend: {

@@ -12,10 +12,22 @@ export async function getIpAndPath() {
       method: 'get',
       url: `/api/getip`,
    })
+   console.log(ipresolve);
+   
    let ip = ipresolve.data.ip
    return { ip: ip }
 }
 
+// 添加ip到黑名单
+export function AddIpBlackList(info:any) {
+   return axios({
+      method: 'post',
+      url: '/api/setIpBlackList',
+      data:{
+         info:info
+      }
+   })
+}
 
 // 获取所有博客
 export function getBlogData(pageNum?: number, num?: number) {
@@ -139,14 +151,14 @@ export function login(user: string, pass: string) {
 
 
 // QQ登录
-export function QQlogin(data: string, openID: string,accessToken:String) {
+export function QQlogin(data: string, openID: string, accessToken: String) {
    return axios({
       method: 'post',
       url: '/api/QQlogin',
       data: {
          data: data,
          openID: openID,
-         accessToken:accessToken
+         accessToken: accessToken
       }
    })
 }
@@ -181,24 +193,24 @@ export function getuserdata() {
    return axios({
       method: 'post',
       url: '/api/getAssignUserData',
-      data:{
-         userid:store.state.userid
+      data: {
+         userid: store.state.userid
       }
    })
 }
 
 // 修改指定用户的数据
-export function edituserdata( userid:number, username:string, email:string, sex:string, year:number, city:string) {
+export function edituserdata(userid: number, username: string, email: string, sex: string, year: number, city: string) {
    return axios({
       method: 'post',
       url: '/api/editAssignUserData',
-      data:{
-         userid:userid,
-         username:username,
-         email:email,
-         sex:sex,
-         year:year,
-         city:city
+      data: {
+         userid: userid,
+         username: username,
+         email: email,
+         sex: sex,
+         year: year,
+         city: city
       }
    })
 }
@@ -305,6 +317,5 @@ export function getAllobjectData() {
       url: '/api/getAllobjectData',
    })
 }
-
 
 

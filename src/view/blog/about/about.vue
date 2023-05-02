@@ -74,7 +74,7 @@ const data = reactive({
   ],
   SectionListShow: false,
   DialogList: <any>[],
-  aboutInfo: {
+  aboutInfo: <any>{
     start: ["Hello, world🚀", "欢迎您的到来.", "你想了解什么呢😊", true],
     blog: [
       "这个博客是2022年7月5日开始搭建的",
@@ -113,9 +113,14 @@ const outputDialog = (info: any) => {
 
   }
 }
-
+type i ={
+      id: number,
+      text: string,
+      type: string,
+      show: boolean
+    }
 // 选项被点击
-const useSection = (item: any) => {
+const useSection = (item: i) => {
   data.DialogList.push({ text: item.text, isResponse: true })
   data.SectionList[4].show = true
   changeSectionListShow()

@@ -42,7 +42,7 @@ axios.interceptors.response.use(function (response: any) {
   if(response.status==205){
     router.push({path:'/prison'})
   }
-  console.log(response.headers);
+  // console.log(response.headers);
   response.headers['Content-Encoding'] = 'gzip';
   
   return response;

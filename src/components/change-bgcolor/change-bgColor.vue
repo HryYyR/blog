@@ -2,19 +2,13 @@
   <el-popover placement="left" :width="200" trigger="hover">
     <template #reference>
       <div class="change">
-        <img :src="`https://hyyyh.top:3001/icon/changeBgColor.png`" alt="" />
+        <img :src="`https://hyyyh.top:3001/icon/fit.png`" alt="" />
       </div>
     </template>
     <div class="changebgcolor">
-      <div
-        v-for="(item, index) in data.bgImgOptions"
-        :key="index"
-        class="changebgcolor_item"
-        :style="{
-          backgroundImage: `linear-gradient(${data.bgImgOptions[index].start},${data.bgImgOptions[index].end})`,
-        }"
-        @click="emit('changeBgColor', item)"
-      >
+      <div v-for="(item, index) in data.bgImgOptions" :key="index" class="changebgcolor_item" :style="{
+          backgroundColor: item.color
+        }" @click="emit('changeBgColor', item)">
         <div class="flex-jcc-aic">
           {{ item.label }}
         </div>
@@ -30,7 +24,7 @@ const store = useStore();
 let emit = defineEmits(["changeBgColor"]);
 const data = reactive({
   themeColor: {},
-  bgImgOptions: [{ start: "", end: "", label: "", id: 0 }],
+  bgImgOptions: [{ color: "", label: "", id: 0 }],
 });
 onMounted(() => {
   data.themeColor = store.state.themeColor;
@@ -46,13 +40,29 @@ onMounted(() => {
   cursor: pointer;
   user-select: none;
   z-index: 1;
+
   img {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
+    animation: rotate 2s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+
+    }
+
   }
 }
+
 .changebgcolor {
   display: flex;
+
   .changebgcolor_item {
     margin: 0 0.5rem 1rem 0.5rem;
     width: 30px;
@@ -63,12 +73,14 @@ onMounted(() => {
     color: rgba(0, 0, 0, 0.8);
     font-weight: 600;
     font-size: 0.1rem;
-    transition:  0.1s transform;
+    transition: 0.1s transform;
+
     & div {
       position: relative;
       top: 30px;
     }
-    &:hover{
+
+    &:hover {
       transform: scale(1.2);
     }
   }

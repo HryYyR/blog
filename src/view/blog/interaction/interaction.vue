@@ -1,6 +1,6 @@
 <template>
   <div class="interaction_container" :style="{
-    backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+    backgroundColor:store.state.themeColor.color
   }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="interaction_body">

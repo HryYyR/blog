@@ -2,7 +2,7 @@
   <div>
     <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
     <div class="record flex-jcc" :style="{
-      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+    backgroundColor:store.state.themeColor.color
     }">
       <div class="record_body flex-jcc">
         <div class="rope"></div>
@@ -84,7 +84,7 @@ const changePage = () => {
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
     position: relative;
-    top: 20vh;
+    top: 25vh;
     margin-bottom: 20rem;
     padding-bottom: 5rem;
     background-image: url(https://hyyyh.top:3001/recordimg/recordbg.png);

@@ -15,8 +15,8 @@ export default {
   blog: {
     newblog: '最新博客',
     allblog: '所有博客',
-    more: '获取更多',
-    nomore:'暂无更多'
+    more: '下一页',
+    nomore:'~~到底啦~~'
   },
   blogRight: {
     label: '标签',

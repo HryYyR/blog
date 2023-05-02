@@ -1,7 +1,7 @@
 <template>
   <div :class="store.state.currentColorTheme ? 'dark' : 'light'">
     <router-view v-slot="{ Component }">
-      <keep-alive :include="['about']">
+      <keep-alive :include="['']">
         <component :is="Component" />
       </keep-alive>
     </router-view>
@@ -10,13 +10,13 @@
   <!-- 切换主题颜色 -->
   <changeBgColorVue @ChangeBgColor="ChangeBgColor" />
   <!-- 太阳 -->
-  <div class="sun" @click="
+  <!-- <div class="sun" @click="
     () => {
       data.dark = !data.dark;
     }
   " :style="{ right: `${data.sunOptions.X}%`, bottom: `${data.sunOptions.Y}%` }">
     <img src="https://hyyyh.top/icon/sun.png" alt="sun" />
-  </div>
+  </div> -->
   <!-- 覆盖层 -->
   <div class="stylecover" :style="{
     backgroundColor: data.coverOption.color,
@@ -79,11 +79,7 @@ onMounted(() => {
   // console.log(store.state.userdata);
 });
 const data = reactive({
-  //太阳位置
-  sunOptions: {
-    X: 3,
-    Y: -10,
-  },
+
   // 覆盖层数据
   coverOption: {
     color: "white",
@@ -131,48 +127,15 @@ const ChangeBgColor = (item: any) => {
     data.NowIsChangeBgColor = true;
   }
   data.coverOption = {
-    color: item.start,
+    color: item.color,
     zIndex: 99,
     scale:"200"
   };
   setTimeout(() => {
     store.state.themeColor = item;
     data.coverOption.scale="0"
-    setsunPosition(item.id);
-
-    setTimeout(() => {
       data.NowIsChangeBgColor = false;
-    }, 1000);
-  }, 2000);
-};
-// 设定太阳位置
-const setsunPosition = (id: number) => {
-  switch (id) {
-    case 0:
-      data.sunOptions = {
-        X: 3,
-        Y: -10,
-      };
-      break;
-    case 1:
-      data.sunOptions = {
-        X: 45,
-        Y: 90,
-      };
-      break;
-    case 2:
-      data.sunOptions = {
-        X: 94,
-        Y: 5,
-      };
-      break;
-    case 3:
-      data.sunOptions = {
-        X: -100,
-        Y: 100,
-      };
-      break;
-  }
+  }, 500);
 };
 </script>
 

@@ -2,7 +2,7 @@
   <div
     class="container"
     :style="{
-      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
+    backgroundColor:store.state.themeColor.color
     }"
   >
     <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>

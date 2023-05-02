@@ -249,10 +249,6 @@ const openUserInfo = async () => {
 <style scoped lang="less">
 @bg-light-color: rgba(255, 255, 255, 0.8);
 
-* {
-  font-family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';";
-}
-
 .blogheaderContainer {
   width: 100%;
   height: 5rem;

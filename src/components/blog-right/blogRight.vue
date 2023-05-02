@@ -1,9 +1,8 @@
 <template>
   <div class="blogRight" :style="{ opacity: data.isShow ? '1' : 0 }">
-    <el-affix :offset="75">
       <div class="blogRight_about blogRigth_item">
         <div class="blogRight_about_item">
-          <p class="address blogRight_name">huangrui</p>
+          <p class="address blogRight_name">Hyyyh</p>
           <p class="address">灵感枯竭</p>
         </div>
         <div class="contact">
@@ -49,7 +48,6 @@
           </div>
         </div>
       </div>
-    </el-affix>
   </div>
 </template>
 
@@ -107,7 +105,8 @@ onMounted(async () => {
   transition: 0.2s all;
   overflow: hidden;
   flex-direction: column;
-  border-radius: 20px;
+  box-shadow: 2px 2px 10px var(--WB-3);
+  border-radius: 10px;
   transition: 0.3s all;
 }
 
@@ -115,7 +114,6 @@ onMounted(async () => {
     background: var(--BW-5);
     color: var(--WB);
     align-items: center;
-    box-shadow: 2px 2px 5px var(--WB-1);
     transition: 0.3s all;
     &:hover {
       box-shadow: 10px 10px 20px var(--WB-3);
@@ -156,7 +154,6 @@ onMounted(async () => {
       padding: 1rem 0;
       transition: 0.2s all;
       .address {
-        font-family: "kaiti";
         display: flex;
         justify-content: center;
         align-items: center;
@@ -191,7 +188,6 @@ onMounted(async () => {
     margin: 0.5rem 0;
     padding-top: 0.1rem;
     justify-content: center;
-    box-shadow: 2px 2px 5px var(--WB-1);
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
@@ -240,7 +236,6 @@ onMounted(async () => {
         .lable_num {
           border-left: 2px solid var(--WB-3);
           padding: 0 0.3rem;
-          font-family: kaiti;
         }
       }
     }
@@ -250,7 +245,6 @@ onMounted(async () => {
     padding-bottom: 1.4rem;
     background: var(--BW-5);
     padding-top: 0.1rem;
-    box-shadow: 2px 2px 5px var(--WB-3);
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
@@ -298,7 +292,6 @@ onMounted(async () => {
           width: 10%;
           height: 100%;
           border-left: 2px dashed skyblue;
-          font-family: "kaiti";
         }
 
         &:last-child {

@@ -1,70 +1,35 @@
 <template>
   <indexVue> </indexVue>
-  <div
-    class="blogContainer"
-    :style="{
-      backgroundImage: `linear-gradient(${store.state.themeColor.start},${store.state.themeColor.end})`,
-    }"
-  >
+  <div class="blogContainer" :style="{
+    backgroundColor:store.state.themeColor.color
+  }">
     <!-- <div class="blogLeft">le</div> -->
     <div class="blogCenter">
       <!-- 最新博客标题 -->
-      <blogoption
-        :optionSrc="changeData.option.newBlogTitle.src"
-        :option="changeData.option.newBlogTitle.option"
-      />
+      <blogoption :optionSrc="changeData.option.newBlogTitle.src" :option="changeData.option.newBlogTitle.option" />
       <!-- 最新博客内容 -->
-      <blogItem
-        :blogId="data.newBlogData[0].id"
-        :isTitle="true"
-        :isShow="true"
-        :time="data.newBlogData[0].createtime"
-        :blogTitle="data.newBlogData[0].name"
-        :container="data.newBlogData[0].container"
-        :about="data.newBlogData[0].img"
-        :visitnum="data.newBlogData[0].visitnumber"
-        :commentnum="data.newBlogData[0].commentnum"
-        :laudnum="data.newBlogData[0].laudnum"
-        :img="
-          data.newBlogData[0].img
+      <blogItem :blogId="data.newBlogData[0].id" :isTitle="true" :isShow="true" :time="data.newBlogData[0].createtime"
+        :blogTitle="data.newBlogData[0].name" :container="data.newBlogData[0].container" :about="data.newBlogData[0].img"
+        :visitnum="data.newBlogData[0].visitnumber" :commentnum="data.newBlogData[0].commentnum"
+        :laudnum="data.newBlogData[0].laudnum" :img="data.newBlogData[0].img
             ? data.newBlogData[0].img
             : 'http://hyyyh.top:3001/icon/loading.png'
-        "
-        :sortname="data.newBlogData[0].sortname"
-        :labelname="data.newBlogData[0].labelname"
-      />
+          " :sortname="data.newBlogData[0].sortname" :labelname="data.newBlogData[0].labelname" />
       <!-- 所有博客标题 -->
-      <blogoption
-        :optionSrc="changeData.option.allBlogTitle.src"
-        :option="changeData.option.allBlogTitle.option"
-      />
+      <blogoption :optionSrc="changeData.option.allBlogTitle.src" :option="changeData.option.allBlogTitle.option" />
 
       <!-- 所有博客内容 -->
-      <blogItem
-        :blogId="item.id"
-        :blogTitle="item.name"
-        :time="item.createtime"
-        :num="index"
-        :img="item.img ? item.img : 'http://hyyyh.top:3001/icon/loading.png'"
-        :container="item.container"
-        v-for="(item, index) in data.showBlogData"
-        :isShow="item.isShow == 0 ? false : true"
-        :key="item.id"
-        :id="'id' + index"
-        :visitnum="item.visitnumber"
-        :commentnum="item.commentnum"
-        :laudnum="item.laudnum"
-        :sortname="item.sortname"
-        :labelname="item.labelname"
-      />
+      <blogItem :blogId="item.id" :blogTitle="item.name" :time="item.createtime" :num="index"
+        :img="item.img ? item.img : 'http://hyyyh.top:3001/icon/loading.png'" :container="item.container"
+        v-for="(item, index) in data.showBlogData" :isShow="item.isShow == 0 ? false : true" :key="item.id"
+        :id="'id' + index" :visitnum="item.visitnumber" :commentnum="item.commentnum" :laudnum="item.laudnum"
+        :sortname="item.sortname" :labelname="item.labelname" />
 
-      <div class="moreBlock">
-        <button class="more" @click="addMoreBlog" v-if="data.haveMoreData">
-          {{ changeData.moreText }}
+      <div class="moreBlock" @click="addMoreBlog" :class="data.haveMoreData ? 'hovermore' : ''">
+        <button class="more ">
+          {{ data.haveMoreData ? changeData.moreText : changeData.nomoreText }}
         </button>
-        <button class="more" @click="addMoreBlog" v-if="!data.haveMoreData">
-          {{ changeData.nomoreText }}
-        </button>
+
       </div>
     </div>
 
@@ -129,7 +94,7 @@ const data = reactive({
   ], //最新博客数据
   showBlogData: <any>[], //展示的博客数据
   pageNum: 1, //分页
-  Num: 5, //每页数量
+  Num: 4, //每页数量
   haveMoreData: true, //是否还有更多数据
   scrollOption: {
     screenH: 0,
@@ -206,19 +171,21 @@ onBeforeUnmount(() => {
 
 // 加载更多
 const addMoreBlog = async () => {
+  if (!data.haveMoreData) return
   data.pageNum++;
   const res = await getBlogData(data.pageNum, data.Num);
-
-  if (res.data.length == 0) {
+  let DATA = res.data;
+  if (DATA.length < data.Num) {
     data.haveMoreData = false;
+    changeData.moreText = "~~到底啦~~";
+  }
+  if (DATA.length == 0) {
     window.removeEventListener("scroll", scrollToTop);
-    changeData.moreText = "暂无更多";
-
     return;
   }
-  !store.state.isPC && res.data.map((item: any) => (item.isShow = 1)); //如果是手机就直接显示
-  clearHTML(res.data);
-  data.showBlogData = data.showBlogData.concat(res.data);
+  !store.state.isPC && DATA.map((item: any) => (item.isShow = 1)); //如果是手机就直接显示
+  clearHTML(DATA);
+  data.showBlogData = data.showBlogData.concat(DATA);
 };
 
 // 清除html标签
@@ -261,9 +228,6 @@ const scrollToTop = () => {
 </script>
 
 <style scoped lang="less">
-* {
-  font-family: Georgia, STZhongsong;
-}
 .blogContainer {
   width: 100%;
   background-size: 800%;
@@ -275,19 +239,22 @@ const scrollToTop = () => {
   transition: 1s;
 
   animation: changecolor 30s infinite;
+
   @keyframes changecolor {
     0% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 0%;
     }
+
     100% {
       background-position: 0% 50%;
     }
   }
 
-  & > div {
+  &>div {
     margin: 0 1rem;
     min-height: 20rem;
     /*  background: rgb(214, 168, 168);*/
@@ -301,6 +268,7 @@ const scrollToTop = () => {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+
     .moreBlock {
       width: auto;
       display: flex;
@@ -311,20 +279,12 @@ const scrollToTop = () => {
       padding: 1rem 0;
       border-radius: 10px;
 
-      &:hover {
-        background-color: var(--BW-8);
-        .more {
-          color: var(--WB-9);
-        }
-      }
-
       .more {
         cursor: pointer;
         user-select: none;
         width: 7.5rem;
         height: 2.5rem;
         transition: 0.2s;
-        font-family: heiti;
         color: var(--WB);
         font-size: 1.2rem;
         font-weight: 600;
@@ -332,8 +292,19 @@ const scrollToTop = () => {
         background-color: transparent;
       }
     }
+
+    .hovermore {
+      &:hover {
+        background-color: var(--BW-8);
+
+        .more {
+          color: var(--WB-9);
+        }
+      }
+    }
   }
 }
+
 .sun {
   position: fixed;
   z-index: 0;
@@ -342,19 +313,23 @@ const scrollToTop = () => {
   animation: sun 20s infinite linear;
   user-select: none;
   cursor: pointer;
+
   img {
     width: 100%;
     height: 100%;
   }
 }
+
 @keyframes sun {
   from {
     transform: rotate(0);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .cover {
   width: 100%;
   height: 100%;

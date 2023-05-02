@@ -14,7 +14,7 @@ export default {
   blog: {
     newblog: 'Feature Articles',
     allblog: 'Articles',
-    more: 'More',
+    more: 'Next Page',
     nomore:'No more'
   },
   blogRight: {

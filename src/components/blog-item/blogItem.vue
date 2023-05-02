@@ -1,77 +1,42 @@
 <template>
-  <div
-    class="newBlog"
-    id="newBlog"
-    :style="{ height: isTitle ? '20rem' : '16rem' }"
-    :class="isShow ? 'ShowBlog' : ''"
-    @click="toDetail(blogId)"
-  >
+  <div class="newBlog" id="newBlog" :style="{ height: isTitle ? '20rem' : '16rem' }" :class="isShow ? 'ShowBlog' : ''"
+    @click="toDetail(blogId)">
     <div class="newBlog_right" v-if="num % 2 == 0 ? false : true">
-      <img
-        v-lazy="img"
-        :alt="blogTitle"
-        :key="blogId"
-        :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }"
-      />
+      <img v-lazy="img" :alt="blogTitle" :key="blogId" :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }" />
     </div>
     <div class="newBlog_left">
       <div>
-        <p
-          class="newblog_labelsort"
-          :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }"
-        >
+        <p class="newblog_labelsort" :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }">
           <span> {{ sortname }}</span>
           <span v-for="(item, index) in labelname" :key="index" style="margin: 0 2px">{{
             item
           }}</span>
         </p>
-        <p
-          class="newBlog_Title"
-          :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }"
-        >
+        <p class="newBlog_Title" :style="{ 'justify-content': num % 2 == 0 ? 'flex-end' : '' }">
           {{ blogTitle }}
         </p>
       </div>
       <p class="newBlog_body">{{ container }}</p>
       <div class="newBlog_info">
         <div class="newBlog_info_item">
-          <span
-            ><img :src="http + '/blog-item-img/chat.png'" alt="评论数" />
-            <span class="newBlog_read"> {{ commentnum }}</span></span
-          >
-          <span
-            ><img
-              :src="http + '/blog-item-img/eye.png'"
-              alt="访问次数"
-              style="margin-right: 3px"
-            />{{ visitnum }}</span
-          >
-          <span
-            ><img
-              :src="http + '/blog-item-img/good.png'"
-              alt="点赞数"
-              style="margin-right: 3px"
-            />{{ laudnum }}</span
-          >
+          <span><img :src="http + '/blog-item-img/chat.png'" alt="评论数" />
+            <span class="newBlog_read"> {{ commentnum }}</span></span>
+          <span><img :src="http + '/blog-item-img/eye.png'" alt="访问次数" style="margin-right: 3px" />{{ visitnum }}</span>
+          <span><img :src="http + '/blog-item-img/good.png'" alt="点赞数" style="margin-right: 3px" />{{ laudnum }}</span>
         </div>
 
         <span class="newBlog_time">{{ time }}</span>
       </div>
     </div>
     <div class="newBlog_right" v-if="num % 2 == 0 ? true : false">
-      <img
-        v-lazy="img"
-        :alt="blogTitle"
-        :key="blogId"
-        :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }"
-      />
+      <img v-lazy="img" :alt="blogTitle" :key="blogId" :style="{ 'max-height': store.state.isPC ? '100%' : '160px' }" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { array } from "snabbdom";
-import {} from "vue";
+import { } from "vue";
 import router from "../../router/index";
 import { useStore } from "vuex";
 import VanillaTilt from "vanilla-tilt";
@@ -155,7 +120,7 @@ const toDetail = (id: number) => {
   width: 100%;
   height: 20rem;
   display: flex;
-  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 15px 3px var(--WB-3);
   border-radius: 5px;
   overflow: hidden;
   margin: 1.5rem 0;
@@ -164,12 +129,15 @@ const toDetail = (id: number) => {
   bottom: -10rem;
   position: relative;
   background-color: rgba(255, 255, 255, 1);
+
   &:hover {
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.45);
-    & > img {
+    box-shadow: 5px 5px 10px 0px var(--WB-5);
+
+    &>img {
       transform: rotate(3deg) scale(1.1);
     }
   }
+
   .newBlog_left {
     flex: 1;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -182,15 +150,18 @@ const toDetail = (id: number) => {
     z-index: 2;
     background-color: var(--BW);
     transition: 0.3s;
+
     .newblog_labelsort {
       font-size: 0.8rem;
       color: var(--WB-5);
       display: flex;
       flex-wrap: wrap;
+
       & span {
         font-family: "yahei";
       }
-      & > :nth-child(1) {
+
+      &> :nth-child(1) {
         color: var(--WB-7);
         margin-right: 3px;
         font-weight: 900;
@@ -210,10 +181,12 @@ const toDetail = (id: number) => {
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       display: flex;
+
       &:hover {
         color: orange;
       }
     }
+
     .newBlog_body {
       line-height: 1.5rem;
       color: var(--WB-7);
@@ -221,15 +194,17 @@ const toDetail = (id: number) => {
       text-overflow: ellipsis;
       margin-bottom: 10px;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+
     .newBlog_time {
       width: 3rem;
       color: var(--WB-5);
       margin-left: 0.2rem;
       position: relative;
     }
+
     .newBlog_info {
       font-family: "kaiti";
       width: 100%;
@@ -242,14 +217,17 @@ const toDetail = (id: number) => {
       position: relative;
       bottom: 0.5rem;
       color: var(--WB-7);
+
       .newBlog_info_item {
         display: flex;
         height: auto;
+
         & span {
           width: auto;
           margin: 0 0.3rem;
         }
       }
+
       & span {
         user-select: none;
         opacity: 0.6;
@@ -258,34 +236,44 @@ const toDetail = (id: number) => {
         align-items: center;
         justify-content: space-between;
       }
+
       img {
         height: 1rem;
       }
     }
   }
+
   .newBlog_right {
     overflow: hidden;
     width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
       height: 100%;
       width: 100%;
       filter: blur(10px);
       /*  max-width: 28rem; */
       transition: 0.5s;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 }
+
 .ShowBlog {
   opacity: 1;
   left: 0 !important;
   bottom: 0;
+
   img {
     filter: blur(0px) !important;
   }
 }
+
 .sortlabel {
   width: 100%;
   height: 1rem;

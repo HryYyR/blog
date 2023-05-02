@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <blogheader :bgColor="data.navColor"></blogheader>
-    <blogTop :viewTitle="data.viewTitle" :isShow="data.isShowTitle"></blogTop>
+    <!-- <blogTop :viewTitle="data.viewTitle" :isShow="data.isShowTitle"></blogTop> -->
     <router-view></router-view>
   </div>
 </template>
@@ -57,9 +57,6 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="less">
-* {
-  font-family: Georgia, STZhongsong;
-}
 .container {
   width: 100%;
   height: auto;

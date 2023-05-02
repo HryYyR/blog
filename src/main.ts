@@ -24,6 +24,10 @@ axios.interceptors.request.use(
       config.headers.Authorization = localStorage.getItem('token') || '-1'
     }
     // 在发送请求之前进行操作
+    // config.headers.common['Content-Encoding'] = 'gzip'
+    // console.log(config.headers);
+    
+
     return config;
   },
   function (error) {
@@ -38,6 +42,9 @@ axios.interceptors.response.use(function (response: any) {
   if(response.status==205){
     router.push({path:'/prison'})
   }
+  console.log(response.headers);
+  response.headers['Content-Encoding'] = 'gzip';
+  
   return response;
 })
 

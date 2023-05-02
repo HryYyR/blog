@@ -2,7 +2,7 @@ import { ElMessage } from "element-plus"
 import { AddIpBlackList, getIpAndPath } from "../../axios/apis"
 
 export async function checkTEXT(text: string) {
-    const ip = await getIpAndPath()
+    const {ip} = await getIpAndPath()
     const reg: any = {
         '<script': 'xss',
         'and': 'sql',

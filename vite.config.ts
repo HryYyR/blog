@@ -31,7 +31,7 @@ export default defineConfig({
 
     }),
     viteCompression({
-      threshold: 409600, // 对大于 400kb 的文件进行压缩
+      threshold: 102400, // 对大于 400kb 的文件进行压缩
       algorithm: 'gzip'
     })
 

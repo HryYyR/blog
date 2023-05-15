@@ -1,7 +1,7 @@
 <template>
   <indexVue> </indexVue>
   <div class="blogContainer" :style="{
-    backgroundColor:store.state.themeColor.color
+    backgroundColor: store.state.themeColor.color
   }">
     <!-- <div class="blogLeft">le</div> -->
     <div class="blogCenter">
@@ -12,8 +12,8 @@
         :blogTitle="data.newBlogData[0].name" :container="data.newBlogData[0].container" :about="data.newBlogData[0].img"
         :visitnum="data.newBlogData[0].visitnumber" :commentnum="data.newBlogData[0].commentnum"
         :laudnum="data.newBlogData[0].laudnum" :img="data.newBlogData[0].img
-            ? data.newBlogData[0].img
-            : 'http://hyyyh.top:3001/icon/loading.png'
+          ? data.newBlogData[0].img
+          : 'http://hyyyh.top:3001/icon/loading.png'
           " :sortname="data.newBlogData[0].sortname" :labelname="data.newBlogData[0].labelname" />
       <!-- 所有博客标题 -->
       <blogoption :optionSrc="changeData.option.allBlogTitle.src" :option="changeData.option.allBlogTitle.option" />
@@ -60,6 +60,7 @@ import router from "../../../router";
 import { useStore } from "vuex";
 import throttle from "../../../func/throttle/throttle";
 import QC from "qc";
+import { DATA} from './blog'
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
@@ -84,8 +85,8 @@ let changeData: any = computed(() => {
   };
 });
 
-const data = reactive({
-  newBlogData: <any>[
+const data: DATA = reactive({
+  newBlogData: [
     {
       createtime: "",
       name: "",
@@ -94,23 +95,20 @@ const data = reactive({
   ], //最新博客数据
   showBlogData: <any>[], //展示的博客数据
   pageNum: 1, //分页
-  Num: 4, //每页数量
+  Num: 5, //每页数量
   haveMoreData: true, //是否还有更多数据
   scrollOption: {
     screenH: 0,
     domHight: window.innerHeight,
     scrollTop: 0,
-    id: <any>0,
-    scrollHeight: <any>0,
-    offsetTop: <any>0,
-    top: <any>0,
-    bottom: <any>0,
+    id: 0,
+    scrollHeight: 0,
+    offsetTop: 0,
+    top: 0,
+    bottom: 0,
   },
   // themeColor: store.state.themeColor, //当前主题颜色
 });
-// watch(store.state, (newvalue, oldvalue) => {
-//   data.themeColor = newvalue.themeColor;
-// });
 
 onMounted(async () => {
   if (QC.Login.check()) {
@@ -132,21 +130,17 @@ onMounted(async () => {
             store.state.userid = data.id;
             store.state.userdata = data;
             store.state.userinfo = data;
-          } else {
           }
         });
       }
     });
   }
 
-  // data.themeColor = store.state.themeColor;
   // 获取博客数据
-  const res = await getBlogData(1, 5);
-  if (res.status != 200) {
-    return ElMessage.error("信息获取失败！");
-  }
+  const res = await getBlogData(1, 5) as DATA['showBlogData'];
+  // console.log(res);
   if (!store.state.isPC) {
-    res.data.map((item: any) => {
+    res.map((item: any) => {
       item.isShow = 1;
       return item;
     });
@@ -154,15 +148,10 @@ onMounted(async () => {
     scrollToTop();
     window.addEventListener("scroll", throttle(scrollToTop, 200));
   }
-  // 消除html标签
-  // res.data.map((item: any) => {
-  //   item.container = item.container.replace(/<.*?>/gi, "");
-  //   return item;
-  // });
-  clearHTML(res.data);
+  clearHTML(res);
   // 渲染数据
-  data.newBlogData = res.data.splice(0, 1);
-  data.showBlogData = res.data;
+  data.newBlogData = res.splice(0, 1);
+  data.showBlogData = res;
 });
 
 onBeforeUnmount(() => {
@@ -173,8 +162,8 @@ onBeforeUnmount(() => {
 const addMoreBlog = async () => {
   if (!data.haveMoreData) return
   data.pageNum++;
-  const res = await getBlogData(data.pageNum, data.Num);
-  let DATA = res.data;
+  const res = await getBlogData(data.pageNum, data.Num) as DATA['showBlogData'];
+  let DATA = res;
   if (DATA.length < data.Num) {
     data.haveMoreData = false;
     changeData.moreText = "~~到底啦~~";
@@ -228,114 +217,5 @@ const scrollToTop = () => {
 </script>
 
 <style scoped lang="less">
-.blogContainer {
-  width: 100%;
-  background-size: 800%;
-  background-position: 0% 50%;
-  display: flex;
-  justify-content: center;
-  padding: 6rem 0;
-  overflow: hidden;
-  transition: 1s;
-
-  animation: changecolor 30s infinite;
-
-  @keyframes changecolor {
-    0% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 0%;
-    }
-
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  &>div {
-    margin: 0 1rem;
-    min-height: 20rem;
-    /*  background: rgb(214, 168, 168);*/
-  }
-
-  .blogCenter {
-    width: 45%;
-    transition: 1s;
-    background-color: var(--BW-3);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-
-    .moreBlock {
-      width: auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      align-items: center;
-      transition: 0.3s;
-      padding: 1rem 0;
-      border-radius: 10px;
-
-      .more {
-        cursor: pointer;
-        user-select: none;
-        width: 7.5rem;
-        height: 2.5rem;
-        transition: 0.2s;
-        color: var(--WB);
-        font-size: 1.2rem;
-        font-weight: 600;
-        border: none;
-        background-color: transparent;
-      }
-    }
-
-    .hovermore {
-      &:hover {
-        background-color: var(--BW-8);
-
-        .more {
-          color: var(--WB-9);
-        }
-      }
-    }
-  }
-}
-
-.sun {
-  position: fixed;
-  z-index: 0;
-  width: 160px;
-  height: 160px;
-  animation: sun 20s infinite linear;
-  user-select: none;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-@keyframes sun {
-  from {
-    transform: rotate(0);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.cover {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  z-index: 99;
-  top: 0;
-  transition: 1.5s;
-}
+@import url('./blog.less');
 </style>

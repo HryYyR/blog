@@ -1,6 +1,6 @@
 <template>
   <div class="interaction_container" :style="{
-    backgroundColor:store.state.themeColor.color
+    backgroundColor: store.state.themeColor.color
   }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="interaction_body">
@@ -32,11 +32,10 @@
               </div>
               <div class="interaction_comment_bottom">
                 <div @click="laudinteraction(item)">
-                  <img :src="
-                    item.islaud
+                  <img :src="item.islaud
                       ? 'http://hyyyh.top:3001/icon/laud_0.png'
                       : 'http://hyyyh.top:3001/icon/laud.png'
-                  " alt="" />{{ item.laudnum }}
+                    " alt="" />{{ item.laudnum }}
                 </div>
                 <div class="reply">
                   <span @click="openReplyInteractionDialog(item, index)">回复</span>
@@ -107,7 +106,7 @@ const data = reactive({
 // });
 
 onMounted(async () => {
-  let myAnimation = anime({
+  anime({
     targets: [".interaction_body_container"],
     translateY: "-10vh",
     opacity: 1,
@@ -115,15 +114,16 @@ onMounted(async () => {
   });
 
   const wave = new Wave(".wave", {
-    number: 5,
-    smooth: 90,
-    velocity: 0.3,
-    height: 100,
-    colors: ["#3498db", "#9b59b6", "#2980b9", "#8e44ad", "#74b9ff"],
-    opacity: 0.2,
+    number: 3,
+    smooth: 120,
+    velocity: 0.2,
+    height: 50,
+    // colors: ["#3498db", "#9b59b6", "#2980b9", "#8e44ad", "#74b9ff"],
+    colors: ["rgba(135,206,235,0.7)"],
+    opacity: 1,
     position: "bottom",
     border: {
-      show: false,
+      show: true,
       width: 2,
       color: [],
     },
@@ -164,7 +164,7 @@ const submitcomment = async () => {
   let { ip }: any = await getIpAndPath();  //获取ip
 
   if (!await checkTEXT(data.textarea)) {
-    return 
+    return
   }
 
   const resolve = await addinteraction(

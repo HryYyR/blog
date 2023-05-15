@@ -3,7 +3,7 @@
     <el-dialog
       v-model="isshow"
       title="登陆提示"
-      width="20%"
+      width="300px"
       top="20rem"
       :show-close="false"
       :lock-scroll="false"

@@ -16,6 +16,7 @@ const routes = [
     { path: '/about', name: 'about', meta: { isBlogHeader: true }, component: () => import('../view/blog/about/about.vue') },
     { path: '/object', name: 'object', meta: { isBlogHeader: true }, component: () => import('../view/blog/object/object.vue') },
     { path: '/tools', name: 'tools', meta: { isBlogHeader: true }, component: () => import('../view/blog/tools/tools.vue') },
+    { path: '/socket', name: 'socket', meta: { isBlogHeader: true }, component: () => import('../view/blog/socket/socket.vue') },
     { path: '/blog/blogdetail/:id', name: 'blogdetail', component: () => import('../view/blog/blogdetail/blogdetail.vue') },
 
     { path: '/checkQQlogin', name: 'checkQQlogin', component: () => import('../view/blog/checkQQlogin/checkQQlogin.vue') },
@@ -46,12 +47,12 @@ const router = createRouter({
 
 // 用户判断登陆状态
 router.beforeEach(async (to, from, next) => {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
     if (to.fullPath.includes('/admin')) {
         const res = await verifyToken()
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.token && res.data.grade == 1) {
             return next()
         } else {

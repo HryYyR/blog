@@ -9,7 +9,8 @@ export default {
     object:'项目',
     login: '登录',
     title: '开启旅程',
-    tools:'工具'
+    tools:'工具',
+    socket:'聊天室'
 
   },
   blog: {

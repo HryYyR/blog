@@ -6,6 +6,7 @@ const uplod = require('./uploadFile.ts')
 const runcommand = require('./handleCommand.ts')
 const Config = require('./config.ts')
 const program = new Command();
+const Record = require("./submitRecord.ts")
 
 const main = async () => {
     if (!shell.which('git')) {
@@ -22,11 +23,16 @@ const main = async () => {
     try {
 
         if (Config.isbuild) {
-            console.log("开始打包项目");
-            await shell.exec("npm run build-prod")
-            console.log("打包成功！");
-        }
+            try {
+                console.log("开始打包项目");
+                await shell.exec("npm run build-prod")
+                console.log("打包成功！");
+            } catch (e) {
+                console.log("打包出错: " + e);
 
+                return
+            }
+        }
         if (Config.isuploadgithub) {
             console.log("开始添加到暂存区");
             await shell.exec("git add .")
@@ -37,6 +43,10 @@ const main = async () => {
             console.log("上传代码......");
             await shell.exec("git push")
             console.log("代码上传成功！");
+        }
+
+        if (Config.isRecord) {
+            console.log(await Record(info));
         }
 
         console.log("开始压缩为zip");

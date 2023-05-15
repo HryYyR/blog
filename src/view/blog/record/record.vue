@@ -1,14 +1,20 @@
 <template>
   <div>
-    <blogheaderVue :bgColor="true" @changePage="changePage"></blogheaderVue>
+    <blogheaderVue :bgColor="true"  @changePage="changePage"></blogheaderVue>
     <div class="record flex-jcc" :style="{
-    backgroundColor:store.state.themeColor.color
-    }">
+        backgroundColor: store.state.themeColor.color
+      }">
       <div class="record_body flex-jcc">
         <div class="rope"></div>
-        <div class="record_container">
-          <div class="record_item" :class="index % 2 == 0 ? 'before' : 'after'" v-for="(item, index) in data.recordData"
-            :key="index">
+        <div class="circle">
+          <div class="circle_item" :style="{ background: index % 2 == 0 ? 'rgb(135,206,235)' : 'rgb(28,188,0)' }"
+            v-for="(item, index) in data.recordData.length" :key="index">
+          </div>
+        </div>
+        <div class="record_container ">
+          <div class="record_item"
+            :class="[index % 2 == 0 ? 'before' : 'after', `record_item${data.recordData.length - index - 1}`]"
+            v-for="(item, index) in data.recordData" :key="index">
             <p class="record_text" :style="{}">
               {{ item.container }}
             </p>
@@ -17,6 +23,11 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="record_yaer" v-if="store.state.isPC">
+      <div v-for="(item, index) in data.timeArr" :key="index" @click="jumpToAssignYear(index)">
+        {{ item }}
       </div>
     </div>
   </div>
@@ -30,19 +41,19 @@ import { getRecordData } from "../../../axios/apis";
 import { ElMessage } from "element-plus";
 import anime from "animejs";
 import { useStore } from "vuex";
+import { DATA } from './record'
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
 let i18n = useI18n();
 
 let store = useStore();
-const data = reactive({
+const data: DATA = reactive({
   recordData: <any>[{}, {}, {}, {}, {}],
-  // themeColor: store.state.themeColor,
+
+  timeArr: [],
+  domArr: []
 });
-// watch(store.state, (newvalue, oldvalue) => {
-//   data.themeColor = newvalue.themeColor;
-// });
 onMounted(async () => {
   const res = await getRecordData();
   if (res.status == 201) {
@@ -50,13 +61,34 @@ onMounted(async () => {
   }
   data.recordData = res.data.data;
 
-  let myAnimation = anime({
+  let reversedata = [...data.recordData]
+  reversedata.reverse()
+  let time: number = 2022
+  reversedata.forEach((item: any, index: number) => {
+    console.log(item.createtime.slice(0, 4) == time);
+
+    if (item.createtime.slice(0, 4) == time) {
+      data.timeArr.push(item.createtime.slice(0, 4))
+      data.domArr.push(`record_item${index}`)
+      time++
+
+    }
+  })
+
+  anime({
     targets: [".record_body"],
     translateY: "-5rem",
     opacity: 1,
     duration: 1000,
   });
 });
+
+const jumpToAssignYear = (index: number) => {
+  let dom = document.querySelector(`.${data.domArr[index]}`)
+
+  dom?.scrollIntoView({ behavior: "smooth" })
+
+}
 
 const changePage = () => {
   anime({
@@ -69,137 +101,124 @@ const changePage = () => {
 
 <style scoped lang="less">
 .record {
-  width: 100%;
-  height: auto;
-  min-height: 100vh;
+  height: 100%;
+  top: 23vh;
+}
+
+.record_body {
   position: relative;
-  overflow: hidden;
-
-  .record_body {
-    width: 50%;
-    min-width: 700px;
-    height: auto;
-    opacity: 0;
-    background-color: var(--BW);
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-    position: relative;
-    top: 25vh;
-    margin-bottom: 20rem;
-    padding-bottom: 5rem;
-    background-image: url(https://hyyyh.top:3001/recordimg/recordbg.png);
-    transition: 0.3s background-color;
-
-    .record_title {
-      position: relative;
-      top: 2rem;
-      left: 0rem;
-      font-size: 2rem;
-      font-weight: 900;
-    }
-  }
-
-  .rope {
-    transition: 0.3s all;
-    width: 0;
-    height: 97%;
-    border: 2px solid var(--WB);
-    position: relative;
-    left: 136px;
-    top: 6rem;
-    margin: 1rem 0;
-
-    &::before {
-      transition: 0.3s;
-      position: absolute;
-      content: "";
-      background-color: var(--WB);
-      width: 30px;
-      height: 5px;
-      left: -15px;
-      top: -2px;
-      border-radius: 5px;
-    }
-
-    &::after {
-      transition: 0.3s;
-      position: absolute;
-      content: "";
-      background-color: var(--WB);
-      width: 30px;
-      height: 5px;
-      bottom: -2px;
-      left: -15px;
-      border-radius: 5px;
-    }
-  }
+  width: 100%;
+  margin-top: 23vh;
 
   .record_container {
-    margin-top: 100px;
+    width: 40%;
+    background-image: url('https://hyyyh.top:3001/recordimg/recordbg.png');
+    min-height: 100vh;
+    background-color: var(--BW-8);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 5rem 2rem;
+    transition: 0.3s;
 
     .record_item {
-      padding: 0px 0px;
+      transition: 0.3s all;
+      min-width: 40%;
+      max-width: 40%;
+      padding: 0.5rem;
+      margin: 1rem 0;
       position: relative;
-      width: 300px;
-      height: auto;
-      border-bottom: 1px dashed gray;
-      margin: 1rem;
+      border-bottom: 1px dashed var(--WB-5);
 
       .record_text {
-        transition: 0.5s;
+        font-size: 1.3rem;
         color: var(--WB);
-        font-size: 1.2rem;
-        font-weight: 900;
-        opacity: 0.9;
+        font-weight: 600;
+        margin-bottom: 0rem;
       }
 
       .record_time {
-        font-size: 0.8rem;
-        color: rgba(127, 127, 127, 1);
-        font-weight: 600;
-        margin: 1rem 0 0.2rem 0;
-        font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
+        color: var(--WB-3);
       }
     }
-  }
-}
-
-.before {
-  left: -194px;
-  text-align: left;
-
-  &::before {
-    position: relative;
-    left: 302px;
-    top: 17px;
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 20px;
-    border: 6px solid var(--BW);
-    background-color: skyblue;
-    transition: 0.3s;
   }
 }
 
 .after {
-  left: 136px;
-  text-align: left;
+  margin-left: auto !important;
+}
+
+.before {
+  margin-right: auto !important;
+}
+
+.rope {
+  transition: 0.3s all;
+  position: absolute;
+  margin: 4rem auto auto auto;
+  height: 95%;
+  width: 5px;
+  background-color: var(--WB);
+  z-index: 99;
+  border-radius: 5px;
 
   &::before {
-    position: relative;
-    left: -27px;
-    top: 17px;
+    position: absolute;
     content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 20px;
-    border: 6px solid var(--BW);
-    background-color: rgb(28, 188, 0);
+    width: 40px;
+    height: 8px;
+    background-color: var(--WB);
+    left: -18px;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 8px;
+    background-color: var(--WB);
+    border-radius: 5px;
+    bottom: 0;
+    left: -18px;
     transition: 0.3s;
 
   }
+}
+
+.circle {
+  position: absolute;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .circle_item {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-left: -1px;
+    margin-top: 15vh;
+    z-index: 99;
+    box-shadow: 0 0 0 10px var(--BW);
+    transition: 0.3s;
+  }
+}
+
+.record_yaer {
+  position: fixed;
+  top: 150px;
+  left: 73%;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--BW);
+  cursor: pointer;
+ & > div{
+  transition: 0.2s;
+  &:hover{
+    color: orange;
+  }
+ }
 }
 </style>

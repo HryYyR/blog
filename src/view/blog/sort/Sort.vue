@@ -20,7 +20,7 @@
               v-for="(item, index) in data.sortData"
               :key="item.id"
               @click="clickSort(item)"
-              :class="item.check ? 'check' : ''"
+              :class="{'check':item.check}"
             >
               {{ item.name }}
             </div>
@@ -33,7 +33,7 @@
               v-for="(item, index) in data.labelData"
               :key="item.id"
               @click="clickLabel(item)"
-              :class="item.check ? 'check' : ''"
+              :class="{'check':item.check}"
             >
               {{ item.name }}
             </div>
@@ -81,6 +81,7 @@ import { getBlogData, getAssignSortLabelData } from "../../../axios/apis";
 import { ElMessage } from "element-plus";
 import anime from "animejs";
 import { useStore } from "vuex";
+import{ DATA} from '../blog-index/blog'
 let store = useStore();
 const data = reactive({
   labelData: <any>[],
@@ -120,17 +121,12 @@ onMounted(async () => {
     duration: 1000,
   });
 
-  const blogres = await getBlogData(0, 0);
-  // console.log(blogres);
-
-  if (blogres.status != 200) {
-    return ElMessage.error("信息获取失败！");
-  }
-  blogres.data.map((item: any) => {
+  const blogres = await getBlogData(0, 0) as DATA['showBlogData'];
+  blogres.map((item: any) => {
     item.container = item.container.replace(/<.*?>/gi, "");
     return item;
   });
-  data.blogData = blogres.data;
+  data.blogData = blogres;
   data.isshowcontainer = true;
 
   // console.log(data.labelData, data.sortData);
@@ -187,7 +183,7 @@ const handleblogdata = (data: any) => {
 <style scoped lang="less">
 .container {
   /*  background-color: rgba(0, 0, 0, 0.1);  */
-  background-image: linear-gradient(235deg, rgb(252, 246, 223), rgb(175, 165, 213));
+  // background-image: linear-gradient(235deg, rgb(252, 246, 223), rgb(175, 165, 213));
 
   background-size: 100% 100%;
   display: flex;

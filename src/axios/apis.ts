@@ -1,10 +1,10 @@
-import { useScriptTag } from '@vueuse/core'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { Base64 } from 'js-base64'
 import store from '../store'
-axios.defaults.baseURL = 'http://localhost:3001'
-
+// axios.defaults.baseURL = 'http://localhost:3001'
+axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
+import { get, post } from './http'
 
 // 获取ip和地理位置
 export async function getIpAndPath() {
@@ -17,22 +17,19 @@ export async function getIpAndPath() {
 }
 
 // 添加ip到黑名单
-export function AddIpBlackList(info:any) {
+export function AddIpBlackList(info: any) {
    return axios({
       method: 'post',
       url: '/api/setIpBlackList',
-      data:{
-         info:info
+      data: {
+         info: info
       }
    })
 }
 
 // 获取所有博客
 export function getBlogData(pageNum?: number, num?: number) {
-   return axios({
-      method: 'get',
-      url: `/api/getBlogData?pageNum=${pageNum}&num=${num}`,
-   })
+   return get('/api/getBlogData', { pageNum: pageNum, num: num })
 }
 
 // 获取指定博客
@@ -229,7 +226,7 @@ export function addRecord(container: string) {
       url: '/api/admin/addRecord',
       data: {
          container: container
-      }
+      },
    })
 }
 

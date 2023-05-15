@@ -1,5 +1,5 @@
 <template>
-  <div class="blogheaderContainer" :class="bgColor ? 'navColor' : 'navColor'" v-loading.fullscreen="data.loading"
+  <div class="blogheaderContainer" :class="{ 'navColor': bgColor }" v-loading.fullscreen="data.loading"
     element-loading-background="rgba(255,255,255,0.5)" element-loading-text="全力加载中。。。" v-if="store.state.isPC">
     <div class="nav_ul">
       <div v-for="(item, index) in navList" @click="jump(item, index)" :class="{ check: item.check }">
@@ -17,7 +17,7 @@
       <el-popover placement="bottom" :width="150" :visible="data.visibleLanguage">
         <template #reference>
           <div class="changelanguage" @mouseenter="data.visibleLanguage = true">
-            <span>{{ data.language }}</span>
+            <span>{{ upperCase(data.language) }}</span>
           </div>
         </template>
         <div class="userHeader_popover" v-on:mouseleave="data.visibleLanguage = false">
@@ -46,14 +46,34 @@
   </div>
 
   <!-- PE端 -->
-  <div class="PEnav" :class="{ openPEnav: data.isopenPEnav }" v-if="!store.state.isPC">
+  <div class="PEnav" v-if="!store.state.isPC">
     <div class="PEnav_img" @click="openPEnav">
       <img src="https://hyyyh.top:3001/icon/open.png" v-show="!data.isopenPEnav" />
       <img src="https://hyyyh.top:3001/icon/close.png" v-show="data.isopenPEnav" />
     </div>
     <div class="penav_title"></div>
     <div class="pelanguage">
-      <img src="https://hyyyh.top:3001/icon/changelanguage.png" @click.stop="changeLanguage('')" alt="" />
+
+
+      <div style="margin-right: 50px;">
+        <el-switch v-model="data.dark" size="large" style="--el-switch-on-color: #000; --el-switch-off-color: skyblue"
+          inline-prompt @change="changecolortheme" :active-icon="Sunny" :inactive-icon="Moon" />
+      </div>
+
+      <el-popover placement="bottom" :width="150" :visible="data.visibleLanguage">
+        <template #reference>
+          <div class="changelanguage"  >
+            <span>{{ data.language.toUpperCase() }}</span>
+          </div>
+        </template>
+        <div class="userHeader_popover" @mouseleave="data.visibleLanguage = false">
+          <p @click="changeLanguage('ch')">中文</p>
+          <p @click="changeLanguage('en')">English</p>
+        </div>
+      </el-popover>
+
+
+      <!-- <img src="https://hyyyh.top:3001/icon/changelanguage.png" @click.stop="changeLanguage('')" alt="" /> -->
     </div>
     <div class="peheader">
       <div class="userHeader" :class="{ ShowCover: data.islogin }" :style="{ opacity: data.ShowUserHeader ? '1' : '0' }">
@@ -72,10 +92,7 @@
         </el-popover>
       </div>
     </div>
-    <div class="penav_ul" :style="{
-      opacity: data.isopenPEnav ? '1' : '0',
-      height: data.isopenPEnav ? '100%' : '0px',
-    }">
+    <div class="penav_ul" :class="{ openPEnav: data.isopenPEnav }">
       <div v-for="(item, index) in navList" @click="jump(item, index)" :class="{ pecheck: item.check }">
         <span>{{ item.title }}</span>
       </div>
@@ -95,15 +112,19 @@ import { useI18n } from "vue-i18n"; //要在js中使用国际化
 import store from "../../store";
 
 import { Moon, Sunny } from "@element-plus/icons-vue";
-
+import { DATA, routesList } from './blog_header'
 import QC from "qc";
 import { type } from "os";
+import { upperCase } from "lodash";
 let i18n = useI18n();
 
 var route = useRoute();
-let emit = defineEmits(["changePage"]);
+
+
+
+let emit = defineEmits(["changePage", "changeNavColor"]);
 let navList: any = computed(() => {
-  let routesList: any = [] //导航栏信息
+  let routesList: routesList = [] //导航栏信息
   router.getRoutes().forEach((item: any, index: Number) => {
     if (item.meta.isBlogHeader) {
       routesList.push({
@@ -115,18 +136,17 @@ let navList: any = computed(() => {
 
   })
   return routesList
-
 }
 );
 
-const data = reactive({
+const data: DATA = reactive({
   isopenPEnav: false,
   islogin: false,
   loading: false,
   viewTitle: "", //当前页面标题
   header: localStorage.getItem("header") || "", //头像
   ShowUserHeader: false, //是否展示用户信息选项卡
-  language: localStorage.getItem("language")?.toUpperCase() || "EN", //当前语言
+  language: localStorage.getItem("language")?.toUpperCase() || "CH", //当前语言
   visibleLanguage: false, //是否展示切换语言选项卡
   dark: store.state.currentColorTheme,
   darkImg: {
@@ -143,52 +163,61 @@ defineProps({
 
 onMounted(async () => {
   //解决刷新后header选中问题
-  navList.value.forEach((e: any, index: number) => {
-    if (e.name == route.name) {
-      navList.value[index].check = true;
-    }
-  });
+  solveHeaderCheck()
+
+  document.querySelector('.blogheaderContainer')?.addEventListener('mouseenter', changenavbg)
+  document.querySelector('.blogheaderContainer')?.addEventListener('mouseleave', changenavbg)
+
+  let lang = store.state.language;
+  i18n.locale.value = lang;
+  data.language = lang;
+
+
   const isToken = await verifyToken();
   data.ShowUserHeader = true;
   if (!isToken.data.token && !QC.Login.check()) {
     data.islogin = false;
-    return localStorage.clear();
+    // localStorage.clear();
+    return
   }
-
   data.islogin = true;
 });
 
+
+const changenavbg = () => {
+  emit("changeNavColor")
+}
+
+// 切换主题颜色
 const changecolortheme = () => {
   console.log(data.dark);
   store.state.currentColorTheme = data.dark;
 };
 
+// 切换pe列表
 const openPEnav = () => {
   data.isopenPEnav = !data.isopenPEnav;
 };
 
 // 国际化
 const changeLanguage = (lang: string) => {
-  let language = lang;
-  if (lang == "") {
-    !localStorage.getItem("language") && (language = "ch");
-    localStorage.getItem("language") == "ch" && (language = "en");
-    localStorage.getItem("language") == "en" && (language = "ch");
-  }
-
   data.visibleLanguage = false;
-  data.language = language.toUpperCase();
-  i18n.locale.value = language;
-  store.state.language = language;
-  localStorage.setItem("language", language);
+  data.language = lang
+  i18n.locale.value = lang;
+  store.state.language = lang;
+  localStorage.setItem("language", lang);
 
   //解决刷新后header选中问题
+  solveHeaderCheck()
+};
+
+const solveHeaderCheck = () => {
   navList.value.forEach((e: any, index: number) => {
     if (e.name == route.name) {
       navList.value[index].check = true;
     }
   });
-};
+}
 
 // 路由跳转
 const jump = async (item: any, index: number) => {
@@ -282,7 +311,7 @@ const openUserInfo = async () => {
       color: var(--WB);
       font-weight: 900;
       /* background: rgba(0, 0, 0, 0.2); */
-      margin: 0.5rem ;
+      margin: 0.5rem;
       padding: 0.5rem 0rem;
       // transition: 0.2s;
       border-radius: 10px;
@@ -304,6 +333,7 @@ const openUserInfo = async () => {
           opacity: 1;
           top: -6px;
         }
+
         color: var(--BW);
       }
     }
@@ -372,7 +402,7 @@ const openUserInfo = async () => {
 }
 
 .navColor {
-  background: var(--BW-8);
+  background: var(--BW-5);
 }
 
 .userHeader_popover {
@@ -404,10 +434,10 @@ const openUserInfo = async () => {
   transition: 0.6s;
   width: 100%;
   height: 80px;
-  background-color: var(--BW);
+  background-color: var(--BW-7);
+  backdrop-filter: blur(3px);
   color: var(--WB);
   font-weight: 600;
-  border-radius: 3px;
   position: fixed;
   top: 0px;
   z-index: 5;
@@ -429,6 +459,7 @@ const openUserInfo = async () => {
     img {
       width: 25px;
       height: 25px;
+      z-index: 999;
     }
   }
 
@@ -475,25 +506,37 @@ const openUserInfo = async () => {
   .penav_ul {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 0;
     opacity: 0;
     height: 0;
     transition: 0.2s;
     overflow: hidden;
-    position: relative;
+    position: fixed;
+    left: 0;
+    background-color: var(--BW);
+    top: 80px;
+
 
     &>div {
-      width: 100%;
+      transition: 0.2s;
+
+      width: 99.7%;
       padding: 1rem 0;
-      background-color: var(--BW);
       color: var(--WB);
       display: flex;
       justify-content: center;
       align-items: center;
+      border-bottom: 1px dashed var(--WB);
+      border-right: 1px dashed var(--WB);
 
       span {
         font-weight: 900;
       }
+    }
+
+    &>div:nth-child(1) {
+      border-top: 1px dashed var(--WB);
+
     }
   }
 
@@ -504,7 +547,8 @@ const openUserInfo = async () => {
 }
 
 .openPEnav {
-  opacity: 0.9;
-  height: 100%;
+  opacity: 1 !important;
+  height: 100vh !important;
+  width: 100% !important;
 }
 </style>

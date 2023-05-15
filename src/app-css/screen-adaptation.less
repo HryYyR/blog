@@ -1,6 +1,6 @@
 @containerbgcolor: rgba (227, 237, 255, 0.7);
 
-:root{
+:root {
   font-size: 16px;
   font-family: 'basefont';
 }
@@ -10,7 +10,7 @@
 
 @media screen and (max-width: 700px) {
 
-  :root{
+  :root {
     font-size: 12px;
   }
 
@@ -159,7 +159,9 @@
       max-width: 100% !important;
 
       .content {
-        max-width: 100% !important;;
+        max-width: 100% !important;
+        ;
+
         .content_container {
           padding: 0.2rem !important;
           width: 100% !important;
@@ -195,29 +197,16 @@
   /* record  */
   .record {
     .record_body {
-      min-width: 0 !important;
-      width: 95% !important;
-    }
+      margin-top: 100px !important;
 
-    .record_item {
-      width: 150px !important;
-    }
-
-    .rope {
-      left: 90px !important;
-    }
-
-    .before {
-      left: -90px !important;
-
-      &::before {
-        left: 150px !important;
+      .record_container {
+        width: 100% !important;
       }
     }
+.circle_item{
+  margin-top: 11vh !important;
 
-    .after {
-      left: 90px !important;
-    }
+}
   }
 
   /* inteeraction  */
@@ -239,20 +228,23 @@
   /* about */
   .about {
     font-size: 16px !important;
-   .about_container{
-    height: 100% !important;
-    min-height:80% !important;
-    top: 15vh !important;
-    .dialogList {
-    height: 65% !important;
-    }
-    .SectionList{
-      .SectionLis_item{
-        width: 100% !important;
-        height: 30px !important;
+
+    .about_container {
+      height: 100% !important;
+      min-height: 80% !important;
+      top: 15vh !important;
+
+      .dialogList {
+        height: 65% !important;
+      }
+
+      .SectionList {
+        .SectionLis_item {
+          width: 100% !important;
+          height: 30px !important;
+        }
       }
     }
-   }
 
   }
 

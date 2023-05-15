@@ -4,7 +4,6 @@
       <el-table-column
         :prop="item.prop"
         :label="item.label"
-        :width="item.width ? item.width : ''"
         sortable
         v-for="(item, index) in data.tableData"
         :key="index"
@@ -52,7 +51,6 @@ const data = reactive({
     {
       prop: "id",
       label: "ID",
-      width: "80",
     },
     {
       prop: "name",
@@ -65,12 +63,10 @@ const data = reactive({
     {
       prop: "createusername",
       label: "发布者昵称",
-      width: "130",
     },
     {
       prop: "createuserip",
       label: "发布者ip",
-      width: "150",
     },
     {
       prop: "createtime",
@@ -79,22 +75,18 @@ const data = reactive({
     {
       prop: "isShow",
       label: "是否展示",
-      width: "110",
     },
     {
       prop: "label",
       label: "标签",
-      width: "80",
     },
     {
       prop: "sort",
       label: "分类",
-      width: "80",
     },
     {
       prop: "isTitle",
       label: "是否最新博客",
-      width: "140",
     },
     {
       prop: "visitnumber",

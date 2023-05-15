@@ -11,7 +11,8 @@ export async function checkTEXT(text: string) {
         '=': 'sql or xss',
         'select': 'sql',
         'delete': 'sql',
-        'update': 'sql'
+        'update': 'sql',
+        'sql':'sql'
     }
     for (let i in reg) {
         if (text.includes(i)) {

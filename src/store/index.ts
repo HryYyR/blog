@@ -10,7 +10,7 @@ export default createStore({
         userid: -1,
         username: '',
         userdata: [],
-        userinfo:{},
+        userinfo: {},
 
         token: '',
         header: '',
@@ -20,7 +20,7 @@ export default createStore({
         isPC: window.innerWidth < 700 ? false : true,
 
 
-        currentColorTheme:false,
+        currentColorTheme: new Date().getHours() > 18 ? true : false,
         themeColor: {},  //选中的主题颜色
         themeState: '',  //主题提示问题
         themeColorOption:  //时间主题颜色
@@ -28,7 +28,7 @@ export default createStore({
             { id: 1, color: "#FFFB7D", label: '中午' },  //ok
             { id: 2, color: "#f9957f", label: '下午' }, //ok
             // { id: 3, start: "#000000", end: "#2B86C5", label: '晚上' }, //ok
-            { id: 3, color: "RGB(34,108,158)",  label: '晚上' }, //ok
+            { id: 3, color: "RGB(34,108,158)", label: '晚上' }, //ok
 
             ],
 

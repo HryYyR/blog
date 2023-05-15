@@ -9,7 +9,9 @@ export default {
     object:'Project',
     login: 'Login',
     title: 'Start',
-    tools:'Tools'
+    tools:'Tools',
+    socket:'chat room'
+
   },
   blog: {
     newblog: 'Feature Articles',

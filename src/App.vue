@@ -1,7 +1,7 @@
 <template>
   <div :class="store.state.currentColorTheme ? 'dark' : 'light'">
     <router-view v-slot="{ Component }">
-      <keep-alive :include="['']">
+      <keep-alive :include="['about','socket']">
         <component :is="Component" />
       </keep-alive>
     </router-view>
@@ -68,15 +68,12 @@ import changeBgColorVue from "./components/change-bgcolor/change-bgColor.vue";
 import { onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
 import { edituserdata } from "./axios/apis";
-import { log } from "console";
 import { ElMessage } from "element-plus";
 const store = useStore();
 onMounted(() => {
   store.commit("getTimeState");
   store.state.userid = data.user_id;
   store.state.username = data.user_name;
-  // console.log(store.state.userinfo);
-  // console.log(store.state.userdata);
 });
 const data = reactive({
 
@@ -165,6 +162,11 @@ const ChangeBgColor = (item: any) => {
   --BW-7: rgba(255, 255, 255, 0.7);
   --BW-8: rgba(255, 255, 255, 0.8);
   --BW-9: rgba(255, 255, 255, 0.9);
+
+  --socket-list:#ecf0f1;
+  --socket-list-item:#bdc3c7;
+  --socket-list-item-hover:#95a5a6;
+  
 }
 
 .dark {
@@ -183,6 +185,12 @@ const ChangeBgColor = (item: any) => {
   --BW-7: rgba(0, 0, 0, 0.7);
   --BW-8: rgba(0, 0, 0, 0.8);
   --BW-9: rgba(0, 0, 0, 0.9);
+  
+  --socket-list:rgb(39, 43, 56);
+  --socket-list-item:rgb(49, 55, 69);
+  --socket-list-item-hover:rgb(33, 37, 48);
+  
+  
 }
 
 ::-webkit-scrollbar {

@@ -1,53 +1,44 @@
 <template>
   <div class="blogRight" :style="{ opacity: data.isShow ? '1' : 0 }">
-      <div class="blogRight_about blogRigth_item">
-        <div class="blogRight_about_item">
-          <p class="address blogRight_name">Hyyyh</p>
-          <p class="address">灵感枯竭</p>
-        </div>
-        <div class="contact">
-          <hr />
-          <span>INFO</span>
-          <hr />
-        </div>
-        <div class="meta">
-          <el-tooltip
-            effect="dark"
-            :content="item.info"
-            v-for="(item, index) in data.mateData"
-            :key="index"
-            placement="top"
-          >
-            <img :src="item.img" :alt="item.info" ref="metaImgUrl" />
-          </el-tooltip>
+    <div class="blogRight_about blogRigth_item">
+      <div class="blogRight_about_item">
+        <p class="address blogRight_name">Hyyyh</p>
+        <p class="address">灵感枯竭</p>
+      </div>
+     
+      <div class="contact">
+  
+        <hr />
+        <span>INFO</span>
+        <hr />
+      </div>
+      <div class="meta">
+        <el-tooltip effect="dark" :content="item.info" v-for="(item, index) in data.mateData" :key="index"
+          placement="top">
+          <img :src="item.img" :alt="item.info" ref="metaImgUrl" />
+        </el-tooltip>
+      </div>
+    </div>
+    <div class="blogRight_label blogRigth_item">
+      <blogoption :option="i18n.t('blogRight.label')" optionSrc="http://hyyyh.top:3001/icon/lable.png"
+        DefaultMargin="1rem" />
+      <div class="blogRight_label_container">
+        <div class="lable_item" v-for="(item, index) in data.labelData" :key="index">
+          <div class="lable_name">{{ item.name }}</div>
+          <div class="lable_num">{{ item.num }}</div>
         </div>
       </div>
-      <div class="blogRight_label blogRigth_item">
-        <blogoption
-          :option="i18n.t('blogRight.label')"
-          optionSrc="http://hyyyh.top:3001/icon/lable.png"
-          DefaultMargin="1rem"
-        />
-        <div class="blogRight_label_container">
-          <div class="lable_item" v-for="(item, index) in data.labelData" :key="index">
-            <div class="lable_name">{{ item.name }}</div>
-            <div class="lable_num">{{ item.num }}</div>
-          </div>
+    </div>
+    <div class="blogRight_sort blogRigth_item">
+      <blogoption :option="i18n.t('blogRight.sort')" optionSrc="http://hyyyh.top:3001/icon/sort.png"
+        DefaultMargin="1rem" />
+      <div class="blogRight_sort_container">
+        <div class="sort_item" v-for="(item, index) in data.sortData" :key="index">
+          <div class="sort_name">{{ item.name }}</div>
+          <div class="sort_num">{{ item.num }}</div>
         </div>
       </div>
-      <div class="blogRight_sort blogRigth_item">
-        <blogoption
-          :option="i18n.t('blogRight.sort')"
-          optionSrc="http://hyyyh.top:3001/icon/sort.png"
-          DefaultMargin="1rem"
-        />
-        <div class="blogRight_sort_container">
-          <div class="sort_item" v-for="(item, index) in data.sortData" :key="index">
-            <div class="sort_name">{{ item.name }}</div>
-            <div class="sort_num">{{ item.num }}</div>
-          </div>
-        </div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -98,47 +89,53 @@ onMounted(async () => {
   opacity: 0;
   z-index: 2;
 
-.blogRigth_item{
-  width: 100%;
-  height: auto;
-  display: flex;
-  transition: 0.2s all;
-  overflow: hidden;
-  flex-direction: column;
-  box-shadow: 2px 2px 10px var(--WB-3);
-  border-radius: 10px;
-  transition: 0.3s all;
-}
+  .blogRigth_item {
+    width: 100%;
+    height: auto;
+    display: flex;
+    transition: 0.2s all;
+    overflow: hidden;
+    flex-direction: column;
+    box-shadow: 2px 2px 10px var(--WB-3);
+    border-radius: 10px;
+    transition: 0.3s all;
+  }
 
   .blogRight_about {
     background: var(--BW-5);
     color: var(--WB);
     align-items: center;
     transition: 0.3s all;
+
     &:hover {
       box-shadow: 10px 10px 20px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
+
     .contact {
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 0.5rem;
+
       hr {
         width: 80px;
         height: 2px;
         background-color: var(--WB-5);
         border: none;
       }
+
       span {
         padding: 0 0.1rem;
         color: var(--WB);
       }
     }
+
     .meta {
       padding: 0.5rem 0;
       display: flex;
       justify-content: center;
+
       img {
         padding: 0 1rem;
         width: 10%;
@@ -153,21 +150,26 @@ onMounted(async () => {
       flex-direction: column;
       padding: 1rem 0;
       transition: 0.2s all;
+
       .address {
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 0.8rem;
         padding: 0.6rem 0;
+
         img {
           height: 0.8rem;
         }
       }
+
       .blogRight_name {
         font-size: 1.3rem;
         font-weight: 900;
       }
+
     }
+
     .blogRight_about_Img {
       position: relative;
       width: 5rem;
@@ -175,6 +177,7 @@ onMounted(async () => {
       border-radius: 100%;
       top: -2.5rem;
       overflow: hidden;
+
       img {
         position: relative;
         width: 100%;
@@ -182,16 +185,19 @@ onMounted(async () => {
       }
     }
   }
+
   .blogRight_label {
     min-height: 15rem;
     background: var(--BW-5);
     margin: 0.5rem 0;
     padding-top: 0.1rem;
     justify-content: center;
+
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
+
     .blogRight_label_container {
       flex: 1;
       margin: 0.5rem 1rem;
@@ -200,6 +206,7 @@ onMounted(async () => {
       align-content: flex-start;
 
       flex-wrap: wrap;
+
       .lable_item {
         width: auto;
         height: auto;
@@ -214,7 +221,7 @@ onMounted(async () => {
         color: var(--WB-8);
         transition: all 0.2s;
 
-        & > div {
+        &>div {
           cursor: pointer;
           user-select: none;
           height: 100%;
@@ -230,9 +237,11 @@ onMounted(async () => {
           background-color: rgba(135, 206, 235, 0.7);
           border: 2px solid skyblue;
         }
+
         .lable_name {
           padding: 0 0.5rem;
         }
+
         .lable_num {
           border-left: 2px solid var(--WB-3);
           padding: 0 0.3rem;
@@ -245,10 +254,12 @@ onMounted(async () => {
     padding-bottom: 1.4rem;
     background: var(--BW-5);
     padding-top: 0.1rem;
+
     &:hover {
       box-shadow: 10px 10px 15px var(--WB-3);
       transform: translate3d(-10px, 10px, 0);
     }
+
     .blogRight_sort_container {
       width: 90%;
       height: auto;
@@ -276,6 +287,7 @@ onMounted(async () => {
         &:hover {
           background-color: skyblue;
           color: white;
+
           .sort_num {
             border-left: 2px dashed white;
           }
@@ -285,6 +297,7 @@ onMounted(async () => {
           width: 90%;
           padding-left: 1rem;
         }
+
         .sort_num {
           display: flex;
           justify-content: center;
@@ -301,4 +314,7 @@ onMounted(async () => {
     }
   }
 }
+
+
+
 </style>

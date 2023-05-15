@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     BlogRight: typeof import('./src/components/blog-right/blogRight.vue')['default']
     BlogTop: typeof import('./src/components/blog-top/blogTop.vue')['default']
     ChangeBgColor: typeof import('./src/components/change-bgcolor/change-bgColor.vue')['default']
+    ChatToolEmojiDialog: typeof import('./src/components/chat-tool-emoji-dialog/chatToolEmojiDialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']

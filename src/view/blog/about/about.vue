@@ -2,16 +2,16 @@
   <div>
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="about flex-jcc-aic" :style="{
-        backgroundColor: store.state.themeColor.color
-      }">
+      backgroundColor: store.state.themeColor.color
+    }">
 
 
       <div class="about_container" ref="about_container">
         <div class="dialogList" ref="dialogList">
           <div class="dialog_item" :style="{
-              marginLeft: item.isResponse ? 'auto' : '0',
-              backgroundColor: item.isResponse ? store.state.themeColor.color : 'var(--BW)',
-            }" v-for="(item, index) in data.DialogList" :key="index">
+            marginLeft: item.isResponse ? 'auto' : '0',
+            backgroundColor: item.isResponse ? store.state.themeColor.color : 'var(--BW)',
+          }" v-for="(item, index) in data.DialogList" :key="index">
             {{ item.text }}
           </div>
         </div>
@@ -29,17 +29,16 @@
 <script setup lang="ts">
 import { isString } from "lodash";
 import blogheaderVue from "../../../components/blog-header/blogheader.vue";
-import { reactive, onMounted, ref, watch } from 'vue'
+import { reactive, onMounted, ref, watch, onActivated, onDeactivated } from 'vue'
 import { useStore } from "vuex";
 import anime from "animejs";
-
+import { DATA } from "./about"
 let store = useStore();
 
 const dialogList: any = ref("")
-const about_container:any = ref("")
+const about_container: any = ref("")
 
-const data = reactive({
-
+const data: DATA = reactive({
   SectionList: [
     {
       id: 1,
@@ -73,8 +72,8 @@ const data = reactive({
     },
   ],
   SectionListShow: false,
-  DialogList: <any>[],
-  aboutInfo: <any>{
+  DialogList: [],
+  aboutInfo: {
     start: ["Hello, world🚀", "欢迎您的到来.", "你想了解什么呢😊", true],
     blog: [
       "这个博客是2022年7月5日开始搭建的",
@@ -90,7 +89,7 @@ const data = reactive({
 
 
 })
-onMounted( () => {
+onMounted(() => {
   anime({
     targets: [".about_container"],
     translateY: "-10vh",
@@ -99,7 +98,14 @@ onMounted( () => {
   });
   main()
 })
-
+onActivated(() => {
+  anime({
+    targets: [".about_container"],
+    translateY: "-10vh",
+    opacity: 1,
+    duration: 1000,
+  });
+})
 const main = () => {
   outputDialog(data.aboutInfo.start)
 }
@@ -107,26 +113,31 @@ const main = () => {
 const outputDialog = (info: any) => {
   for (let i = 0; i < info.length; i++) {
     setTimeout(function () {
-      dialogList.value.scrollTop = 10000
-      isString(info[i]) ? data.DialogList.push({ text: info[i]}) : changeSectionListShow()
+      setTimeout(() => {
+        dialogList.value.scrollTo({
+          top: 9999,
+          behavior: 'smooth'
+        })
+      }, 150)
+      isString(info[i]) ? data.DialogList.push({ text: info[i] }) : changeSectionListShow()
     }, i * 800)
 
   }
 }
-type i ={
-      id: number,
-      text: string,
-      type: string,
-      show: boolean
-    }
+type Section_item = {
+  id: number,
+  text: string,
+  type: string,
+  show: boolean
+}
 // 选项被点击
-const useSection = (item: i) => {
+const useSection = (item: Section_item) => {
   data.DialogList.push({ text: item.text, isResponse: true })
   data.SectionList[4].show = true
   changeSectionListShow()
   setTimeout(() => {
     item.show = false
-    let type = data.aboutInfo[item.type]
+    let type = data.aboutInfo[item.type as keyof typeof data.aboutInfo]
     outputDialog(type)
     if (item.type == "exit") {
       data.SectionListShow = false
@@ -138,7 +149,12 @@ const useSection = (item: i) => {
 
 const changeSectionListShow = () => {
   data.SectionListShow = !data.SectionListShow
-  dialogList.value.scrollTop = 10000
+  setTimeout(() => {
+    dialogList.value.scrollTo({
+      top: 9999,
+      behavior: 'smooth'
+    })
+  }, 150)
 
 }
 const changePage = () => {

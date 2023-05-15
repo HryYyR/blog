@@ -1,15 +1,16 @@
 <template>
-  <div class="blogDetailContainer">
+  <div class="blogDetailContainer" :style="{
+    backgroundColor: store.state.themeColor.color
+  }">
     <blogheaderVue :bgColor="true"></blogheaderVue>
     <div class="blogDetailbody" :style="{ opacity: data.isdisplay ? '1' : '0' }">
       <div class="edit">
         <div @click="tolaud()">
           <el-badge :value="data.LaudNum" class="item">
-            <img :src="
-              data.isLaud
-                ? 'http://hyyyh.top:3001/icon/laud_0.png'
-                : 'http://hyyyh.top:3001/icon/laud.png'
-            " />
+            <img :src="data.isLaud
+              ? 'http://hyyyh.top:3001/icon/laud_0.png'
+              : 'http://hyyyh.top:3001/icon/laud.png'
+              " />
           </el-badge>
         </div>
         <div @click="toComment">
@@ -88,8 +89,9 @@ import {
   hasBeenLaud,
 } from "../../../axios/apis";
 import { ElMessage } from "element-plus";
-import store from "../../../store";
 import { checkTEXT } from "../../../func/checkText/checkText";
+import {useStore} from 'vuex'
+let store = useStore()
 
 const data = reactive({
   blogData: <any>[],
@@ -194,7 +196,7 @@ const sendComment = async () => {
     return ElMessage.error("内容不能为空！");
   }
   if (!await checkTEXT(data.commentInput)) {
-    return 
+    return
   }
   if (await islogin()) {
     const res = await publishComment(

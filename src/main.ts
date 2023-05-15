@@ -8,48 +8,11 @@ import lazyImg from 'vue-lazyload'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/message.scss'
 import 'element-plus/theme-chalk/dark/css-vars.css'
-
+import './axios/http'
 import i18n from './language/i18n'
-import { log } from 'console'
-import { ElMessage } from 'element-plus'
-
 const app = createApp(App)
 
-
-//dev开发，prod上线
-axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
-axios.interceptors.request.use(
-  function (config: any) {
-    if (config.url != '/api/verifyToken') {
-      config.headers.Authorization = localStorage.getItem('token') || '-1'
-    }
-    // 在发送请求之前进行操作
-    // config.headers.common['Content-Encoding'] = 'gzip'
-    // console.log(config.headers);
-    
-
-    return config;
-  },
-  function (error) {
-    // 对请求错误进行操作
-    ElMessage.error('请求错误')
-    return Promise.reject(error);
-  }
-);
-
-axios.interceptors.response.use(function (response: any) {
-  // console.log(response);
-  if(response.status==205){
-    router.push({path:'/prison'})
-  }
-  // console.log(response.headers);
-  response.headers['Content-Encoding'] = 'gzip';
-  
-  return response;
-})
-
 app.config.globalProperties.$axios = axios
-
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)

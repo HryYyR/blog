@@ -19,9 +19,9 @@ const config = {
   deployDir: './Desktop/nginx-1.22.0/html/', // 远端目录
   localFile: 'E:/desk/blog/blog/program/blog/dist', //本地打包目录
 
-  isuploadgithub: true,  //是否上传github
-  isRecord: true,  //是否上传记录
-  isbuild: true,  //是否打包项目
+  isuploadgithub: false,  //是否上传github
+  isRecord: false,  //是否上传记录
+  isbuild: false,  //是否打包项目
   // nginxDir: 'C:/Users/Administrator/Desktop/nginx-1.22.0'  //nginx目录
 }
 

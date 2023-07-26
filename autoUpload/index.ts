@@ -46,7 +46,13 @@ const main = async () => {
         }
 
         if (Config.isRecord) {
-            console.log(await Record(info));
+            console.log("开始添加记录!");
+            if (!await Record(info)) {
+                console.log("添加记录失败!");
+                return
+            }else{
+                console.log("添加记录成功!");
+            }
         }
 
         console.log("开始压缩为zip");

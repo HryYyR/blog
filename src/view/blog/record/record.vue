@@ -6,11 +6,11 @@
       }">
       <div class="record_body flex-jcc">
         <div class="rope"></div>
-        <div class="circle">
+        <!-- <div class="circle">
           <div class="circle_item" :style="{ background: index % 2 == 0 ? 'rgb(135,206,235)' : 'rgb(28,188,0)' }"
             v-for="(item, index) in data.recordData.length" :key="index">
           </div>
-        </div>
+        </div> -->
         <div class="record_container ">
           <div class="record_item"
             :class="[index % 2 == 0 ? 'before' : 'after', `record_item${data.recordData.length - index - 1}`]"
@@ -77,7 +77,7 @@ onMounted(async () => {
 
   anime({
     targets: [".record_body"],
-    translateY: "-5rem",
+    translateY: "-10vh",
     opacity: 1,
     duration: 1000,
   });
@@ -102,13 +102,13 @@ const changePage = () => {
 <style scoped lang="less">
 .record {
   height: 100%;
-  top: 23vh;
+  padding-top: 11rem;
 }
 
 .record_body {
   position: relative;
   width: 100%;
-  margin-top: 23vh;
+  opacity: 0;
 
   .record_container {
     width: 40%;
@@ -119,7 +119,7 @@ const changePage = () => {
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding: 5rem 2rem;
+    padding: 7rem 2rem;
     transition: 0.3s;
 
     .record_item {
@@ -188,23 +188,23 @@ const changePage = () => {
   }
 }
 
-.circle {
-  position: absolute;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+// .circle {
+//   position: absolute;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
 
-  .circle_item {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    margin-left: -1px;
-    margin-top: 15vh;
-    z-index: 99;
-    box-shadow: 0 0 0 10px var(--BW);
-    transition: 0.3s;
-  }
-}
+//   .circle_item {
+//     width: 15px;
+//     height: 15px;
+//     border-radius: 50%;
+//     margin-left: -1px;
+//     margin-top: 15vh;
+//     z-index: 99;
+//     box-shadow: 0 0 0 10px var(--BW);
+//     transition: 0.3s;
+//   }
+// }
 
 .record_yaer {
   position: fixed;

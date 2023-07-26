@@ -14,6 +14,7 @@ export type DATA = {
         top: number,
         bottom: number,
     },
+    loading:boolean
 }
 export type showBlogData = {
     id?: number,

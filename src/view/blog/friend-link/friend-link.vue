@@ -1,6 +1,6 @@
 <template>
   <div class="friend_link" :style="{
-    backgroundColor:store.state.themeColor.color
+    backgroundColor: store.state.themeColor.color
   }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="friend_link_container">
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="friend_link_container">
+    <div class="friend_link_container friend_link_list ">
       <p class="title">{{ i18n.t("friend.title2") }}</p>
       <!-- 友链 -->
       <div class="link_list">
@@ -149,17 +149,17 @@ const apply = async () => {
 
 .friend_link {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 17vh;
+  padding-top: 25vh;
 
   .friend_link_container {
-    margin: 2rem 0 0rem 0;
+    margin: 0;
     width: 60%;
-    transition: 0.3s background-color,box-shadow;
+    transition: 0.3s background-color, box-shadow;
     background-color: var(--BW-7);
     border-radius: 20px;
     display: flex;
@@ -302,6 +302,10 @@ const apply = async () => {
         }
       }
     }
+  }
+
+  .friend_link_list {
+    margin-top: 2rem;
   }
 }
 </style>

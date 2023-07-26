@@ -296,6 +296,7 @@ const getAsiignUserLaud = async () => {
     display: flex;
     justify-content: center;
     width: 100vw;
+    padding: 7rem 0;
 
     .interaction_body_container {
       z-index: 1;
@@ -304,14 +305,13 @@ const getAsiignUserLaud = async () => {
       background-color: var(--BW-5);
       border-radius: 15px;
       min-height: 100vh;
-      margin: 7rem 0;
       position: relative;
       opacity: 0;
       top: 10vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem 1rem 5rem 1rem;
+      padding: 0rem 1rem 5rem 1rem;
       transition: 0.3s background-color;
 
       h1 {

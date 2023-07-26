@@ -4,21 +4,19 @@
 
 .about {
   width: 100%;
-  height: 100vh;
   min-height: 100vh;
   cursor: pointer;
 
 
   .about_container {
     width: 600px;
-    min-height: 400px;
-    max-height: 400px;
     background-color: var(--BW-7);
+    transition: 0.3s background-color;
     border-radius: 15px;
     padding: 2rem;
     flex-direction: column;
     position: relative;
-    top: 15vh;
+    top: 7vh;
     opacity: 0;
 
 
@@ -32,6 +30,7 @@
 
       .dialog_item {
         background-color: var(--BW);
+        transition: 0.3s background-color,color;
         color: var(--WB);
         width: auto;
         padding: 0.3rem 1rem;
@@ -45,12 +44,14 @@
     }
    
     .SectionList {
-      height: 80px;
+      height: auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: center;
       border-top: 1px dashed var(--BW);
+      transition: 0.3s ;
+      overflow: hidden;
 
       .SectionLis_item {
         width: 250px;
@@ -59,7 +60,7 @@
         margin: 0.5rem 0;
         padding: 0.3rem;
         border-radius: 5px;
-        transition: 0.3s background-color;
+        transition: 0.3s background-color,color;
 
         &:hover {
           background-color: rgb(47, 69, 155);

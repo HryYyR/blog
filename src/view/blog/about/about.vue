@@ -15,7 +15,7 @@
             {{ item.text }}
           </div>
         </div>
-        <div class="SectionList" v-show="data.SectionListShow">
+        <div class="SectionList" :style="{height:data.SectionListShow?'100px':0}" >
           <div class="SectionLis_item" v-for="(item, index) in data.SectionList" :key="item.id" v-show="item.show"
             @click="useSection(item)">
             {{ item.text }}</div>

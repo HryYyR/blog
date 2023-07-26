@@ -1,11 +1,10 @@
 <template>
-  <div class="blogRight" :style="{ opacity: data.isShow ? '1' : 0 }">
+  <div class="blogRight" :style="{ opacity: isshow ? '0' : '1' }">
     <div class="blogRight_about blogRigth_item">
       <div class="blogRight_about_item">
         <p class="address blogRight_name">Hyyyh</p>
         <p class="address">灵感枯竭</p>
       </div>
-     
       <div class="contact">
   
         <hr />
@@ -44,18 +43,25 @@
 
 <script setup lang="ts">
 import blogoption from "../blog-option/blogoption.vue";
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted,defineProps, ref } from "vue";
 import { getAdminLabelData, getAdminSortData } from "../../axios/adminApi";
 import anime from "animejs";
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+
+let i18n = useI18n();
+
+const props = defineProps({
+  isshow: {
+    type:Boolean,
+    default:true
+  }
+})
 
 // 国际化
-import { useI18n } from "vue-i18n"; //要在js中使用国际化
-let i18n = useI18n();
 
 const data = reactive({
   labelData: <any>[],
   sortData: <any>[],
-  isShow: false,
   mateData: [
     {
       info: "2452719312",
@@ -73,8 +79,6 @@ onMounted(async () => {
   data.labelData = label.data;
   const sort = await getAdminSortData();
   data.sortData = sort.data;
-
-  data.isShow = true;
 });
 </script>
 
@@ -88,6 +92,7 @@ onMounted(async () => {
   flex-direction: column;
   opacity: 0;
   z-index: 2;
+  transition: 0.3s opacity;
 
   .blogRigth_item {
     width: 100%;

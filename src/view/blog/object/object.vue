@@ -1,6 +1,6 @@
 <template>
   <div class="object flex-jcc" :style="{
-    backgroundColor:store.state.themeColor.color
+    backgroundColor: store.state.themeColor.color
   }">
     <blogheaderVue :bgColor="true" @changePage="changePage" />
     <div class="obj_conatiner">
@@ -113,17 +113,19 @@ const toAssignProject = (url: string) => {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  padding: 6rem 0;
+  padding: 17rem 0;
   user-select: none;
   color: var(--WB);
 
   .obj_conatiner {
     width: 1300px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .obj_list {
-      width: 100%;
-      top: 10rem;
+      width: 98%;
       opacity: 0;
       position: relative;
 
@@ -160,6 +162,7 @@ const toAssignProject = (url: string) => {
 
           .obj_list_item_tiplist {
             margin: 2rem 0;
+            transition: 0.3s;
 
             span {
               margin: 0 0.3rem;
@@ -176,8 +179,6 @@ const toAssignProject = (url: string) => {
           }
 
           .obj_list_item_introduce {
-            transition: 0.6s all;
-
             font-size: 1.3rem;
             font-weight: 600;
           }
@@ -186,7 +187,7 @@ const toAssignProject = (url: string) => {
             position: relative;
             top: 130px;
             color: var(--WB-5);
-            transition: 0.3s;
+            transition: 0.3s color;
           }
 
           &::before {

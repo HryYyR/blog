@@ -162,8 +162,9 @@ onMounted(async () => {
     data.visibelEdit = false;
     let id: any = route.query.id;
     let resolve = await (await getAssignBlogData(id)).data.data[0];
+    console.log(resolve);
+    
     data.willEditBlog = resolve;
-    // console.log(resolve);
     editorRef.value.setHtml(resolve.container);
     data.blogTitle = resolve.name;
     let checkLabel = resolve.label.split(",");

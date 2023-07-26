@@ -34,9 +34,9 @@ const routes = [
             { path: '/admin/userPowerManager', name: 'userPowerManager', component: () => import('../view/admin/adminuser/userpowermanager.vue') },
             { path: '/admin/recordManager', name: 'recordManager', component: () => import('../view/admin/adminrecord/recordmanager.vue') },
             { path: '/admin/friendLinkManager', name: 'friendLinkManager', component: () => import('../view/admin/adminfriendlink/friendlinkmanager.vue') }
-
         ]
     },
+    { path: '/:pathMatch(.*)', name: 'error', component: () => import('../view/error/error.vue') }
 
 ]
 const router = createRouter({

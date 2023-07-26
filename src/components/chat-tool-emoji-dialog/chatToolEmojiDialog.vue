@@ -1,6 +1,6 @@
 <template>
     <div class="emoji">
-        <div class="emoji_item" v-for="item in data.emojiList" :key="item" @click="emit('addEmoji', item)">
+        <div class="emoji_item" v-for="item in data.emojiList" :key="item" @click="emit('addEmoji', item)" >
             {{ item }}
         </div>
     </div>
@@ -31,6 +31,8 @@ onMounted(() => {
     justify-content: start;
     align-items: center;
     overflow-y: auto;
+    cursor: pointer;
+    user-select: none;
 
     .emoji_item {
         font-size: 1rem;

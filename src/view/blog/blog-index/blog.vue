@@ -1,10 +1,11 @@
 <template>
-  <indexVue> </indexVue>
+  <indexVue :isshow="data.loading"> </indexVue>
   <div class="blogContainer" :style="{
-    backgroundColor: store.state.themeColor.color
+    backgroundColor: store.state.themeColor.color,
+
   }">
     <!-- <div class="blogLeft">le</div> -->
-    <div class="blogCenter">
+    <div class="blogCenter" :style="{ opacity: data.loading ? '0' : '1' }">
       <!-- 最新博客标题 -->
       <blogoption :optionSrc="changeData.option.newBlogTitle.src" :option="changeData.option.newBlogTitle.option" />
       <!-- 最新博客内容 -->
@@ -33,18 +34,16 @@
       </div>
     </div>
 
-    <blogRight />
+    <blogRight :isshow="data.loading" />
   </div>
-  <blogbottomVue></blogbottomVue>
+  <blogbottomVue  ></blogbottomVue>
 </template>
 <script setup lang="ts">
-import titleVue from "../../../components/blog-top/blogTop.vue";
 import indexVue from "../index/index.vue";
 import blogbottomVue from "../../../components/blog-bottom/blogbottom.vue";
 import blogoption from "../../../components/blog-option/blogoption.vue";
 import blogItem from "../../../components/blog-item/blogItem.vue";
 import blogRight from "../../../components/blog-right/blogRight.vue";
-import changeBgColor from "../../../components/change-bgcolor/change-bgColor.vue";
 import {
   reactive,
   onMounted,
@@ -60,7 +59,7 @@ import router from "../../../router";
 import { useStore } from "vuex";
 import throttle from "../../../func/throttle/throttle";
 import QC from "qc";
-import { DATA} from './blog'
+import { DATA } from './blog'
 
 // 国际化
 import { useI18n } from "vue-i18n"; //要在js中使用国际化
@@ -107,6 +106,7 @@ const data: DATA = reactive({
     top: 0,
     bottom: 0,
   },
+  loading: true
   // themeColor: store.state.themeColor, //当前主题颜色
 });
 
@@ -152,6 +152,10 @@ onMounted(async () => {
   // 渲染数据
   data.newBlogData = res.splice(0, 1);
   data.showBlogData = res;
+
+  setTimeout(() => {
+    data.loading = false
+  }, 200);
 });
 
 onBeforeUnmount(() => {

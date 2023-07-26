@@ -1,13 +1,13 @@
 <template>
     <div>
-        <blogheaderVue :bgColor="true" />
+        <blogheaderVue :bgColor="true" @changePage="changePage" />
         <div class="socket" :style="{
             backgroundColor: store.state.themeColor.color
         }">
             <div class="socket_container flex-jcc">
                 <div class="socket_list_container">
                     <!-- 用户列表 -->
-                    <div class="user_list">
+                    <div class="user_list" v-if="store.state.isPC">
                         <div class="user_list_title">聊天室人数({{ data.userlist.length }})</div>
                         <div class="user_list_container">
                             <div class="user_list_item flex-aic" v-for="(item, index) in data.userlist" :key="item.id">
@@ -52,9 +52,9 @@
                                 <!-- 图片上传 -->
                                 <div class="chat_tool_item">
                                     <el-upload v-model:file-list="data.fileList" method="post" class="upload-demo"
-                                        :action="data.fileUrl" :show-file-list="false" auto-upload
-                                        multiple  :on-success="fileSuccess" :on-error="fileError"
-                                        :limit="3" :on-exceed="handleExceed">
+                                        :action="data.fileUrl" :show-file-list="false" auto-upload multiple
+                                        :on-success="fileSuccess" :on-error="fileError" :limit="3"
+                                        :on-exceed="handleExceed">
                                         <img src="https://hyyyh.top/icon/photo.png" alt="">
                                     </el-upload>
                                 </div>
@@ -76,18 +76,19 @@
 import blogheaderVue from '../../../components/blog-header/blogheader.vue';
 import { useStore } from 'vuex';
 import socket from '../../../websocket/index'
-import { reactive, onMounted, onUnmounted, ref } from 'vue'
+import { reactive, onMounted, onUnmounted, onActivated, onDeactivated, ref } from 'vue'
 import { DATA, USERLIST } from './socket'
 import { isEmpty } from 'lodash';
 import { getFullDate } from '../../../func/Date/Date'
 import scope from 'lodash/escape';
 import ChatToolEmojiDialog from '../../../components/chat-tool-emoji-dialog/chatToolEmojiDialog.vue';
 import { ElMessage } from 'element-plus';
+import anime from "animejs";
 
 let store = useStore()
 let chat_list_container: any = ref('')
 const data: DATA = reactive({
-    fileUrl: `${import.meta.env.VITE_APP_BASE_URL}/api/upload` ,
+    fileUrl: `${import.meta.env.VITE_APP_BASE_URL}/api/upload`,
     fileList: [],
     chatList: [],
     userlist: [],
@@ -112,12 +113,31 @@ onMounted(() => {
     socket.on('chatList', (chatList) => {
         // console.log(chatList);
         data.chatList = chatList
+        scrollToNewMessage(true)
     })
+
+    anime({
+        targets: [".socket_container"],
+        translateY: "-10vh",
+        opacity: 1,
+        duration: 1000,
+    });
+    scrollToNewMessage(false)
 })
 
+onActivated(() => {
+    anime({
+        targets: [".socket_container"],
+        translateY: "-10vh",
+        opacity: 1,
+        duration: 1000,
+    });
+    scrollToNewMessage(false)
+})
 // 发送文字消息
 const sendChat = (chatMessage: string, type: string = 'text') => {
-    if (isEmpty(data.chatMessage) && type == 'text') return
+    let regMessage = data.chatMessage.replace(/\s+/g, "")
+    if (regMessage.length == 0 && type == 'text') return
     let { uuid, id, name, head } = data.userInfo
     socket.emit("message", {
         uuid: uuid,
@@ -128,15 +148,19 @@ const sendChat = (chatMessage: string, type: string = 'text') => {
         type: type,
         createtime: getFullDate()
     });
-    data.chatMessage = ""
+    data.chatMessage = ' '
 
-    // 滚动动画
+    scrollToNewMessage(true)
+}
+
+// 滚动到最新消息
+const scrollToNewMessage = (smooth: boolean) => {
     setTimeout(() => {
         chat_list_container.value.scrollTo({
             top: 9999,
-            behavior: 'smooth'
+            behavior: smooth ? 'smooth' : 'auto'
         })
-    }, 200)
+    }, smooth ? 200 : 0)
 }
 
 // 登录
@@ -158,28 +182,37 @@ const getUuid = () => {
     }, 100);
 }
 
+// 添加emoji到输入框
 const addEmoji = (item: string) => {
     data.chatMessage = data.chatMessage + item
 
 }
-
 
 const handleExceed = () => {
     ElMessage.error('图片最多只能选择3张!')
 }
 const fileSuccess = (resolve: any) => {
     sendChat(resolve.url, 'img')
-    data.fileList=[]
+    data.fileList = []
 
 }
 const fileError = (i: any) => {
     ElMessage.error('图片发送失败!')
-    data.fileList=[]
+    data.fileList = []
 
 }
 
+const changePage = () => {
+    anime({
+        targets: [".socket_container"],
+        opacity: 0,
+        duration: 1000,
+    });
+}
+
 const ListenerEnter = (e: KeyboardEvent) => {
-    e.key == 'Enter' && sendChat(data.chatMessage, 'text')
+
+    e.key == 'Enter' && (e.preventDefault(), sendChat(data.chatMessage, 'text'))
 }
 
 onUnmounted(() => {

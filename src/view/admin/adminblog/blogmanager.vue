@@ -103,7 +103,7 @@ const data = reactive({
   ],
   blogData: <any>[],
   blogTotal: 0, //数据总数
-  pageSize: 8, //每页数量
+  pageSize: 5, //每页数量
   deletevisible: false,
 });
 onMounted(async () => {
@@ -119,11 +119,12 @@ const handleSizeChange = (val: number) => {
 };
 
 const handleCurrentChange = async (val: number) => {
-  getData(val, 5);
+  getData(val, data.pageSize);
 };
 
 const getData = async (pageNum: number, num: number) => {
   const res = await (await getAdminBlogData(pageNum, num)).data;
+  
   data.blogTotal = res.Total;
 
   // 消除html标签
